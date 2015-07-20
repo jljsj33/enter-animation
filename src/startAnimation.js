@@ -187,25 +187,15 @@
     var cArr = style.trim().split(";");
     cArr.map(function (arr) {
       if (arr && arr !== "") {
-
-        //if(style.indexOf("animation")>=0||style.indexOf("transition")>=0||style.indexOf("transform")>=0){
         var _style = "";
         var _carr = mc.style.cssText.split(";");
-
         _carr.map(function (_arr) {
           if (_arr && _arr !== "") {
-            //console.log(arr.split(":")[0].trim() == _arr.split(":")[0].trim(),
-            //  arr.split(":")[0].trim(), _arr.split(":")[0].trim(),
-            //  _arr.split(":")[0].trim().indexOf(arr.split(":")[0].trim()));
-            if (_arr.split(":")[0].trim().indexOf(arr.split(":")[0].trim()) >= 0 && _arr.split(":")[1].trim().indexOf(arr.split(":")[1].trim()) >= 0) {
-
-            } else {
+            if (!(_arr.split(":")[0].trim().indexOf(arr.split(":")[0].trim()) >= 0 && _arr.split(":")[1].trim()===arr.split(":")[1].trim())) {
               _style += _arr ? _arr + ";" : "";
             }
           }
         });
-        //var sArr=arr.split(":");
-        //_style = mc.style.cssText.replace(sArr[0] + ":", "").replace(sArr[1] + ";", "");
         mc.setAttribute("style", _style)
       }
     });
