@@ -60,7 +60,7 @@ node用的是".a",做b,c的动画，那data为：[]为最外层div;
 |-----------------|----------------|----------------------------------------------------|
 |css              |null            |你的动画CSS样式,此项有值时，其它参数除animationDelay外全都无效；               |
 |animationDelay   |false/null      |你的动画ＣＳＳ样式的延时，可为bool或number               |
-|style            |null            |style样式，如transform: translateX(100px),每个样式必须以;结束；<br/>也可以用内置动画样式：<br/><code>x-left</code><code>x-right</code><code>y-top</code><code>y-bottom</code><code>scale</code><code>scaleFrom</code><code>scaleX</code><code>scaleY</code><br/>如CSS有值，此项无效|
+|style            |null            |style样式，如transform: translateX(100px),每个样式必须以;结束；<br/>也可以用内置动画样式：<br/>`x-left` `x-right` `y-top` `y-bottom` `scale` `scaleFrom` `scaleX` `scaleY`<br/>如CSS有值，此项无效|
 |to               |false           |动画到你设定的样式;默认为false,false时值为from;如CSS有值，此项无效|
 |timer            |0.5             |动画的时间；如CSS有值，此项无效；|
 |ease             |cubic-bezier(0.165, 0.84, 0.44, 1);|样式缓动;如CSS有值，此项无效;|
