@@ -1,0 +1,211 @@
+@demoStartAnim:demo-startAnim;
+@ease-out-circ:cubic-bezier(0.075, 0.82, 0.165, 1);
+@duration:.3s;
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+html,
+body,
+ul,
+li,
+p {
+  margin: 0;
+  padding: 0;
+}
+ul,
+li {
+  list-style: none;
+}
+.@{demoStartAnim} {
+  width: 400px;
+  text-align: center;
+  overflow: hidden;
+  margin: 20px auto;
+  & .demo-header{
+    width: 100%;
+    background: #ebedee;
+    height: 30px;
+    & ul{
+      float: right;
+      margin-right: 10px;
+      & li{
+        width: 30px;
+        height: 30px;
+        float: left;
+        background: #e4e4e4;
+        margin-left: 2px;
+        &:before{
+          margin: 10px auto;
+          width:10px;
+          height: 10px;
+          background: #ebeded;
+        }
+      }
+    }
+    & .logo{
+      float: left;
+      margin: 0px auto 0 10px;
+      line-height: 32px;
+      & span{
+        display: block;
+        float: right;
+      }
+    }
+  }
+
+  & .demo-content{
+    width: 80%;
+    margin:10px auto;
+    & .demo-title{
+      background: #a4a4a4;
+      width: 40%;
+      height: 20px;
+      line-height: 20px;
+      color: #ebeded;
+    }
+    & .demo-listBox{
+      margin-top: 10px;
+      &>ul>li{
+        float: left;
+        width: 47.5%;
+        overflow: hidden;
+        &:last-child{
+          margin-left: 5%;
+        }
+      }
+      & .demo-list{
+        & .title{
+          height: 25px;
+          background: #cacaca;
+          overflow: hidden;
+          &:before{
+            width: 50%;
+            height: 5px;
+            background:#ebeded;
+            margin: 10px auto;
+          }
+        }
+        & ul li{
+          height: 20px;
+          background: #ebeded;
+          border-bottom: 1px solid #cacaca;
+          overflow: hidden;
+          padding: 5px 15px;
+          &:before{
+            width: 20px;
+            height: 10px;
+            background: #cacaca;
+            float: left;
+          }
+          &:after{
+            width: 60%;
+            height: 5px;
+            background: #cacaca;
+            float: left;
+            margin-left: 10px;
+            margin-top: 2px;
+          }
+        }
+      }
+    }
+    & .demo-kp{
+      margin: 10px auto;
+      & ul li{
+        display: inline-block;
+        width: 30%;
+        height: 30px;
+        background: #cacaca;
+        color: #ebeded;
+        text-align: left;
+        padding: 10px;
+        margin-right: calc(5% - 4px);;
+        &:last-child{
+          margin-right: 0%;
+        }
+        &:after{
+          width: 60%;
+          height: 5px;
+          background: #ebeded;
+          float: left;
+          margin-top: 2px;
+        }
+        &:before{
+          background: #ebeded;
+          float: left;
+          width: 10px;
+          height: 10px;
+          margin-right: 10%;
+        }
+      }
+    }
+  }
+  & .demo-footer{
+    margin-top: 10px;
+    background: #cacaca;
+    height: 30px;
+    float: left;
+    width: 100%;
+    &:before{
+      width: 60%;
+      height: 5px;
+      background: #ededed;
+      margin: 5px auto 0;
+    }
+    &:after{
+      width: 30%;
+      height: 5px;
+      background: #ededed;
+      margin:5px auto;
+    }
+  }
+  & .demo-header ul li:before,
+  & .demo-content .demo-kp ul li:before,
+  & .demo-content .demo-kp ul li:after,
+  & .demo-content .demo-listBox .demo-list .title:before,
+  & .demo-content .demo-listBox .demo-list ul li:before,
+  & .demo-content .demo-listBox .demo-list ul li:after,
+  & .demo-footer:before,& .demo-footer:after{
+    display: block;
+    content: "";
+  }
+
+}
+a.logo {
+  float: left;
+  height: 46px;
+  line-height: 46px;
+  margin: 17px 45px;
+  transition: margin @duration @ease-out-circ, width @duration @ease-out-circ, height @duration @ease-out-circ ;
+  text-transform: uppercase;
+  font-size: 18px;
+  font-family: "Raleway","Helvetica Neue",Helvetica,"Lantinghei SC","Microsoft YaHei","微软雅黑","Hiragino Sans GB",SimSun,sans-serif;
+  font-weight: 500;
+  color: #6EB4E0;
+  & img{
+    float: left;
+    margin-top: -7px;
+    -webkit-animation: rotateCircleBack 0.6s 1 ease-in-out;
+    animation: rotateCircleBack 0.6s 1 ease-in-out;
+  }
+}
+
+.test{
+  opacity: 0;
+  animation: TTest .5s ease-out;
+}
+@keyframes TTest {
+  0%{opacity: 0}
+  0%,100%{
+    transform: translateX(0px);
+  }
+  20%,60%{
+    opacity: 1;
+    transform: translateX(30px);
+  }
+  40%,80%{
+    transform: translateX(-30px);
+  }
+}
