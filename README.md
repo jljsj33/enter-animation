@@ -3,8 +3,8 @@
 页面进场动画的类，通过ＣＳＳ来快速完成页面刷新后的动画进场或子块的动画进场；
 
 ### 用法
-<pre><code>new antd.startAnimation(node,data,delay,hideen);
-new antd.startAnimation(node,string)</code></pre>
+<pre><code>new antd.startAnimation(node,string)
+new antd.startAnimation(node,data,delay,hideen);</code></pre>
 
 ### 参数说明
 

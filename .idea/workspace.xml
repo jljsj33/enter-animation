@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c396242f-5bfb-4554-9941-519b570887c3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.js" afterPath="$PROJECT_DIR$/src/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="enterAnimation.iws" />
@@ -31,8 +32,21 @@
       <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="795">
+            <state vertical-scroll-proportion="6.875" vertical-offset="240" max-vertical-offset="795">
               <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider editor-type-id="MarkdownPreviewEditor">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-3.0" vertical-offset="0" max-vertical-offset="1110">
+              <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -48,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="465">
-              <caret line="10" column="9" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.34793815" vertical-offset="0" max-vertical-offset="510">
+              <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -78,11 +92,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.849711" vertical-offset="1824" max-vertical-offset="4035">
-              <caret line="151" column="7" selection-start-line="151" selection-start-column="7" selection-end-line="151" selection-end-column="7" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1929" max-vertical-offset="4035">
+              <caret line="150" column="9" selection-start-line="150" selection-start-column="9" selection-end-line="150" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -98,52 +112,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="105">
-              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="index.less" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/index.less">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="3240">
+            <state vertical-scroll-proportion="-5.0" vertical-offset="480" max-vertical-offset="3240">
               <caret line="40" column="28" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="28" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="simple.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/examples/simple.js">
+      <file leaf-file-name="index.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/index.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="1425">
-              <caret line="13" column="124" selection-start-line="13" selection-start-column="124" selection-end-line="13" selection-end-column="124" />
-              <folding>
-                <marker date="1437538627000" expanded="true" signature="721:2845" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="735:1080" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="807:931" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="942:1065" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="1089:2832" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="1132:1523" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="1174:1351" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="1364:1506" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="1534:2708" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="1628:1789" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="1668:1770" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="1853:2691" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="1898:2672" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="1919:2277" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="1942:2255" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="2040:2230" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="2294:2652" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="2317:2630" placeholder="&lt;xml/&gt;" />
-                <marker date="1437538627000" expanded="true" signature="2415:2605" placeholder="&lt;xml/&gt;" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="3585">
+              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -157,7 +141,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/demo/demo.html" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/index.js" />
         <option value="$PROJECT_DIR$/examples/simple.html" />
         <option value="$PROJECT_DIR$/examples/demo.html" />
@@ -171,10 +154,11 @@
         <option value="$PROJECT_DIR$/../startAnimation/src/startAnimation.js" />
         <option value="$PROJECT_DIR$/examples/simple.js" />
         <option value="$PROJECT_DIR$/../startAnimation-alipay/src/startAnimation.js" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/Css.js" />
         <option value="$PROJECT_DIR$/src/animEvent.js" />
         <option value="$PROJECT_DIR$/src/index.js" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -581,22 +565,22 @@
       <workItem from="1437364614620" duration="10438000" />
       <workItem from="1437448480213" duration="4217000" />
       <workItem from="1437457860115" duration="24329000" />
-      <workItem from="1437543750374" duration="698000" />
+      <workItem from="1437543750374" duration="1075000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39682000" />
+    <option name="totallyTimeSpent" value="40059000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="848" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27645501" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27513227" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -720,25 +704,25 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="1425">
           <caret line="13" column="124" selection-start-line="13" selection-start-column="124" selection-end-line="13" selection-end-column="124" />
           <folding>
-            <marker date="1437538627000" expanded="true" signature="721:2845" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="735:1080" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="807:931" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="942:1065" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1089:2832" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1132:1523" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1174:1351" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1364:1506" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1534:2708" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1628:1789" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1668:1770" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1853:2691" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1898:2672" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1919:2277" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1942:2255" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="2040:2230" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="2294:2652" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="2317:2630" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="2415:2605" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
           </folding>
         </state>
       </provider>
@@ -789,25 +773,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="525" max-vertical-offset="1110">
           <caret line="35" column="14" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider editor-type-id="MarkdownPreviewEditor">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.0" vertical-offset="0" max-vertical-offset="1110">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/index.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="3510">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -876,38 +841,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/index.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="3240">
-          <caret line="40" column="28" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/examples/simple.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="1425">
           <caret line="13" column="124" selection-start-line="13" selection-start-column="124" selection-end-line="13" selection-end-column="124" />
           <folding>
-            <marker date="1437538627000" expanded="true" signature="721:2845" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="735:1080" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="807:931" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="942:1065" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1089:2832" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1132:1523" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1174:1351" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1364:1506" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1534:2708" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1628:1789" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1668:1770" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1853:2691" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1898:2672" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1919:2277" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="1942:2255" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="2040:2230" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="2294:2652" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="2317:2630" placeholder="&lt;xml/&gt;" />
-            <marker date="1437538627000" expanded="true" signature="2415:2605" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
+            <marker date="1437538627000" expanded="true" signature="-1:-1" placeholder="&lt;xml/&gt;" />
           </folding>
         </state>
       </provider>
@@ -916,30 +873,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="4432" max-vertical-offset="6570">
           <caret line="283" column="41" selection-start-line="283" selection-start-column="41" selection-end-line="283" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="795">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.editorconfig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="479">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="465">
-          <caret line="10" column="9" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
           <folding />
         </state>
       </provider>
@@ -962,8 +895,59 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.849711" vertical-offset="1824" max-vertical-offset="4035">
-          <caret line="151" column="7" selection-start-line="151" selection-start-column="7" selection-end-line="151" selection-end-column="7" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1929" max-vertical-offset="4035">
+          <caret line="150" column="9" selection-start-line="150" selection-start-column="9" selection-end-line="150" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.editorconfig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="479">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="6.875" vertical-offset="240" max-vertical-offset="795">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.0" vertical-offset="0" max-vertical-offset="1110">
+          <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="3510">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/index.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.0" vertical-offset="480" max-vertical-offset="3240">
+          <caret line="40" column="28" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34793815" vertical-offset="0" max-vertical-offset="510">
+          <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
           <folding />
         </state>
       </provider>
