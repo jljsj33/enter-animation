@@ -145,10 +145,10 @@ a.setParentAnim = function (m) {
     } else {
       var p = m.parentNode.children, _m = m, ci = 0;
       while (_m) {
-        if (_m.nodeType === 1) {
+        _m = _m.previousSibling;
+        if (_m && _m.nodeType === 1) {
           ci++;
         }
-        _m = _m.previousSibling;
       }
       if (ci) {
         delay = Number(p[ci - 1].children[p[ci - 1].children.length - 1].getAttribute('delay')) + 0.1;
