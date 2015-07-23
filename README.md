@@ -4,17 +4,27 @@
 <pre><code>
 var EnterAnimation = require('enter-animation');
 var React = require('react');
-React.render(&lt;EnterAnimation enter-transition={"x-left"}&gt&lt;div>anim1&lt;/div&gt&lt;div&gtanim2&lt;/div&gt&lt;div&gtanim3&lt;/div&gt&lt;/EnterAnimation&gt, container);
+React.render(&lt;EnterAnimation enter-transition={"x-left"}&gt
+&lt;div&gtanim1&lt;/div&gt
+&lt;div&gtanim2&lt;/div&gt
+&lt;div&gtanim3&lt;/div&gt
+&lt;/EnterAnimation&gt, container);
 </code></pre>
 
 ### api
 动画默认`x-right`
 EnterAnimation标签下：
+
+
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
 |enter-transition|string/ array|执行动画的参数，有array和string两种类型，下面详解；默认为null  |
 |enter-delay|number|整个区块的延时，默认为0；同startAnimation的delay|
+
+
 dom标签下：
+
+
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
 |enter-data|object|同下面data参数详细 |
