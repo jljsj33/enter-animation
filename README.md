@@ -4,7 +4,7 @@
 <pre><code>
 var EnterAnimation = require('enter-animation');
 var React = require('react');
-React.render(<EnterAnimation enter-transition={"x-left"}><div>anim1</div><div>anim2</div><div>anim3</div></EnterAnimation>, container);
+React.render(&lt;EnterAnimation enter-transition={"x-left"}&gt&lt;div>anim1&lt;/div&gt&lt;div&gtanim2&lt;/div&gt&lt;div&gtanim3&lt;/div&gt&lt;/EnterAnimation&gt, container);
 </code></pre>
 
 ### api
