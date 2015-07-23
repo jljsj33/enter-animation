@@ -1,9 +1,10 @@
 {
-  "name": "start-animation",
+  "name": "enter-animation",
   "version": "0.0.1",
   "description": "进场动画js",
   "keywords": [
-    "start-animation"
+    "react",
+    "enter-animation"
   ],
   "main": "lib/index",
   "homepage": "https://github.com/ant-design/enter-animation",
@@ -36,7 +37,7 @@
     "precommit-hook": "^1.0.7",
     "rc-server": "3.x",
     "rc-tools": "3.x",
-    "react": "^0.13.0"
+    "react": "^0.13.3"
   },
   "precommit": [
     "precommit"
