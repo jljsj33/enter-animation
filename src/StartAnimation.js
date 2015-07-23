@@ -200,16 +200,16 @@ a.addTween = function () {
 a.animNameGroup = function (name) {
   var _style = '', self = this;
   switch (name) {
-    case 'x-left':
+    case 'left':
       _style = self.getTransform() + ':translateX(-30px)';
       break;
-    case 'x-right':
+    case 'right':
       _style = self.getTransform() + ':translateX(30px)';
       break;
-    case 'y-bottom':
+    case 'bottom':
       _style = self.getTransform() + ':translateY(30px)';
       break;
-    case 'y-top':
+    case 'top':
       _style = self.getTransform() + ':translateY(-30px)';
       break;
     case 'scale':

@@ -8,12 +8,12 @@ var Demo = React.createClass({
   },
   listClick: function () {
     EnterAnimation.to('.demo-list', [
-      [{style: "y-bottom"}, [{style: "y-bottom"}, {style: "y-bottom"}, {style: "y-bottom"}, {style: "y-bottom"}, {style: "y-bottom"}]],
+      [{style: "bottom"}, [{style: "bottom"}, {style: "bottom"}, {style: "bottom"}, {style: "bottom"}, {style: "bottom"}]],
       [{
-        style: "y-bottom",
+        style: "bottom",
         delay: 0.2,
         delayRewrite: true
-      }, [{style: "y-bottom"}, {style: "y-bottom"}, {style: "y-bottom"}, {style: "y-bottom"}, {style: "y-bottom"}]]
+      }, [{style: "bottom"}, {style: "bottom"}, {style: "bottom"}, {style: "bottom"}, {style: "bottom"}]]
     ])
   },
   render() {

@@ -4,7 +4,7 @@
 <pre><code>
 var EnterAnimation = require('enter-animation');
 var React = require('react');
-React.render(&lt;EnterAnimation enter-transition={"x-left"}&gt
+React.render(&lt;EnterAnimation enter-transition={"left"}&gt
 &lt;div&gtanim1&lt;/div&gt
 &lt;div&gtanim2&lt;/div&gt
 &lt;div&gtanim3&lt;/div&gt
@@ -12,7 +12,7 @@ React.render(&lt;EnterAnimation enter-transition={"x-left"}&gt
 </code></pre>
 
 ### api
-动画默认`x-right`
+动画默认`right`
 
 EnterAnimation标签下：
 
@@ -30,7 +30,7 @@ dom标签下：
 |-----------------|-------|----------------------------------------------------|
 |enter-data|object|同下面data参数详细 |
 
-注：如enter-transition有值，则忽略子节点enter-data的数据；相反则遍历子节点上的enter-data的数据；在多没有数据时默认动画为`x-right`
+注：如enter-transition有值，则忽略子节点enter-data的数据；相反则遍历子节点上的enter-data的数据；在多没有数据时默认动画为`right`
 
 ##startAnimation的动画参数(EnterAnimation.to)；
 
@@ -67,8 +67,8 @@ EnterAnimation.to(node,data,delay,hideen);</code></pre>
 
 node用的是".a",做b,c的动画，那data为：[]为最外层div;
 <pre><code>[
-{style:"x-left"},
-{style:"x-left"}
+{style:"left"},
+{style:"left"}
 ]</code></pre>
 
 如果元素为多个时：
@@ -84,9 +84,9 @@ node用的是".a",做b,c的动画，那data为：[]为最外层div;
 处理每个li里的span的动画时，data为:
 
 <pre><code>[
-[{style:"x-left"}],
-[{style:"x-left"}],
-[{style:"x-left"}]
+[{style:"left"}],
+[{style:"left"}],
+[{style:"left"}]
 ]</code></pre>
 
 
@@ -96,7 +96,7 @@ node用的是".a",做b,c的动画，那data为：[]为最外层div;
 |-----------------|----------------|----------------------------------------------------|
 |css              |null            |你的动画CSS样式,此项有值时，其它参数除animationDelay外全都无效；               |
 |animationDelay   |false/null      |你的动画ＣＳＳ样式的延时，可为bool或number               |
-|style            |null            |style样式，如transform: translateX(100px),每个样式必须以;结束；<br/>也可以用内置动画样式：<br/>`x-left` `x-right` `y-top` `y-bottom` `scale` `scaleFrom` `scaleX` `scaleY`<br/>如CSS有值，此项无效|
+|style            |null            |style样式，如transform: translateX(100px),每个样式必须以;结束；<br/>也可以用内置动画样式：<br/>`left` `right` `top` `bottom` `scale` `scaleFrom` `scaleX` `scaleY`<br/>如CSS有值，此项无效|
 |to               |false           |动画到你设定的样式;默认为false,false时值为from;如CSS有值，此项无效|
 |timer            |0.5             |动画的时间；如CSS有值，此项无效；|
 |ease             |cubic-bezier(0.165, 0.84, 0.44, 1);|样式缓动;如CSS有值，此项无效;|
