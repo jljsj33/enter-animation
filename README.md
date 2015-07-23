@@ -30,7 +30,7 @@ dom标签下：
 |-----------------|-------|----------------------------------------------------|
 |enter-data|object|同下面data参数详细 |
 
-注：如enter-transition有值，则忽略子节点enter-data的数据；相反则遍历子节点上的enter-data的数据；在多没有数据时默认动画为`x-right`git
+注：如enter-transition有值，则忽略子节点enter-data的数据；相反则遍历子节点上的enter-data的数据；在多没有数据时默认动画为`x-right`
 
 ##startAnimation的动画参数(EnterAnimation.to)；
 
