@@ -1,10 +1,35 @@
-##startAnimation的动画参数；
+##EnterAnimation进场动画
+
+### 用法
+<pre><code>
+var EnterAnimation = require('enter-animation');
+var React = require('react');
+React.render(<EnterAnimation enter-transition={"x-left"}><div>anim1</div><div>anim2</div><div>anim3</div></EnterAnimation>, container);
+</code></pre>
+
+### api
+动画默认`x-right`
+EnterAnimation标签下：
+|参数             |类型    |详细                                                 |
+|-----------------|-------|----------------------------------------------------|
+|enter-transition|string/ array|执行动画的参数，有array和string两种类型，下面详解；默认为null  |
+|enter-delay|number|整个区块的延时，默认为0；同startAnimation的delay|
+dom标签下：
+|参数             |类型    |详细                                                 |
+|-----------------|-------|----------------------------------------------------|
+|enter-data|object|同下面data参数详细 |
+
+注：如enter-transition有值，则忽略子节点enter-data的数据；相反则遍历子节点上的enter-data的数据；在多没有数据时默认动画为`x-right`git
+
+##startAnimation的动画参数(EnterAnimation.to)；
 
 页面进场动画的类，通过ＣＳＳ来快速完成页面刷新后的动画进场或子块的动画进场；
 
 ### 用法
-<pre><code>new antd.startAnimation(node,string)
-new antd.startAnimation(node,data,delay,hideen);</code></pre>
+<pre><code>
+var EnterAnimation=requre('enter-animation')
+EnterAnimation.to(node,string)
+EnterAnimation.to(node,data,delay,hideen);</code></pre>
 
 ### 参数说明
 
