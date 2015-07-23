@@ -26,7 +26,7 @@ class EnterAnimation extends Component {
           if (typeof props.children === 'object') {
             self.componentChildrenDataEnter(props.children, arr[i]);
           } else {
-            arr[i] = {style: 'x-right'};
+            arr[i] = {style: this.props['enter-transition'] || 'x-right'};
           }
         }
       });
@@ -38,6 +38,8 @@ class EnterAnimation extends Component {
         arr[0] = [];
         if (typeof props.children === 'object') {
           self.componentChildrenDataEnter(props.children, arr[0]);
+        } else {
+          arr[0] = {style: this.props['enter-transition'] || 'x-right'};
         }
       }
     }
