@@ -21,6 +21,7 @@ EnterAnimation标签下：
 |-----------------|-------|----------------------------------------------------|
 |enter-transition|string/ array|执行动画的参数，有array和string两种类型，</br>下面详解；默认为null  |
 |enter-delay|number|整个区块的延时，默认为0；</br>同startAnimation的delay|
+|enter-interval|number|递增延时值，默认0.1|
 
 
 dom标签下：
@@ -38,8 +39,8 @@ dom标签下：
 
 ### 用法
 <pre><code>
-var EnterAnimation=requre('enter-animation')
-EnterAnimation.to(node,string)
+var EnterAnimation=requre('enter-animation');
+EnterAnimation.to(node,string);
 EnterAnimation.to(node,data,delay,hideen);</code></pre>
 
 ### 参数说明
@@ -49,6 +50,7 @@ EnterAnimation.to(node,data,delay,hideen);</code></pre>
 |node             |string|要执行动画的dom（class,tag,id），不可为标签("<>");必要;  |
 |data             |string / array|执行动画的参数，有array和string两种类型，下面详解；默认为null|
 |delay            |number|整个区块的延时，默认为0                                |
+|interval         |递增延时值。默认0.1|
 |hideen           |boolean|在开始动画前隐藏掉html,默认为true;                     |
 
 ####data参数（string|array）;
@@ -67,8 +69,8 @@ EnterAnimation.to(node,data,delay,hideen);</code></pre>
 
 node用的是".a",做b,c的动画，那data为：[]为最外层div;
 <pre><code>[
-{style:"left"},
-{style:"left"}
+{type:"left"},
+{type:"left"}
 ]</code></pre>
 
 如果元素为多个时：
@@ -84,9 +86,9 @@ node用的是".a",做b,c的动画，那data为：[]为最外层div;
 处理每个li里的span的动画时，data为:
 
 <pre><code>[
-[{style:"left"}],
-[{style:"left"}],
-[{style:"left"}]
+[{type:"left"}],
+[{type:"left"}],
+[{type:"left"}]
 ]</code></pre>
 
 
@@ -94,11 +96,10 @@ node用的是".a",做b,c的动画，那data为：[]为最外层div;
 
 |参数             |默认值           |详细                                                 |
 |-----------------|----------------|----------------------------------------------------|
-|css              |null            |你的动画CSS样式,此项有值时，其它参数除animationDelay外全都无效；               |
-|animationDelay   |false/null      |你的动画ＣＳＳ样式的延时，可为bool或number               |
-|style            |null            |style样式，如transform: translateX(100px),每个样式必须以;结束；<br/>也可以用内置动画样式：<br/>`left` `right` `top` `bottom` `scale` `scaleFrom` `scaleX` `scaleY`<br/>如CSS有值，此项无效|
-|to               |false           |动画到你设定的样式;默认为false,false时值为from;如CSS有值，此项无效|
-|timer            |0.5             |动画的时间；如CSS有值，此项无效；|
-|ease             |cubic-bezier(0.165, 0.84, 0.44, 1);|样式缓动;如CSS有值，此项无效;|
-|delay            |0               |动画的延时;默认0,依照结构递增0.1;如CSS有值，此项无效;|
-|delayRewrite     |false           |延时重写;默认false,如果为true,则重写了delay，此项数组后面的delay值为此delay的值递增0.1;如CSS有值，此项无效;|
+|type            |null            |内置动画样式：<br/>`left` `right` `top` `bottom` `scale` `scaleFrom` `scaleX` `scaleY`;|
+|style            |null           |style样式，如transform: translateX(100px),每个样式必须以;结束；`type`有值此项无效|
+|direction        |"enter"         |动画到你设定的样式,以`enter``leave`两值;默认为"enter",|
+|duration         |0.5             |动画的时间；|
+|ease             |cubic-bezier(0.165, 0.84, 0.44, 1);|样式缓动;|
+|delay            |0               |动画的延时;默认0,依照结构递增以上的`interval`|
+|queueId          |0               |动画的线程，可为多线程|

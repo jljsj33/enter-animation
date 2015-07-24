@@ -8,38 +8,49 @@ class EnterAnimation extends Component {
     super(...arguments);
     this.dataArr = [];
     this.state = {
-      transition: props['enter-transition'] || 'x-right',
-      delay: props['enter-delay'] || 0
+      transition: props['enter-transition'] || 'right',
+      delay: props['enter-delay'] || 0,
+      interval: props['enter-interval'] || 0.1
     };
   }
 
   /*遍历children里的dataEnter*/
   componentChildrenDataEnter(children, arr) {
-    var self = this, props;
+    var self = this, props, _enter_data;
     if (children.length) {
       children.map(function (re, i) {
         props = re.props;
-        if (props['enter-data']) {
-          arr.push(props['enter-data']);
-        } else {
-          arr[i] = [];
+        _enter_data = props['enter-data'];
+        if (_enter_data) {
+          arr.push(_enter_data);
+          if (_enter_data.style || _enter_data.type) {
+            self.dataArr.cBool = true;
+          }
           if (typeof props.children === 'object') {
-            self.componentChildrenDataEnter(props.children, arr[i]);
-          } else {
-            arr[i] = {style: this.props['enter-transition'] || 'x-right'};
+            arr[i].children = [];
+            self.componentChildrenDataEnter(props.children, arr[i].children);
+          }
+        } else {
+          arr[i] = {};
+          if (typeof props.children === 'object') {
+            arr[i].children = [];
+            self.componentChildrenDataEnter(props.children, arr[i].children);
           }
         }
       });
     } else {
       props = children.props;
-      if (props['enter-data']) {
-        arr.push(props['enter-data']);
+      _enter_data = props['enter-data'];
+      if (_enter_data) {
+        if (_enter_data.style || _enter_data.type) {
+          self.dataArr.cBool = true;
+        }
+        arr.push(_enter_data);
       } else {
-        arr[0] = [];
+        arr[0] = {};
         if (typeof props.children === 'object') {
-          self.componentChildrenDataEnter(props.children, arr[0]);
-        } else {
-          arr[0] = {style: this.props['enter-transition'] || 'x-right'};
+          arr[0].children = [];
+          self.componentChildrenDataEnter(props.children, arr[0].children);
         }
       }
     }
@@ -50,11 +61,16 @@ class EnterAnimation extends Component {
     var dom = findDOMNode(this),
       state = this.state,
       children = this.props.children;
-    if (!this.props['enter-transition']) {
-      this.componentChildrenDataEnter(children, this.dataArr);
-      this.state.transition = this.dataArr;
+    this.componentChildrenDataEnter(children, this.dataArr);
+    this.state.transition = this.dataArr;
+    if (!this.dataArr.cBool) {
+      this.state.transition = this.props['enter-transition'];
     }
-    EnterAnimation.to(dom, state.transition, state.delay);
+    //if (!this.props['enter-transition']) {
+    //  this.componentChildrenDataEnter(children, this.dataArr);
+    //  this.state.transition = this.dataArr;
+    //}
+    EnterAnimation.to(dom, state.transition, state.delay, state.interval);
   }
 
   render() {
