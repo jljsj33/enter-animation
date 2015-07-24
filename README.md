@@ -47,7 +47,7 @@ EnterAnimation.to(node,data,delay,hideen);</code></pre>
 
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
-|node             |string|要执行动画的dom（class,tag,id），不可为标签("<>");必要;  |
+|node             |string|要执行动画的dom（class,tag,id）;必要;  |
 |data             |string / array|执行动画的参数，有array和string两种类型，下面详解；默认为null|
 |delay            |number|整个区块的延时，默认为0                                |
 |interval         |递增延时值。默认0.1|
