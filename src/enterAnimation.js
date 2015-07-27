@@ -26,16 +26,12 @@ class EnterAnimation extends Component {
           if (_enter_data.style || _enter_data.type) {
             self.dataArr.cBool = true;
           }
-          if (typeof props.children === 'object') {
-            arr[i].children = [];
-            self.componentChildrenDataEnter(props.children, arr[i].children);
-          }
         } else {
           arr[i] = {};
-          if (typeof props.children === 'object') {
-            arr[i].children = [];
-            self.componentChildrenDataEnter(props.children, arr[i].children);
-          }
+        }
+        if (typeof props.children === 'object') {
+          arr[i].children = [];
+          self.componentChildrenDataEnter(props.children, arr[i].children);
         }
       });
     } else {

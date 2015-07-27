@@ -9,6 +9,7 @@ React.render(&lt;EnterAnimation enter-transition={"left"}&gt
 &lt;div&gtanim2&lt;/div&gt
 &lt;div&gtanim3&lt;/div&gt
 &lt;/EnterAnimation&gt, container);
+
 </code></pre>
 
 ### api
@@ -39,9 +40,10 @@ dom标签下：
 
 ### 用法
 <pre><code>
+//js触发式：
 var EnterAnimation=requre('enter-animation');
 EnterAnimation.to(node,string);
-EnterAnimation.to(node,data,delay,hideen);</code></pre>
+EnterAnimation.to(node,data,delay);</code></pre>
 
 ### 参数说明
 
@@ -98,7 +100,7 @@ node用的是".a",做b,c的动画，那data为：[]为最外层div;
 |-----------------|----------------|----------------------------------------------------|
 |type            |null            |内置动画样式：<br/>`left` `right` `top` `bottom` `scale` `scaleFrom` `scaleX` `scaleY`;|
 |style            |null           |style样式，如transform: translateX(100px),每个样式必须以;结束；`type`有值此项无效|
-|direction        |"enter"         |动画到你设定的样式,以`enter``leave`两值;默认为"enter",|
+|direction        |"enter"         |动画进场或出场样式,以`enter``leave`两值;默认为"enter",|
 |duration         |0.5             |动画的时间；|
 |ease             |cubic-bezier(0.165, 0.84, 0.44, 1);|样式缓动;|
 |delay            |0               |动画的延时;默认0,依照结构递增以上的`interval`|
