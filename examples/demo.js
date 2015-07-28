@@ -29,8 +29,7 @@ var Demo = React.createClass({
           <div>示例2示例2</div>
         </EnterAnimation>
         <h3 style={{"text-align": "center"}} >示例3（如果子节点没有enter-data,EnterAnimation里的参数控制下面一级子节点动画）</h3>
-        <EnterAnimation  type={"left"} delay={2} >
-          <div style={{margin: "auto", width: 200}}>
+        <EnterAnimation  type={"left"} delay={2} style={{margin: "auto", width: 200}}>
             木大土木
             <div>示例3示例3</div>
             <div>示例3示例3</div>
@@ -40,7 +39,6 @@ var Demo = React.createClass({
               </div>
             </div>
             <div>示例3示例3</div>
-          </div>
         </EnterAnimation>
       </div>
 
