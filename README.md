@@ -20,19 +20,20 @@ EnterAnimation标签下：
 
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
-|enter-transition|string/ array|执行动画的参数，有array和string两种类型，</br>下面详解；默认为null  |
-|enter-delay|number|整个区块的延时，默认为0；</br>同startAnimation的delay|
-|enter-interval|number|递增延时值，默认0.1|
+|type|string|执行动画的内置参数，默认；`right`  |
+|style|string|同上，style的样式动画,`type`有值，此项无效， 默认null|
+|delay|number|整个区块的延时，默认为0；</br>同startAnimation的delay|
+|interval|number|递增延时值，默认0.1|
 
 
-dom标签下：
+子dom标签下：
 
 
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
-|enter-data|object|同下面data参数详细 |
+|enter-data       |null            |如下data值;|
 
-注：如enter-transition有值，则忽略子节点enter-data的数据；相反则遍历子节点上的enter-data的数据；在多没有数据时默认动画为`right`
+注：如子节点enter-type或enter-style有值，则忽略enter-transition的数据；
 
 ##startAnimation的动画参数(EnterAnimation.to)；
 
@@ -50,18 +51,18 @@ EnterAnimation.to(node,data,delay);</code></pre>
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
 |node             |string|要执行动画的dom（class,tag,id）;必要;  |
-|data             |string / array|执行动画的参数，有array和string两种类型，下面详解；默认为null|
+|data             |string / object|执行动画的参数，有object和string两种类型，下面详解；默认为null|
 |delay            |number|整个区块的延时，默认为0                                |
 |interval         |递增延时值。默认0.1|
 |hideen           |boolean|在开始动画前隐藏掉html,默认为true;                     |
 
 ####data参数（string|array）;
 
-支持css样式，和style直接添加动画；
+支持style直接添加动画；
 
 为string时，自动遍历node下的子节点来执行data样式；
 
-为array时，树状形dom结构，以([],new Array)为一档标签；
+为object时，树状形dom结构，以({})为一档标签；
 如：
 
 <pre><code>&lt;div class="a"&gt;
@@ -69,11 +70,13 @@ EnterAnimation.to(node,data,delay);</code></pre>
 &lt;div class="c"&gt;&lt;/div&gt;
 &lt;/div&gt;</code></pre>
 
-node用的是".a",做b,c的动画，那data为：[]为最外层div;
-<pre><code>[
+node用的是".a",做b,c的动画，那data为：{}为最外层div;
+<pre><code>{////外层div
+children:[//子下的两div
 {type:"left"},
 {type:"left"}
-]</code></pre>
+]
+}</code></pre>
 
 如果元素为多个时：
 
@@ -87,11 +90,15 @@ node用的是".a",做b,c的动画，那data为：[]为最外层div;
 
 处理每个li里的span的动画时，data为:
 
-<pre><code>[
-[{type:"left"}],
-[{type:"left"}],
-[{type:"left"}]
-]</code></pre>
+<pre><code>{//外层div
+children:[//ul
+{children:[//li
+{children:[{type:'left'}]},
+{children:[{type:'left'}]},
+{children:[{type:'left'}]}
+]}
+]
+}</code></pre>
 
 
 #####data参数详细

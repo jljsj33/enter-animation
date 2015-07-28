@@ -6,7 +6,7 @@ var Event = require('./animEvent');
 var startAnim = function (node, data, delay, interval, hidden) {
   this.nodeStr = node;
   this.doc = document;
-  this.tweenData = data instanceof Array ? data : null;
+  this.tweenData = typeof data === 'object'  ? data : null;
   this.str = typeof data === 'string' ? data : 'right';
   this.delay = Number(delay) ? delay * 1000 : 10;
   this.interval = interval || 0.1;
@@ -51,6 +51,7 @@ a.init = function () {
   }
   var _mc = self.length === 1 ? self[0].children : self;
   self.forTweenData(_mc, self.tweenData, function (mc, data) {
+
     if (data) {
       var _style = data.type || data.style;
       if (_style && data.direction !== 'leave') {
@@ -181,6 +182,7 @@ a.addTween = function () {
   self.__qId = 0;
 
   self.forTweenData(m, self.tweenData, function (mc, data) {
+
     var tweenStr = ' ' + self.__timer + 's ' + self.__ease + ' ' + self.__delay + 's';
     var _style = null;
     if (data) {

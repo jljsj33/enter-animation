@@ -102,18 +102,21 @@ module.exports = {
       if (mc.getAttribute('style')) {
         var s = mc.getAttribute('style').split(';');
         var i = 0, _style = '';
-        while (i < s.length) {
-          if (s[i] !== '') {
-            if (s[i].indexOf(mc.style[self.getTransition()]) >= 0) {
-              s[i] = '';
 
+        while (i < s.length) {
+
+          if (s[i] !== '') {
+            if (s[i].indexOf(mc.style[self.getTransition()]) >= 0 && mc.style[self.getTransition()] && mc.style[self.getTransition()] !== '') {
+              s[i] = '';
             }
+            //这里的判断为改变s[i]值后的判断
             if (s[i] !== '') {
               _style += s[i] + ';';
             }
           }
           i++;
         }
+
         if (!_style || _style.replace(/\s/g, '') === '') {
           mc.removeAttribute('style');
         } else {
