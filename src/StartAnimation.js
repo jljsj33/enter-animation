@@ -5,12 +5,17 @@ var Event = require('./animEvent');
 
 var startAnim = function (node, data, delay, interval, hidden) {
   //判断浏览，ie10以下不支持；
-  var userAgent = window.navigator.userAgent;
-  if (userAgent.indexOf('MSIE') > 0) {
-    if (Number(userAgent.split('MSIE')[1].split(';')[0]) < 10) {
-      return false;
-    }
+  //var userAgent = window.navigator.userAgent;
+  //if (userAgent.indexOf('MSIE') > 0) {
+  //  if (Number(userAgent.split('MSIE')[1].split(';')[0]) < 10) {
+  //    return false;
+  //  }
+  //}
+
+  if (!(this.getAnimation() in document.documentElement.style)) {
+    return false;
   }
+
   this.nodeStr = node;
   this.doc = document;
   this.tweenData = typeof data === 'object' ? data : null;

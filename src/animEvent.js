@@ -8,7 +8,7 @@ module.exports = {
       var prefix = ['webkit', 'moz', 'ms', 'o'];
       for (var i in prefix) {
         style = '-' + prefix[i] + '-transform';
-        if (('-' + prefix[i] + '-transform') in document.documentElement.style) {
+        if (style in document.documentElement.style) {
           break;
         }
       }
