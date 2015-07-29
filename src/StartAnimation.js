@@ -108,22 +108,23 @@ a.forTweenData = function (mc, data, callFunc, animBool) {
       });
     }
   } else {
-    for (var i = 0; i < tm.length; i++) {
-      if (mc.children) {
-        callFunc(tm[i], null);
-      } else {
-        if (!animBool) {
-          self.addStyle(tm[i], 'opacity:0;');
-          if (!tm[i].children.length) {
-            self.addStyle(tm[i], self.animNameGroup(self.str));
-          }
-        }
-        self.forTweenData(tm[i], null, callFunc, animBool);
-      }
+    for (var i = 0; i < mc.length; i++) {
+      //if (mc.children) {
+      //  callFunc(mc[i], null);
+      //} else {
+      //  if (!animBool) {
+      //    //self.addStyle(tm[i], 'opacity:0;');
+      //    if (!mc[i].children.length) {
+      //      self.addStyle(mc[i], self.animNameGroup(self.str));
+      //    }
+      //  }
+      //  self.forTweenData(mc[i], null, callFunc, animBool);
+      //}
+      callFunc(mc[i], null);
     }
-    if (animBool && mc.children) {
-      self.setParentAnim(mc);
-    }
+    //if (animBool && mc.children) {
+    //  self.setParentAnim(mc);
+    //}
   }
 };
 a.setParentAnim = function (m) {
@@ -241,7 +242,7 @@ a.animNameGroup = function (name) {
     case 'scale':
       _style = self.getTransform() + ':scale(0);opacity:0';
       break;
-    case 'scaleFrom':
+    case 'scaleBig':
       _style = self.getTransform() + ':scale(2);opacity:0';
       break;
     case 'scaleX':
