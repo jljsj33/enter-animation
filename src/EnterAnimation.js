@@ -7,12 +7,28 @@ class EnterAnimation extends Component {
   constructor(props) {
     super(...arguments);
     this.dataArr = [];
+
     this.state = {
       type: props.type || 'right',
       style: props.style || 'right',
       delay: props.delay || 0,
       interval: props.interval || 0.1
     };
+    //如果子级为一个div时，用的是clone,所以要把样式合进子级div，
+    var child = props.children;
+    if (!child.length) {
+      for (var s in props) {
+        if (s !== 'children') {
+          if (typeof child.props[s] === 'object') {
+            child.props[s] = this.extend({}, [props[s], child.props[s]]);
+          } else if (typeof child.props[s] === 'string') {
+            child.props[s] = props[s] + ' ' + child.props[s];
+          } else {
+            child.props[s] = props[s];
+          }
+        }
+      }
+    }
   }
 
   /*遍历children里的dataEnter*/
@@ -74,12 +90,27 @@ class EnterAnimation extends Component {
     EnterAnimation.to(dom, state.transition, state.delay, state.interval);
   }
 
+  extend(des, src) {
+    var i, len;
+    if (src instanceof Array) {
+      for (i = 0, len = src.length; i < len; i++) {
+        this.extend(des, src[i]);
+      }
+      return des;
+    }
+    for (i in src) {
+      des[i] = src[i];
+    }
+    return des;
+  }
+
   render() {
     var props = this.props;
     var len = props.children.length;
     var child = props.children;
     var Element = null;
     if (len) {
+
       Element = createElement(
         'div',
         props,
