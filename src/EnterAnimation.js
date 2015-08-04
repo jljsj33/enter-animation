@@ -1,7 +1,7 @@
 'use strict';
 import React, {Component} from 'react';
 var startAnimation = require('./StartAnimation');
-const {findDOMNode, createElement} = React;
+const {findDOMNode, cloneElement, createElement} = React;
 
 class EnterAnimation extends Component {
   constructor(props) {
@@ -48,8 +48,6 @@ class EnterAnimation extends Component {
           arr[i] = {};
         }
       });
-    } else if (typeof children === 'string') {
-      self.callChildrenDataEnter(null, null, arr, 0);
     } else {
       props = children.props;
       _enter_data = props['enter-data'];
@@ -65,6 +63,9 @@ class EnterAnimation extends Component {
     var dom = findDOMNode(this),
       state = this.state,
       children = this.props.children instanceof Array ? this.props.children : this.props.children.props.children;
+    if (typeof children === 'string') {
+      return console.warn('Warning: Not perform EnterAnimation, Elements is String(' + children + ').');
+    }
     this.componentChildrenDataEnter(children, this.dataArr);
     state.transition = this.dataArr;
     if (!this.dataArr.cBool) {
@@ -75,14 +76,24 @@ class EnterAnimation extends Component {
 
   render() {
     var props = this.props;
+    var len = props.children.length;
     var child = props.children;
-    return createElement(
-      'div',
-      props,
-      child
-    );
+    var Element = null;
+    if (len) {
+      Element = createElement(
+        'div',
+        props,
+        child
+      );
+    } else {
+      Element = cloneElement(
+        child
+      );
+    }
+    return Element;
   }
 }
+
 EnterAnimation.to = startAnimation;
 /*
  EnterAnimation.defaultProps = {
