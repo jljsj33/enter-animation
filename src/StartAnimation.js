@@ -12,7 +12,7 @@ var startAnim = function (node, data, delay, interval, hidden) {
   //  }
   //}
 
-  if (!(this.getAnimation() in document.documentElement.style)) {
+  if (!(this.getTransition() in document.documentElement.style)) {
     return false;
   }
 

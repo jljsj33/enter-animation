@@ -1,7 +1,7 @@
 'use strict';
 import React, {Component} from 'react';
 var startAnimation = require('./StartAnimation');
-const {findDOMNode, cloneElement, createElement} = React;
+const {findDOMNode, createElement} = React;
 
 class EnterAnimation extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class EnterAnimation extends Component {
     } else {
       arr[i] = {};
     }
-    if (typeof props.children === 'object') {
+    if (props && typeof props.children === 'object') {
       arr[i].children = [];
       self.componentChildrenDataEnter(props.children, arr[i].children);
     }
@@ -38,7 +38,7 @@ class EnterAnimation extends Component {
 
   componentChildrenDataEnter(children, arr) {
     var self = this, props, _enter_data;
-    if (children.length) {
+    if (typeof children === 'object' && children.length) {
       children.map(function (re, i) {
         props = re.props;
         if (props) {
@@ -48,6 +48,8 @@ class EnterAnimation extends Component {
           arr[i] = {};
         }
       });
+    } else if (typeof children === 'string') {
+      self.callChildrenDataEnter(null, null, arr, 0);
     } else {
       props = children.props;
       _enter_data = props['enter-data'];
@@ -57,39 +59,28 @@ class EnterAnimation extends Component {
   }
 
   componentDidMount() {
+    if (typeof this.props.children === 'string') {
+      return console.warn('Warning: Not perform EnterAnimation, Elements is String(' + this.props.children + ').');
+    }
     var dom = findDOMNode(this),
       state = this.state,
       children = this.props.children instanceof Array ? this.props.children : this.props.children.props.children;
-    //console.log("is Array", this.props.children instanceof Array)
     this.componentChildrenDataEnter(children, this.dataArr);
     state.transition = this.dataArr;
     if (!this.dataArr.cBool) {
       state.transition = this.props.type || this.props.style;
     }
-    //if (!this.props['enter-transition']) {
-    //  this.componentChildrenDataEnter(children, this.dataArr);
-    //  this.state.transition = this.dataArr;
-    //}
     EnterAnimation.to(dom, state.transition, state.delay, state.interval);
   }
 
   render() {
     var props = this.props;
-    var len = props.children.length;
     var child = props.children;
-    var Element = null;
-    if (len) {
-      Element = createElement(
-        'div',
-        props,
-        child
-      );
-    } else {
-      Element = cloneElement(
-        child
-      );
-    }
-    return Element;
+    return createElement(
+      'div',
+      props,
+      child
+    );
   }
 }
 EnterAnimation.to = startAnimation;
