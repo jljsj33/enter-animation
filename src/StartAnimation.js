@@ -73,8 +73,8 @@ a.init = function () {
   self.__ease = self.__ease || 'cubic-bezier(0.165, 0.84, 0.44, 1)';
   self.__timer = self.__timer || 0.5;
   self.__qId = 0;
-  self.forTweenData(_mc, self.tweenData, function (mc, data) {
 
+  self.forTweenData(_mc, self.tweenData, function (mc, data) {
     if (data) {
       if (self.upend) {
         //判断分支；
@@ -90,9 +90,13 @@ a.init = function () {
 
       data.direction = data.direction || self.direction;
 
-      if (_style && data.direction !== 'leave') {
-        mc.style.opacity = '0';
-        self.addStyle(mc, self.animNameGroup(_style));
+      if (_style) {
+        if (data.direction !== 'leave') {
+          mc.style.opacity = '0';
+          self.addStyle(mc, self.animNameGroup(_style));
+        } else {
+          self.removeStyle(mc, self.animNameGroup(_style));
+        }
       }
     } else {
       if (self.upend) {

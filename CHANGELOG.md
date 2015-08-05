@@ -1,5 +1,10 @@
 ## 0.2.3 (2015-08-05)
 
+* 增加大标签（EnterAnimation）的componentWillReceiveProps。
+
+
+## 0.2.3 (2015-08-05)
+
 * 增加大标签（EnterAnimation）上的可控性参数 `upend` ,倒放功能。
 
 ## 0.2.2 (2015-08-05)

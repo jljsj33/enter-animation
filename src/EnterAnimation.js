@@ -6,6 +6,10 @@ const {findDOMNode, cloneElement, createElement} = React;
 class EnterAnimation extends Component {
   constructor(props) {
     super(...arguments);
+    this.setData(props);
+  }
+
+  setData(props) {
     this.dataArr = [];
     this.state = {
       type: props.type,
@@ -18,7 +22,9 @@ class EnterAnimation extends Component {
       upend: props.upend
     };
     //如果子级为一个div时，用的是clone,所以要把样式合进子级div，
+
     var child = props.children;
+
     if (!child.length) {
       for (var s in props) {
         if (s !== 'children') {
@@ -32,6 +38,20 @@ class EnterAnimation extends Component {
         }
       }
     }
+  }
+
+  extend(des, src) {
+    var i, len;
+    if (src instanceof Array) {
+      for (i = 0, len = src.length; i < len; i++) {
+        this.extend(des, src[i]);
+      }
+      return des;
+    }
+    for (i in src) {
+      des[i] = src[i];
+    }
+    return des;
   }
 
   /*遍历children里的dataEnter*/
@@ -78,7 +98,7 @@ class EnterAnimation extends Component {
 
   }
 
-  componentDidMount() {
+  callEnterAnimation() {
     if (typeof this.props.children === 'string') {
       return console.warn('Warning: Not perform EnterAnimation, Elements is String(' + this.props.children + ').');
     }
@@ -104,18 +124,15 @@ class EnterAnimation extends Component {
     });
   }
 
-  extend(des, src) {
-    var i, len;
-    if (src instanceof Array) {
-      for (i = 0, len = src.length; i < len; i++) {
-        this.extend(des, src[i]);
-      }
-      return des;
-    }
-    for (i in src) {
-      des[i] = src[i];
-    }
-    return des;
+  componentDidMount() {
+    this.callEnterAnimation();
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    this.setData(nextProps);
+    this.callEnterAnimation();
+    return false;
   }
 
   render() {

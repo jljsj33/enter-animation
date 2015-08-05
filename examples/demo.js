@@ -2,6 +2,16 @@ var React = require('react');
 var EnterAnimation = require("enter-animation");
 
 var Demo = React.createClass({
+  getInitialState(){
+    return {
+      bool:true
+    }
+  },
+  onClick (){
+    this.setState({
+      bool:!this.state.bool
+    })
+  },
   render() {
     return (
 
@@ -49,7 +59,7 @@ var Demo = React.createClass({
         </EnterAnimation>
 
         <h3 style={{"text-align": "center"}} >示例6（只有一个子级时合并enterAnimation上的样式进div）</h3>
-        <EnterAnimation  eStyle={'transform: scale(0)'} delay={2} style={{margin: "auto", width: 200,position:'relative','text-align':'center'}} className={'abc'} upend={true}>
+        <EnterAnimation  eStyle={'transform: scale(0)'} delay={2} style={{margin: "auto", width: 200,position:'relative','text-align':'center'}} className={'abc'} upend={this.state.bool}>
           <div style={{'margin':100}} className={'bbb'}><div>示例3示例3</div>
             <div>示例3示例3</div>
             <div >
@@ -61,10 +71,10 @@ var Demo = React.createClass({
         </EnterAnimation>
 
         <h3 style={{"text-align": "center"}}>示例6－1（分支倒放出场）</h3>
-        <EnterAnimation style={{margin: "auto", width: 200}} duration={0.5} upend={true}>
+        <EnterAnimation style={{margin: "auto", width: 200}} duration={0.5} onClick={this.onClick} upend={this.state.bool}>
           <div enter-data={{ delay: 1}}>示例1示例1</div>
-          <div enter-data>示例1示例1</div>
-          <div enter-data={{type: "left",direction:'leave',queueId:2,delay:2}} style={{'background-color': 'red'}}>
+          <div enter-data={{queueId:2}}>示例1示例1</div>
+          <div enter-data={{type: "left",direction:'leave',queueId:2}} style={{'background-color': 'red'}}>
             <div>
               <div enter-data={{queueId:2,style: "top",delay: 1,direction:'leave'}}>示例1示例1</div>
             </div>
@@ -76,6 +86,7 @@ var Demo = React.createClass({
     )
   }
 });
+
 
 React.render(
   <Demo />
