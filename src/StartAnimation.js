@@ -164,7 +164,7 @@ a.setParentAnim = function (m) {
     }
     m.setAttribute('delay', self.__delay);
     //m.style[self.getTransition()] = tweenStr;
-    //Event.setTrnsitionEnd(m);
+    Event.setTrnsitionEnd(m);
   }
 };
 a.fjStyle = function (node, style, tweenStr) {
@@ -228,7 +228,7 @@ a.addTween = function () {
      mc.style[self.getTransition()] = mc.style[self.getTransition()] ? mc.style[self.getTransition()] + ',opacity' + tweenStr : 'opacity' + tweenStr;
      }*/
     self.queueIdArr[self.__qId] += self.interval;
-    //Event.setTrnsitionEnd(mc);
+    Event.setTrnsitionEnd(mc);
   }, true);
 };
 a.animNameGroup = function (name) {
@@ -267,8 +267,8 @@ a.animNameGroup = function (name) {
   }
   return _style;
 };
-var startAnimation = function (node, data, delay, interval, hidden) {
-  return new startAnim(node, data, delay, interval, hidden);
+var startAnimation = function (node, duration, vars) {
+  return new startAnim(node, duration, vars);
 };
 
 module.exports = startAnimation;
