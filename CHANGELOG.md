@@ -1,0 +1,7 @@
+## 0.2.1 (2015-08-05)
+
+* 修改leave时alpha的错误。
+* 增加大标签（EnterAnimation）上的可控性参数 `duration` `direction` `ease` ,如 `enter-data` 有同样的数据直接覆盖。
+* 大标签上的 `style` 改名为 `eStyle`
+* 修改 `.to` 下的参数，合并为 `vars`
+

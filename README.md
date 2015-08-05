@@ -23,8 +23,11 @@ EnterAnimation标签下：
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
 |type|string|执行动画的内置参数，默认；`right`  |
-|style|string|同上，style的样式动画,`type`有值，此项无效， 默认null|
+|eStyle|string|同上，style的样式动画,`type`有值，此项无效， 默认null|
+|duration    |0.5             |动画的时间；|
 |delay|number|整个区块的延时，默认为0；</br>同startAnimation的delay|
+|direction   |"enter"         |动画进场或出场样式,以`enter``leave`两值;默认为"enter",|
+|ease             |cubic-bezier(0.165, 0.84, 0.44, 1);|样式缓动;|
 |interval|number|递增延时值，默认0.1|
 
 
@@ -46,16 +49,23 @@ EnterAnimation标签下：
 <pre><code>
 //js触发式：
 var EnterAnimation=requre('enter-animation');
-EnterAnimation.to(node,string);
-EnterAnimation.to(node,data,delay);</code></pre>
+EnterAnimation.to(node,duration,string);
+EnterAnimation.to(node,duration,vars);</code></pre>
 
 ### 参数说明
 
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
 |node             |string|要执行动画的dom（class,id）;必要;  |
+|duration    |0.5             |动画的时间；|
+|vars|object|更改0.*.*系列，把参数移至 vars |
+
+#### vars参数
+|参数             |类型    |详细                                                 |
 |data             |string / object|执行动画的参数，有object和string两种类型，下面详解；默认为null|
-|delay            |number|整个区块的延时，默认为0                                |
+|delay|number|整个区块的延时，默认为0；</br>同startAnimation的delay|
+|direction   |"enter"         |动画进场或出场样式,以`enter``leave`两值;默认为"enter"|
+|ease             |cubic-bezier(0.165, 0.84, 0.44, 1);|样式缓动;|
 |interval         |递增延时值。默认0.1|
 |hideen           |boolean|在开始动画前隐藏掉html,默认为true;                     |
 
@@ -110,8 +120,8 @@ children:[//ul
 |-----------------|----------------|----------------------------------------------------|
 |type            |null            |内置动画样式：<br/>`left` `right` `top` `bottom` `scale` `scaleFrom` `scaleX` `scaleY`;|
 |style            |null           |style样式，如transform: translateX(100px),每个样式必须以;结束；`type`有值此项无效|
-|direction        |"enter"         |动画进场或出场样式,以`enter``leave`两值;默认为"enter",|
-|duration         |0.5             |动画的时间；|
-|ease             |cubic-bezier(0.165, 0.84, 0.44, 1);|样式缓动;|
+|direction        |vars参数的"enter"         |动画进场或出场样式,以`enter``leave`两值;默认为"enter",有值覆盖vars参数的direction|
+|duration         |vars参数的duration             |动画的时间；有值覆盖vars参数的duration|
+|ease             |vars参数的ease|样式缓动;有值覆盖vars参数的ease|
 |delay            |0               |动画的延时;默认0,依照结构递增以上的`interval`|
 |queueId          |0               |动画的线程，可为多线程|

@@ -3,7 +3,7 @@ var Css = require('./Css');
 var Event = require('./animEvent');
 
 
-var startAnim = function (node, data, delay, interval, hidden) {
+var startAnim = function (node, duration, vars) {
   //判断浏览，ie10以下不支持；
   //var userAgent = window.navigator.userAgent;
   //if (userAgent.indexOf('MSIE') > 0) {
@@ -18,11 +18,14 @@ var startAnim = function (node, data, delay, interval, hidden) {
 
   this.nodeStr = node;
   this.doc = document;
-  this.tweenData = typeof data === 'object' ? data : null;
-  this.str = typeof data === 'string' ? data : 'right';
-  this.delay = Number(delay) ? delay * 1000 : 10;
-  this.interval = interval || 0.1;
-  hidden = typeof hidden === 'undefined' ? true : hidden;
+  this.tweenData = typeof vars.data === 'object' ? vars.data : null;
+  this.str = typeof vars.data === 'string' ? vars.data : 'right';
+  this.delay = Number(vars.delay) ? vars.delay * 1000 : 10;
+  this.interval = vars.interval || 0.1;
+  this.direction = vars.direction || 'enter';
+  this.__ease = vars.ease || 'cubic-bezier(0.165, 0.84, 0.44, 1)';
+  this.__timer = duration || 0.5;
+  var hidden = typeof vars.hidden === 'undefined' ? true : vars.hidden;
   if (hidden) {
     this.doc.documentElement.style.opacity = 0;
     this.doc.documentElement.style.visibility = 'hidden';
@@ -66,12 +69,14 @@ a.init = function () {
 
     if (data) {
       var _style = data.type || data.style;
+
+      data.direction = data.direction || self.direction;
+
       if (_style && data.direction !== 'leave') {
         mc.style.opacity = '0';
         self.addStyle(mc, self.animNameGroup(_style));
       }
-    } else {
-      //mc.style.opacity = '0';
+    } else if (self.direction !== 'leave') {
       self.addStyle(mc, self.animNameGroup(self.str));
     }
   });
@@ -92,6 +97,7 @@ a.forTweenData = function (mc, data, callFunc, animBool) {
   var tm = mc.children || mc, self = this;
   //console.log(data)
   if (data) {
+
     if (data.length) {
       data.map(function (m, ii) {
         if (m.length) {
@@ -105,7 +111,7 @@ a.forTweenData = function (mc, data, callFunc, animBool) {
           callFunc(tm[ii], m);
         }
       });
-    } else if (data.children.length) {
+    } else if (data.children && data.children.length) {
       data.children.map(function (m, ii) {
         if (m.length) {
           self.forTweenData(tm[ii], m, callFunc, animBool);
@@ -118,25 +124,13 @@ a.forTweenData = function (mc, data, callFunc, animBool) {
           callFunc(tm[ii], m);
         }
       });
+    } else {
+      self.error('data(' + data + ') is error');
     }
   } else {
     for (var i = 0; i < mc.length; i++) {
-      //if (mc.children) {
-      //  callFunc(mc[i], null);
-      //} else {
-      //  if (!animBool) {
-      //    //self.addStyle(tm[i], 'opacity:0;');
-      //    if (!mc[i].children.length) {
-      //      self.addStyle(mc[i], self.animNameGroup(self.str));
-      //    }
-      //  }
-      //  self.forTweenData(mc[i], null, callFunc, animBool);
-      //}
       callFunc(mc[i], null);
     }
-    //if (animBool && mc.children) {
-    //  self.setParentAnim(mc);
-    //}
   }
 };
 a.setParentAnim = function (m) {
@@ -170,7 +164,7 @@ a.setParentAnim = function (m) {
     }
     m.setAttribute('delay', self.__delay);
     //m.style[self.getTransition()] = tweenStr;
-    Event.setTrnsitionEnd(m);
+    //Event.setTrnsitionEnd(m);
   }
 };
 a.fjStyle = function (node, style, tweenStr) {
@@ -190,12 +184,12 @@ a.addTween = function () {
   //默认值
   self.__delay = 0;
   self.queueIdArr = [];//管理分支队延时间；
-  self.__ease = 'cubic-bezier(0.165, 0.84, 0.44, 1)';
-  self.__timer = 0.5;
+
+  self.__ease = self.__ease || 'cubic-bezier(0.165, 0.84, 0.44, 1)';
+  self.__timer = self.__timer || 0.5;
   self.__qId = 0;
 
   self.forTweenData(m, self.tweenData, function (mc, data) {
-
     var tweenStr = ' ' + self.__timer + 's ' + self.__ease + ' ' + self.__delay + 's';
     var _style = null;
     if (data) {
@@ -211,6 +205,7 @@ a.addTween = function () {
       if (_style) {
         var _name = self.animNameGroup(_style);
         self.fjStyle(mc, _name, tweenStr);
+        data.direction = data.direction || self.direction;
         if (data.direction === 'leave') {
           self.addStyle(mc, _name);
         } else {
@@ -222,15 +217,18 @@ a.addTween = function () {
       self.__delay = self.queueIdArr[self.__qId] || self.__delay;
       tweenStr = ' ' + self.__timer + 's ' + self.__ease + ' ' + self.__delay + 's';
       self.fjStyle(mc, self.animNameGroup(self.str), tweenStr);
-      self.removeStyle(mc, self.animNameGroup(self.str));
+      if (self.direction === 'leave') {
+        self.addStyle(mc, self.animNameGroup(self.str));
+      } else {
+        self.removeStyle(mc, self.animNameGroup(self.str));
+      }
     }
     mc.setAttribute('delay', self.__delay);
     /*if (_style !== 'alpha') {
      mc.style[self.getTransition()] = mc.style[self.getTransition()] ? mc.style[self.getTransition()] + ',opacity' + tweenStr : 'opacity' + tweenStr;
      }*/
-    self.removeStyle(mc, 'opacity:0');
     self.queueIdArr[self.__qId] += self.interval;
-    Event.setTrnsitionEnd(mc);
+    //Event.setTrnsitionEnd(mc);
   }, true);
 };
 a.animNameGroup = function (name) {

@@ -7,12 +7,14 @@ class EnterAnimation extends Component {
   constructor(props) {
     super(...arguments);
     this.dataArr = [];
-
     this.state = {
-      type: props.type || 'right',
-      style: props.style || 'right',
-      delay: props.delay || 0,
-      interval: props.interval || 0.1
+      type: props.type,
+      style: props.eStyle,
+      duration: props.duration,
+      delay: props.delay,
+      direction: props.direction,
+      ease: props.ease,
+      interval: props.interval
     };
     //如果子级为一个div时，用的是clone,所以要把样式合进子级div，
     var child = props.children;
@@ -36,9 +38,12 @@ class EnterAnimation extends Component {
     var self = this;
     if (data) {
       if (!data.type && !data.style) {
-        data = {};
-        data.type = self.state.type;
+        if (typeof data === 'boolean') {
+          data = {};
+        }
+        data.type = self.state.type || 'right';
       }
+
       arr.push(data);
       if (data.style || data.type) {
         self.dataArr.cBool = true;
@@ -85,9 +90,15 @@ class EnterAnimation extends Component {
     this.componentChildrenDataEnter(children, this.dataArr);
     state.transition = this.dataArr;
     if (!this.dataArr.cBool) {
-      state.transition = this.props.type || this.props.style;
+      state.transition = this.props.type || this.props.eStyle || 'right';
     }
-    EnterAnimation.to(dom, state.transition, state.delay, state.interval);
+    EnterAnimation.to(dom, state.duration, {
+      data: state.transition,
+      delay: state.delay,
+      direction: state.direction,
+      interval: state.interval,
+      ease: state.ease
+    });
   }
 
   extend(des, src) {
@@ -110,7 +121,6 @@ class EnterAnimation extends Component {
     var child = props.children;
     var Element = null;
     if (len) {
-
       Element = createElement(
         'div',
         props,
