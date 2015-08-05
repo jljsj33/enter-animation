@@ -24,10 +24,11 @@ EnterAnimation标签下：
 |-----------------|-------|----------------------------------------------------|
 |type|string|执行动画的内置参数，默认；`right`  |
 |eStyle|string|同上，style的样式动画,`type`有值，此项无效， 默认null|
-|duration    |0.5             |动画的时间；|
-|delay|number|整个区块的延时，默认为0；</br>同startAnimation的delay|
-|direction   |"enter"         |动画进场或出场样式,以`enter``leave`两值;默认为"enter",|
-|ease             |cubic-bezier(0.165, 0.84, 0.44, 1);|样式缓动;|
+|duration    |number             |每个动画的时间；默认0.5|
+|delay       |number|整个区块的延时，默认为0；</br>同startAnimation的delay|
+|direction   |string      |动画进场或出场样式,以`enter``leave`两值;默认为"enter",|
+|upend       |boolean|是否倒放,从最后一个dom开始往上播放,默认false|
+|ease             |string|样式缓动;默认 `cubic-bezier(0.165, 0.84, 0.44, 1);`|
 |interval|number|递增延时值，默认0.1|
 
 
@@ -57,11 +58,11 @@ EnterAnimation.to(node,duration,vars);</code></pre>
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
 |node             |string|要执行动画的dom（class,id）;必要;  |
-|duration    |0.5             |动画的时间；|
 |vars|object|更改0.*.*系列，把参数移至 vars |
 
 #### vars参数
 |参数             |类型    |详细                                                 |
+|duration    |0.5             |动画的时间；|
 |data             |string / object|执行动画的参数，有object和string两种类型，下面详解；默认为null|
 |delay|number|整个区块的延时，默认为0；</br>同startAnimation的delay|
 |direction   |"enter"         |动画进场或出场样式,以`enter``leave`两值;默认为"enter"|

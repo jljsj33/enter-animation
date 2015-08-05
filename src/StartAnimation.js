@@ -3,7 +3,7 @@ var Css = require('./Css');
 var Event = require('./animEvent');
 
 
-var startAnim = function (node, duration, vars) {
+var startAnim = function (node, vars) {
   //判断浏览，ie10以下不支持；
   //var userAgent = window.navigator.userAgent;
   //if (userAgent.indexOf('MSIE') > 0) {
@@ -24,7 +24,8 @@ var startAnim = function (node, duration, vars) {
   this.interval = vars.interval || 0.1;
   this.direction = vars.direction || 'enter';
   this.__ease = vars.ease || 'cubic-bezier(0.165, 0.84, 0.44, 1)';
-  this.__timer = duration || 0.5;
+  this.__timer = vars.duration || 0.5;
+  this.upend = vars.upend || false;
   var hidden = typeof vars.hidden === 'undefined' ? true : vars.hidden;
   if (hidden) {
     this.doc.documentElement.style.opacity = 0;
@@ -65,9 +66,26 @@ a.init = function () {
     return self.error('node error;');
   }
   var _mc = self.length === 1 ? self[0].children : self;
+  //默认值
+  self.__delay = 0;
+  self.queueIdArr = [];//管理分支队延时间；
+
+  self.__ease = self.__ease || 'cubic-bezier(0.165, 0.84, 0.44, 1)';
+  self.__timer = self.__timer || 0.5;
+  self.__qId = 0;
   self.forTweenData(_mc, self.tweenData, function (mc, data) {
 
     if (data) {
+      if (self.upend) {
+        //判断分支；
+        self.__qId = data.queueId || 0;
+        //判断延时；
+        if (!self.queueIdArr[self.__qId] && self.queueIdArr[self.__qId] !== 0) {
+          self.queueIdArr[self.__qId] = 0 + (data.delay || 0);
+        } else {
+          self.queueIdArr[self.__qId] = Number(Number(self.queueIdArr[self.__qId] + (data.delay || 0) + self.interval).toFixed(3));
+        }
+      }
       var _style = data.type || data.style;
 
       data.direction = data.direction || self.direction;
@@ -76,8 +94,17 @@ a.init = function () {
         mc.style.opacity = '0';
         self.addStyle(mc, self.animNameGroup(_style));
       }
-    } else if (self.direction !== 'leave') {
-      self.addStyle(mc, self.animNameGroup(self.str));
+    } else {
+      if (self.upend) {
+        if (!self.queueIdArr[self.__qId] && self.queueIdArr[self.__qId] !== 0) {
+          self.queueIdArr[self.__qId] = 0;
+        } else {
+          self.queueIdArr[self.__qId] = Number(Number(self.queueIdArr[self.__qId] + self.interval).toFixed(3));
+        }
+      }
+      if (self.direction !== 'leave') {
+        self.addStyle(mc, self.animNameGroup(self.str));
+      }
     }
   });
   var delay = self.delay || 10;
@@ -95,9 +122,7 @@ a.forTweenData = function (mc, data, callFunc, animBool) {
     return;
   }
   var tm = mc.children || mc, self = this;
-  //console.log(data)
   if (data) {
-
     if (data.length) {
       data.map(function (m, ii) {
         if (m.length) {
@@ -133,40 +158,7 @@ a.forTweenData = function (mc, data, callFunc, animBool) {
     }
   }
 };
-a.setParentAnim = function (m) {
-  var self = this;
-  if (m) {
-    self.removeStyle(m, 'opacity:0');
-    var delay = 0;
-    var cm = m.children[0];
-    //var tweenStr = '';
 
-    if (cm) {
-      delay = cm.getAttribute('delay');
-      //tweenStr = 'opacity .5s cubic-bezier(0.165, 0.84, 0.44, 1) ' + delay + 's';
-    } else {
-      var p = m.parentNode.children, _m = m, ci = 0;
-      while (_m) {
-        _m = _m.previousSibling;
-        if (_m && _m.nodeType === 1) {
-          ci++;
-        }
-      }
-      if (ci) {
-        var p_mc = p[ci - 1].children[p[ci - 1].children.length - 1];
-        delay = p_mc ? Number(p_mc.getAttribute('delay')) + self.interval : Number(p[ci - 1].getAttribute('delay'));
-      }
-
-      self.__delay = delay + self.interval;
-      self.fjStyle(m, self.animNameGroup(self.str), ' ' + self.__timer + 's ' + self.__ease + ' ' + delay + 's');
-      self.removeStyle(m, self.animNameGroup(self.str));
-      //tweenStr = m.style[self.getTransition()] + ',opacity .5s cubic-bezier(0.165, 0.84, 0.44, 1) ' + delay + 's';
-    }
-    m.setAttribute('delay', self.__delay);
-    //m.style[self.getTransition()] = tweenStr;
-    Event.setTrnsitionEnd(m);
-  }
-};
 a.fjStyle = function (node, style, tweenStr) {
   var cArr = style.trim().split(';'), self = this;
   for (var i = 0; i < cArr.length; i++) {
@@ -181,23 +173,22 @@ a.addTween = function () {
   //查找tweenDataArr与dom下子级的匹配；
   var self = this;
   var m = self.length === 1 ? self[0].children : self;
-  //默认值
-  self.__delay = 0;
-  self.queueIdArr = [];//管理分支队延时间；
-
-  self.__ease = self.__ease || 'cubic-bezier(0.165, 0.84, 0.44, 1)';
-  self.__timer = self.__timer || 0.5;
-  self.__qId = 0;
 
   self.forTweenData(m, self.tweenData, function (mc, data) {
     var tweenStr = ' ' + self.__timer + 's ' + self.__ease + ' ' + self.__delay + 's';
     var _style = null;
     if (data) {
       //判断分支；
-      self.__qId = data.queueId || self.__qId;
+      self.__qId = data.queueId || 0;
       //判断延时；
-      self.queueIdArr[self.__qId] = (self.queueIdArr[self.__qId] || 0) + (data.delay || 0);
-      self.__delay = self.queueIdArr[self.__qId];
+      if (self.upend) {
+        self.queueIdArr[self.__qId] = Number(Number((self.queueIdArr[self.__qId] || 0) - (data.delay || 0)).toFixed(3));
+        self.__delay = Number(Number((self.queueIdArr[self.__qId]) + (data.delay || 0)).toFixed(3));
+      } else {
+        self.queueIdArr[self.__qId] = Number(Number((self.queueIdArr[self.__qId] || 0) + (data.delay || 0)).toFixed(3));
+        self.__delay = self.queueIdArr[self.__qId];
+      }
+
       var _ease = data.ease || self.__ease,
         _timer = data.duration || self.__timer;
       tweenStr = ' ' + _timer + 's ' + _ease + ' ' + self.__delay + 's';
@@ -224,11 +215,17 @@ a.addTween = function () {
       }
     }
     mc.setAttribute('delay', self.__delay);
-    /*if (_style !== 'alpha') {
-     mc.style[self.getTransition()] = mc.style[self.getTransition()] ? mc.style[self.getTransition()] + ',opacity' + tweenStr : 'opacity' + tweenStr;
-     }*/
-    self.queueIdArr[self.__qId] += self.interval;
-    Event.setTrnsitionEnd(mc);
+    if (self.upend) {
+      if (self.queueIdArr[self.__qId] > 0) {
+        self.queueIdArr[self.__qId] -= self.interval;
+      }
+    } else {
+      self.queueIdArr[self.__qId] += self.interval;
+    }
+    setTimeout(function () {
+      Event.setTrnsitionEnd(mc);
+    }, self.__delay * 1000);
+
   }, true);
 };
 a.animNameGroup = function (name) {
@@ -267,8 +264,8 @@ a.animNameGroup = function (name) {
   }
   return _style;
 };
-var startAnimation = function (node, duration, vars) {
-  return new startAnim(node, duration, vars);
+var startAnimation = function (node, vars) {
+  return new startAnim(node, vars);
 };
 
 module.exports = startAnimation;

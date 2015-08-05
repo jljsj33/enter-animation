@@ -1,4 +1,8 @@
-## 0.2.1 (2015-08-05)
+## 0.2.3 (2015-08-05)
+
+* 增加大标签（EnterAnimation）上的可控性参数 `upend` ,倒放功能。
+
+## 0.2.2 (2015-08-05)
 
 * 修改leave时alpha的错误。
 * 增加大标签（EnterAnimation）上的可控性参数 `duration` `direction` `ease` ,如 `enter-data` 有同样的数据直接覆盖。

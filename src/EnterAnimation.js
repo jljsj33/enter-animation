@@ -14,7 +14,8 @@ class EnterAnimation extends Component {
       delay: props.delay,
       direction: props.direction,
       ease: props.ease,
-      interval: props.interval
+      interval: props.interval,
+      upend: props.upend
     };
     //如果子级为一个div时，用的是clone,所以要把样式合进子级div，
     var child = props.children;
@@ -92,11 +93,13 @@ class EnterAnimation extends Component {
     if (!this.dataArr.cBool) {
       state.transition = this.props.type || this.props.eStyle || 'right';
     }
-    EnterAnimation.to(dom, state.duration, {
+    EnterAnimation.to(dom, {
+      duration: state.duration,
       data: state.transition,
       delay: state.delay,
       direction: state.direction,
       interval: state.interval,
+      upend: state.upend,
       ease: state.ease
     });
   }
