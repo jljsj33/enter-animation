@@ -1,3 +1,8 @@
+## 0.2.5 (2015-08-06)
+
+* 修改removeStyle的中间有空格时不能删除。
+* 修改vars为null时默认为object。
+
 ## 0.2.3 (2015-08-05)
 
 * 增加大标签（EnterAnimation）的componentWillReceiveProps。
