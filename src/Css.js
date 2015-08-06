@@ -48,7 +48,7 @@ module.exports = {
         var _carr = m.style.cssText.split(';');
         _carr.map(function (_arr) {
           if (_arr && _arr !== '') {
-            if (!(_arr.split(':')[0].trim().indexOf(arr.split(':')[0].trim()) >= 0 && _arr.split(':')[1].trim() === arr.split(':')[1].trim())) {
+            if (!(_arr.split(':')[0].replace(/\s/g, '').indexOf(arr.split(':')[0].replace(/\s/g, '')) >= 0 && _arr.split(':')[1].replace(/\s/g, '') === arr.split(':')[1].replace(/\s/g, ''))) {
               _style += _arr ? _arr + ';' : '';
             }
           }
