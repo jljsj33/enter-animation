@@ -15,7 +15,9 @@ var startAnim = function (node, vars) {
   if (!(this.getTransition() in document.documentElement.style)) {
     return false;
   }
-
+  if (!vars) {
+    vars = {};
+  }
   this.nodeStr = node;
   this.doc = document;
   this.tweenData = typeof vars.data === 'object' ? vars.data : null;
@@ -60,7 +62,11 @@ a.init = function () {
     //var m=rquickExpr.exec(self.nodeStr);
     self.push.apply(self, self.doc.querySelectorAll(self.nodeStr));
   } else if (typeof self.nodeStr === 'object') {
-    self.push(self.nodeStr);
+    if (self.nodeStr.length) {
+      self.push.apply(self, self.nodeStr);
+    } else {
+      self.push(self.nodeStr);
+    }
   }
   if (!self.length) {
     return self.error('node error;');

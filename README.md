@@ -50,8 +50,7 @@ EnterAnimation标签下：
 <pre><code>
 //js触发式：
 var EnterAnimation=requre('enter-animation');
-EnterAnimation.to(node,duration,string);
-EnterAnimation.to(node,duration,vars);</code></pre>
+EnterAnimation.to(node,vars);</code></pre>
 
 ### 参数说明
 
@@ -62,6 +61,7 @@ EnterAnimation.to(node,duration,vars);</code></pre>
 
 #### vars参数
 |参数             |类型    |详细                                                 |
+|-----------------|-------|----------------------------------------------------|
 |duration    |0.5             |动画的时间；|
 |data             |string / object|执行动画的参数，有object和string两种类型，下面详解；默认为null|
 |delay|number|整个区块的延时，默认为0；</br>同startAnimation的delay|
