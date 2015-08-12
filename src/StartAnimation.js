@@ -2,7 +2,7 @@
 var Css = require('./Css');
 var Event = require('./animEvent');
 
-var startAnim = function (node, vars, callback) {
+var startAnim = function (node, vars) {
   //判断浏览，ie10以下不支持；
   if (!(this.getTransition() in document.documentElement.style)) {
     return false;
@@ -14,13 +14,14 @@ var startAnim = function (node, vars, callback) {
   this.doc = document;
   this.tweenData = typeof vars.data === 'object' ? vars.data : null;
   this.str = typeof vars.data === 'string' ? vars.data : 'right';
-  this.delay = Number(vars.delay) ? vars.delay * 1000 : 15;
+  this.delay = Number(vars.delay) ? vars.delay * 1000 : 30;
   this.interval = vars.interval || 0.1;
   this.direction = vars.direction || 'enter';
   this.__ease = vars.ease || 'cubic-bezier(0.165, 0.84, 0.44, 1)';
   this.__timer = vars.duration || 0.5;
   this.upend = vars.upend || false;
   var hidden = typeof vars.hidden === 'undefined' ? true : vars.hidden;
+  this.callback = vars.onComplete;
   if (hidden) {
     this.doc.documentElement.style.opacity = 0;
     this.doc.documentElement.style.visibility = 'hidden';
@@ -106,13 +107,15 @@ a.init = function () {
       }
       if (self.direction !== 'leave') {
         self.addStyle(mc, self.animNameGroup(self.str));
+      } else {
+        self.removeStyle(mc, self.animNameGroup(self.str));
       }
     }
+    self.enterLength = self.enterLength ? self.enterLength + 1 : 1;
   });
   setTimeout(function () {
     self.addTween();
   }, self.delay);
-
 };
 //遍历dom节点；
 a.forTweenData = function (mc, data, callFunc, animBool) {
@@ -172,7 +175,7 @@ a.fjStyle = function (node, style, tweenStr) {
 };
 a.addTween = function () {
   //查找tweenDataArr与dom下子级的匹配；
-  var self = this;
+  var self = this, eNum = 0;
   var m = self.length === 1 ? self[0].children : self;
 
   self.forTweenData(m, self.tweenData, function (mc, data) {
@@ -224,7 +227,14 @@ a.addTween = function () {
       self.queueIdArr[self.__qId] += self.interval;
     }
     setTimeout(function () {
-      Event.setTrnsitionEnd(mc);
+      Event.setTrnsitionEnd(mc, function () {
+        eNum++;
+        if (eNum >= self.enterLength) {
+          if (typeof self.callback === 'function') {
+            self.callback();
+          }
+        }
+      });
     }, self.__delay * 1000);
 
   }, true);

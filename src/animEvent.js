@@ -89,7 +89,7 @@ module.exports = {
       mc.attachEvent(animationEvent, _event);
     }
   },
-  setTrnsitionEnd(mc) {
+  setTrnsitionEnd(mc, callback) {
     var transitionEvent = this.whichTransitionEvent();
     var self = this;
 
@@ -125,6 +125,9 @@ module.exports = {
         }
       }
       mc.removeAttribute('delay');
+      if (typeof callback === 'function') {
+        callback();
+      }
     }
 
     if (document.addEventListener) {

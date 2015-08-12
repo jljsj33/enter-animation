@@ -71,7 +71,7 @@ var Demo = React.createClass({
         </EnterAnimation>
 
         <h3 style={{"text-align": "center"}}>示例6－1（分支倒放出场）</h3>
-        <EnterAnimation style={{margin: "auto", width: 200}} duration={0.5} onClick={this.onClick} upend={this.state.bool}>
+        <EnterAnimation style={{margin: "auto", width: 200}} duration={0.5} onClick={this.onClick} upend={this.state.bool} callback={function(){console.log(this)}}>
           <div enter-data={{ delay: 1}}>示例1示例1</div>
           <div enter-data={{queueId:2}}>示例1示例1</div>
           <div enter-data={{type: "left",direction:'leave',queueId:2}} style={{'background-color': 'red'}}>

@@ -1,4 +1,34 @@
 ##EnterAnimation进场动画
+# enter-animation
+---
+
+[![NPM version][npm-image]][npm-url]
+[![build status][travis-image]][travis-url]
+[![Test coverage][coveralls-image]][coveralls-url]
+[![gemnasium deps][gemnasium-image]][gemnasium-url]
+[![node version][node-image]][node-url]
+[![npm download][download-image]][download-url]
+
+[npm-image]: http://img.shields.io/npm/v/enter-animation.svg?style=flat-square
+[npm-url]: http://npmjs.org/package/enter-animation
+[travis-image]: https://img.shields.io/travis/react-component/animate.svg?style=flat-square
+[travis-url]: https://travis-ci.org/react-component/animate
+[coveralls-image]: https://img.shields.io/coveralls/react-component/animate.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/react-component/animate?branch=master
+[gemnasium-image]: http://img.shields.io/gemnasium/react-component/animate.svg?style=flat-square
+[gemnasium-url]: https://gemnasium.com/react-component/animate
+[node-image]: https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square
+[node-url]: http://nodejs.org/download/
+[download-image]: https://img.shields.io/npm/dm/enter-animation.svg?style=flat-square
+[download-url]: https://npmjs.org/package/enter-animation
+
+## Feature
+
+* support ie10+,chrome,firefox,safari
+
+## install
+
+[![enter-animation](https://nodei.co/npm/enter-animation.png)](https://npmjs.org/package/enter-animation)
 
 ### 用法
 <pre><code>
@@ -30,6 +60,7 @@ EnterAnimation标签下：
 |upend       |boolean|是否倒放,从最后一个dom开始往上播放,默认false|
 |ease             |string|样式缓动;默认 `cubic-bezier(0.165, 0.84, 0.44, 1);`|
 |interval|number|递增延时值，默认0.1|
+|callback|function|动画完成后回调|
 
 
 子dom标签下：
@@ -57,7 +88,7 @@ EnterAnimation.to(node,vars);</code></pre>
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
 |node             |string|要执行动画的dom（class,id）;必要;  |
-|vars|object|更改0.*.*系列，把参数移至 vars |
+|vars|object|更改0.1.*系列，把参数移至 vars |
 
 #### vars参数
 |参数             |类型    |详细                                                 |
@@ -69,6 +100,7 @@ EnterAnimation.to(node,vars);</code></pre>
 |ease             |cubic-bezier(0.165, 0.84, 0.44, 1);|样式缓动;|
 |interval         |递增延时值。默认0.1|
 |hideen           |boolean|在开始动画前隐藏掉html,默认为true;                     |
+|onComplete    |function |动画完成后回调|
 
 ####data参数（string|array）;
 

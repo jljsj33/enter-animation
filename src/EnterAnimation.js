@@ -19,7 +19,8 @@ class EnterAnimation extends Component {
       direction: props.direction,
       ease: props.ease,
       interval: props.interval,
-      upend: props.upend
+      upend: props.upend,
+      onComplete: props.callback
     };
     //如果子级为一个div时，用的是clone,所以要把样式合进子级div，
 
@@ -111,7 +112,7 @@ class EnterAnimation extends Component {
     this.componentChildrenDataEnter(children, this.dataArr);
     state.transition = this.dataArr;
     if (!this.dataArr.cBool) {
-      state.transition = this.props.type || this.props.eStyle || 'right';
+      state.transition = state.type || state.eStyle || 'right';
     }
     EnterAnimation.to(dom, {
       duration: state.duration,
@@ -120,7 +121,8 @@ class EnterAnimation extends Component {
       direction: state.direction,
       interval: state.interval,
       upend: state.upend,
-      ease: state.ease
+      ease: state.ease,
+      onComplete: state.onComplete
     });
   }
 
@@ -128,10 +130,12 @@ class EnterAnimation extends Component {
     this.callEnterAnimation();
   }
 
+  componentDidUpdate() {
+    this.callEnterAnimation();
+  }
 
   componentWillReceiveProps(nextProps) {
     this.setData(nextProps);
-    this.callEnterAnimation();
     return false;
   }
 
