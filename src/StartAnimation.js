@@ -86,10 +86,10 @@ a.init = function () {
       }
       var _style = data.type || data.style;
 
-      data.direction = self.direction || data.direction;
+      var direction = data.direction || self.direction;
 
       if (_style) {
-        if (data.direction !== 'leave') {
+        if (direction !== 'leave') {
           mc.style.opacity = '0';
           self.addStyle(mc, self.animNameGroup(_style));
         } else {
@@ -197,8 +197,8 @@ a.addTween = function () {
       if (_style) {
         var _name = self.animNameGroup(_style);
         self.fjStyle(mc, _name, tweenStr);
-        data.direction = self.direction || data.direction;
-        if (data.direction === 'leave') {
+        var direction = data.direction || self.direction;
+        if (direction === 'leave') {
           self.addStyle(mc, _name);
         } else {
           self.removeStyle(mc, _name);
