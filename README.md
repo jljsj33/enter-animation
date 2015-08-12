@@ -1,5 +1,4 @@
 ##EnterAnimation进场动画
-# enter-animation
 ---
 
 [![NPM version][npm-image]][npm-url]
