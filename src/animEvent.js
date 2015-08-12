@@ -82,6 +82,7 @@ module.exports = {
       Css.removeStyle(mc, style);
     }
 
+
     if (document.addEventListener) {
       mc.addEventListener(animationEvent, _event);
     } else {

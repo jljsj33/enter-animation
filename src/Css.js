@@ -36,7 +36,7 @@ module.exports = {
     _style += style;
     m.setAttribute('style', _style);
   },
-  removeStyle(m, style) {
+  removeStyle(m, style, oneBool) {
     //删除style;
     if (!m) {
       return false;
@@ -44,20 +44,20 @@ module.exports = {
     var cArr = style.trim().split(';');
     cArr.map(function (arr) {
       if (arr && arr !== '') {
-        var _style = '';
-        var _carr = m.style.cssText.split(';');
-        _carr.map(function (_arr) {
+        var carr = m.style.cssText.split(';'),
+          cOne = arr.split(':')[0].replace(/\s/g, ''),
+          cTow = arr.split(':')[1] ? arr.split(':')[1].replace(/\s/g, '') : '';
+        carr.map(function (_arr) {
           if (_arr && _arr !== '') {
-            if (!(_arr.split(':')[0].replace(/\s/g, '').indexOf(arr.split(':')[0].replace(/\s/g, '')) >= 0 && _arr.split(':')[1].replace(/\s/g, '') === arr.split(':')[1].replace(/\s/g, ''))) {
-              _style += _arr ? _arr + ';' : '';
+            var tcOne = _arr.split(':')[0].replace(/\s/g, ''),
+              tcTow = _arr.split(':')[1].replace(/\s/g, '');
+            if (oneBool && tcOne.indexOf(cOne) >= 0) {
+              m.style[arr.split(':')[0]] = '';
+            } else if (tcOne.indexOf(cOne) >= 0 && tcTow === cTow) {
+              m.style[arr.split(':')[0]] = '';
             }
           }
         });
-        if (!_style || _style.replace(/\s/g, '') === '') {
-          m.removeAttribute('style');
-        } else {
-          m.setAttribute('style', _style);
-        }
       }
     });
   }

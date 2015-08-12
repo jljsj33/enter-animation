@@ -2,16 +2,8 @@
 var Css = require('./Css');
 var Event = require('./animEvent');
 
-
-var startAnim = function (node, vars) {
+var startAnim = function (node, vars, callback) {
   //判断浏览，ie10以下不支持；
-  //var userAgent = window.navigator.userAgent;
-  //if (userAgent.indexOf('MSIE') > 0) {
-  //  if (Number(userAgent.split('MSIE')[1].split(';')[0]) < 10) {
-  //    return false;
-  //  }
-  //}
-
   if (!(this.getTransition() in document.documentElement.style)) {
     return false;
   }
@@ -22,7 +14,7 @@ var startAnim = function (node, vars) {
   this.doc = document;
   this.tweenData = typeof vars.data === 'object' ? vars.data : null;
   this.str = typeof vars.data === 'string' ? vars.data : 'right';
-  this.delay = Number(vars.delay) ? vars.delay * 1000 : 10;
+  this.delay = Number(vars.delay) ? vars.delay * 1000 : 15;
   this.interval = vars.interval || 0.1;
   this.direction = vars.direction || 'enter';
   this.__ease = vars.ease || 'cubic-bezier(0.165, 0.84, 0.44, 1)';
@@ -94,7 +86,7 @@ a.init = function () {
       }
       var _style = data.type || data.style;
 
-      data.direction = data.direction || self.direction;
+      data.direction = self.direction || data.direction;
 
       if (_style) {
         if (data.direction !== 'leave') {
@@ -117,10 +109,9 @@ a.init = function () {
       }
     }
   });
-  var delay = self.delay || 10;
   setTimeout(function () {
     self.addTween();
-  }, delay);
+  }, self.delay);
 
 };
 //遍历dom节点；
@@ -206,7 +197,7 @@ a.addTween = function () {
       if (_style) {
         var _name = self.animNameGroup(_style);
         self.fjStyle(mc, _name, tweenStr);
-        data.direction = data.direction || self.direction;
+        data.direction = self.direction || data.direction;
         if (data.direction === 'leave') {
           self.addStyle(mc, _name);
         } else {
