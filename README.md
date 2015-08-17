@@ -101,8 +101,17 @@ EnterAnimation.to(node,vars);</code></pre>
 |hideen           |boolean|在开始动画前隐藏掉html,默认为true;                     |
 |onComplete    |function |动画完成后回调|
 
-####data参数（string|array）;
-
+####data参数（string|object）;
+##### data={}
+|参数             |默认值           |详细                                                 |
+|-----------------|----------------|----------------------------------------------------|
+|type            |null            |内置动画样式：<br/>`left` `right` `top` `bottom` `scale` `scaleFrom` `scaleX` `scaleY`;|
+|style            |null           |style样式，如transform: translateX(100px),每个样式必须以;结束；`type`有值此项无效|
+|direction        |vars参数的"enter"         |动画进场或出场样式,以`enter``leave`两值;默认为"enter",有值覆盖vars参数的direction|
+|duration         |vars参数的duration             |动画的时间；有值覆盖vars参数的duration|
+|ease             |vars参数的ease|样式缓动;有值覆盖vars参数的ease|
+|delay            |0               |动画的延时;默认0,依照结构递增以上的`interval`|
+|queueId          |0               |动画的线程，可为多线程|
 支持style直接添加动画；
 
 为string时，自动遍历node下的子节点来执行data样式；
@@ -135,25 +144,13 @@ children:[//子下的两div
 
 处理每个li里的span的动画时，data为:
 
-<pre><code>{//外层div
-children:[//ul
-{children:[//li
-{children:[{type:'left'}]},
-{children:[{type:'left'}]},
-{children:[{type:'left'}]}
-]}
+<pre><code>
+[
+{type:'left'},
+{type:'left'},
+{type:'left'}
 ]
-}</code></pre>
+</code></pre>
 
 
-#####data参数详细
 
-|参数             |默认值           |详细                                                 |
-|-----------------|----------------|----------------------------------------------------|
-|type            |null            |内置动画样式：<br/>`left` `right` `top` `bottom` `scale` `scaleFrom` `scaleX` `scaleY`;|
-|style            |null           |style样式，如transform: translateX(100px),每个样式必须以;结束；`type`有值此项无效|
-|direction        |vars参数的"enter"         |动画进场或出场样式,以`enter``leave`两值;默认为"enter",有值覆盖vars参数的direction|
-|duration         |vars参数的duration             |动画的时间；有值覆盖vars参数的duration|
-|ease             |vars参数的ease|样式缓动;有值覆盖vars参数的ease|
-|delay            |0               |动画的延时;默认0,依照结构递增以上的`interval`|
-|queueId          |0               |动画的线程，可为多线程|
