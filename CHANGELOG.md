@@ -2,7 +2,7 @@
 
 * 增加与router 1.0.0-beta3的兼容，需要靠key；
 * 修改steState元素都刷新动画，增加控制函数 `close`， close 为 true 时，setState 将不产生动画，
-* 增加参数 `leave` , 出场的参数，为object，里面参数和标签一样，如leave:{type:'top'};
+* 增加参数 `leave` , 出场的参数，为object，里面参数和标签一样，如leave:{type:'top'},`component` EnterAnimation替换的标签名;
 * 修改部分startAnimation的bug;
 * 增加案例router,修改demo
 

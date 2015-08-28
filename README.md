@@ -60,8 +60,9 @@ EnterAnimation标签下：
 |ease             |string|样式缓动;默认 `cubic-bezier(0.165, 0.84, 0.44, 1);`|
 |interval|number|递增延时值，默认0.1|
 |callback|function|动画完成后回调|
-|leave|object|除 `close` 继以上全部标签，管理当前元素出场的数据,默认null,null继承上面所有标签的值 |
+|leave|object|除 `close` `component` 继以上全部标签，管理当前元素出场的数据,默认null,null继承上面所有标签的值 |
 |close|boolean|默认 false ,处理是否开启动画|
+|component|string|EnterAnimation替换的标签名|
 
 
 子dom标签下：
