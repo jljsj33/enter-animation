@@ -60,6 +60,8 @@ EnterAnimation标签下：
 |ease             |string|样式缓动;默认 `cubic-bezier(0.165, 0.84, 0.44, 1);`|
 |interval|number|递增延时值，默认0.1|
 |callback|function|动画完成后回调|
+|leave|object|除 `close` 继以上全部标签，管理当前元素出场的数据,默认null,null继承上面所有标签的值 |
+|close|boolean|默认 false ,处理是否开启动画|
 
 
 子dom标签下：
@@ -107,6 +109,19 @@ EnterAnimation.to(node,vars);</code></pre>
 
 为string时，自动遍历node下的子节点来执行data样式；
 
+#####data参数详细
+
+|参数             |默认值           |详细                                                 |
+|-----------------|----------------|----------------------------------------------------|
+|type            |null            |内置动画样式：<br/>`left` `right` `top` `bottom` `scale` `scaleFrom` `scaleX` `scaleY`;|
+|style            |null           |style样式，如transform: translateX(100px),每个样式必须以;结束；`type`有值此项无效|
+|direction        |vars参数的"enter"         |动画进场或出场样式,以`enter``leave`两值;默认为"enter",有值覆盖vars参数的direction|
+|duration         |vars参数的duration             |动画的时间；有值覆盖vars参数的duration|
+|ease             |vars参数的ease|样式缓动;有值覆盖vars参数的ease|
+|delay            |0               |动画的延时;默认0,依照结构递增以上的`interval`|
+|queueId          |0               |动画的线程，可为多线程|
+
+
 为object时，树状形dom结构，以({})为一档标签；
 如：
 
@@ -146,14 +161,11 @@ children:[//ul
 }</code></pre>
 
 
-#####data参数详细
+#### router使用方法
 
-|参数             |默认值           |详细                                                 |
-|-----------------|----------------|----------------------------------------------------|
-|type            |null            |内置动画样式：<br/>`left` `right` `top` `bottom` `scale` `scaleFrom` `scaleX` `scaleY`;|
-|style            |null           |style样式，如transform: translateX(100px),每个样式必须以;结束；`type`有值此项无效|
-|direction        |vars参数的"enter"         |动画进场或出场样式,以`enter``leave`两值;默认为"enter",有值覆盖vars参数的direction|
-|duration         |vars参数的duration             |动画的时间；有值覆盖vars参数的duration|
-|ease             |vars参数的ease|样式缓动;有值覆盖vars参数的ease|
-|delay            |0               |动画的延时;默认0,依照结构递增以上的`interval`|
-|queueId          |0               |动画的线程，可为多线程|
+<pre><code>
+var key = this.props.location.pathname;
+&lt;EnterAnimation&gt
+{cloneElement(this.props.children || &lt;div/&gt, {key: key})}//
+&lt;/EnterAnimation&gt
+</code></pre>

@@ -209,7 +209,7 @@ a.addTween = function () {
       }
     } else {
       self.queueIdArr[self.__qId] = self.queueIdArr[self.__qId] || 0;
-      self.__delay = self.queueIdArr[self.__qId] || self.__delay;
+      self.__delay = self.queueIdArr[self.__qId] || self.queueIdArr[self.__qId] === 0 ? self.queueIdArr[self.__qId] : self.__delay;
       tweenStr = ' ' + self.__timer + 's ' + self.__ease + ' ' + self.__delay + 's';
       self.fjStyle(mc, self.animNameGroup(self.str), tweenStr);
       if (self.direction === 'leave') {
