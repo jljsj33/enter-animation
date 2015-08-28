@@ -5,6 +5,7 @@
 * 增加参数 `leave` , 出场的参数，为object，里面参数和标签一样，如leave:{type:'top'},`component` EnterAnimation替换的标签名;
 * 修改部分startAnimation的bug;
 * 增加案例router,修改demo
+* 去除标签上的direction，内部执行进与出；
 
 ## 0.3.0 (2015-8-12)
 

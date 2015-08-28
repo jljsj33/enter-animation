@@ -55,7 +55,6 @@ EnterAnimation标签下：
 |eStyle|string|同上，style的样式动画,`type`有值，此项无效， 默认null|
 |duration    |number             |每个动画的时间；默认0.5|
 |delay       |number|整个区块的延时，默认为0；</br>同startAnimation的delay|
-|direction   |string      |动画进场或出场样式,以`enter``leave`两值;默认为"enter",|
 |upend       |boolean|是否倒放,从最后一个dom开始往上播放,默认false|
 |ease             |string|样式缓动;默认 `cubic-bezier(0.165, 0.84, 0.44, 1);`|
 |interval|number|递增延时值，默认0.1|
