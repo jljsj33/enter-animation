@@ -27,7 +27,7 @@ var App = React.createClass({
   clickPage1() {
     this.setState({
       interval: 0.2,
-      type: 'right',
+      type: 'margin-top:100px',
       ease: 'cubic-bezier(0.075, 0.82, 0.165, 1)',
       callback: function (e) {
         console.log('你点了page1,进场用的是你自定的效果', e.direction);

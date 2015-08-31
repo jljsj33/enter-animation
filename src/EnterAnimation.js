@@ -150,7 +150,8 @@ class EnterAnimation extends Component {
       interval: interval,
       upend: upend,
       ease: ease,
-      onComplete: callBack
+      onComplete: callBack,
+      kill:true
     });
   }
 

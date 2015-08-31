@@ -2,6 +2,9 @@
 var Css = require('./Css');
 var Event = require('./animEvent');
 
+
+var cssStr = '';
+
 var startAnim = function (node, vars) {
   //判断浏览，ie10以下不支持；
   if (!(this.getTransition() in document.documentElement.style)) {
@@ -22,10 +25,15 @@ var startAnim = function (node, vars) {
   this.upend = vars.upend || false;
   var hidden = typeof vars.hidden === 'undefined' ? true : vars.hidden;
   this.callback = vars.onComplete;
+  this.kill = vars.kill;
   if (hidden) {
     this.doc.documentElement.style.opacity = 0;
     this.doc.documentElement.style.visibility = 'hidden';
   }
+  cssStr += cssStr !== this.str + ';' ? this.str + ';' : '';
+  setTimeout(function () {
+    cssStr = '';
+  }, 1000);//1秒后清掉样式
   this.init();
 };
 var a = startAnim.prototype = [];
@@ -74,6 +82,14 @@ a.init = function () {
   self.__qId = 0;
 
   self.forTweenData(_mc, self.tweenData, function (mc, data) {
+    if (self.kill) {
+      var s = '';
+      for (var c = 0; c < cssStr.split(';').length; c++) {
+        s += self.animNameGroup(cssStr.split(';')[c]) + ';';
+      }
+      self.removeStyle(mc, 'transition;' + s, true);
+    }
+
     if (data) {
       if (self.upend) {
         //判断分支；
@@ -157,8 +173,9 @@ a.forTweenData = function (mc, data, callFunc, animBool) {
       self.error('data(' + data + ') is error');
     }
   } else {
-    for (var i = 0; i < mc.length; i++) {
-      callFunc(mc[i], null);
+
+    for (var i = 0; i < tm.length; i++) {
+      callFunc(tm[i], null);
     }
   }
 };
@@ -278,5 +295,4 @@ a.animNameGroup = function (name) {
 var startAnimation = function (node, vars) {
   return new startAnim(node, vars);
 };
-
 module.exports = startAnimation;
