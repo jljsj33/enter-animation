@@ -30,7 +30,7 @@ var App = React.createClass({
   clickPage1() {
     this.setState({
       enter: {
-        interval: 0.2,
+        interval: 0.1,
         type: 'margin-top:10px;opacity:0',
         ease: 'cubic-bezier(0.075, 0.82, 0.165, 1)',
         callback: function (e) {
@@ -40,6 +40,7 @@ var App = React.createClass({
       leave: {
         type: 'left',
         upend: true,
+        interval:0.05,
         ease: 'cubic-bezier(0.6, 0.04, 0.98, 0.335)',
         callback: function (e) {
           console.log('你点了page1,出场用的是你自定的效果', e.direction);
@@ -53,7 +54,7 @@ var App = React.createClass({
   clickPage2() {
     this.setState({
       enter: {
-        interval: 0.1,
+        interval: 0.03,
         type: 'top',
         ease: null,
         callback: function (e) {
@@ -116,20 +117,20 @@ var Page1 = React.createClass({
   render() {
     return (
       <div className="demo-router-child" ref='page1'>
-        <h1>Page 1</h1>
+        <h1 data-enter='{"type":"right"}'>Page 1</h1>
         <p data-enter='{"type":"top"}'>
           <Link to="/page2">A link to page 1 should be active</Link>
           我是页面1</p>
-        <p>
+        <p data-enter='{"type":"top"}'>
           <Link to="/page2" data-enter='{"type":"bottom"}'>A link to page 1 should be active</Link>
           我是页面1</p>
-        <p>
+        <p data-enter='{"type":"right"}'>
           <Link to="/page2">A link to page 1 should be active</Link>
           我是页面1</p>
-        <p>
+        <p data-enter='{"type":"left"}'>
           <Link to="/page2">A link to page 1 should be active</Link>
           我是页面1</p>
-        <p data-enter='{"duration":1}'>
+        <p data-enter='{"duration":0.3}'>
           <Link to="/page2">A link to page 1 should be active</Link>
           我是页面1</p>
       </div>
