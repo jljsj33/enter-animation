@@ -51,6 +51,14 @@ EnterAnimation标签下：
 
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
+|enter|object|管理进场数据|
+|leave|object|管理当前元素出场的数据,默认null,null继承上面所有标签的值 |
+|component|string|EnterAnimation替换的标签名|
+
+enter={} or leave={}
+
+|参数             |类型    |详细                                                 |
+|-----------------|-------|----------------------------------------------------|
 |type|string|执行动画的内置参数，默认；`right`  |
 |eStyle|string|同上，style的样式动画,`type`有值，此项无效， 默认null|
 |duration    |number             |每个动画的时间；默认0.5|
@@ -59,17 +67,19 @@ EnterAnimation标签下：
 |ease             |string|样式缓动;默认 `cubic-bezier(0.165, 0.84, 0.44, 1);`|
 |interval|number|递增延时值，默认0.1|
 |callback|function|动画完成后回调|
-|leave|object|除 `close` `component` 继以上全部标签，管理当前元素出场的数据,默认null,null继承上面所有标签的值 |
-|close|boolean|默认 false ,处理是否开启动画|
-|component|string|EnterAnimation替换的标签名|
-
 
 子dom标签下：
 
-
+一级标签key:
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
-|enter-data       |null            |如下data值;|
+|key|string|必需，控制进出场；|
+
+二级标签或再下级标签:
+|参数             |类型    |详细                                                 |
+|-----------------|-------|----------------------------------------------------|
+|enter-data       |object            |如下data值;|
+|data-enter       |JSON.string            |因router下enter-data无效，所以新增dom标签，router时可用，如下data值;|
 
 注：如子节点有`enter-data`值，则只执行有`enter-data`的节点的动画;
 如果标签上的`enter-data`没`type`||`style`，则执行`EnterAnimation`标签上的`type`||`style`;

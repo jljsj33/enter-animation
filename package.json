@@ -39,7 +39,8 @@
     "rc-server": "3.x",
     "rc-tools": "3.x",
     "react-router": "~1.0.0-beta3",
-    "react": "^0.13.x"
+    "react": "^0.13.x",
+    "object-assign": "~4.0.1"
   },
   "precommit": [
     "precommit"

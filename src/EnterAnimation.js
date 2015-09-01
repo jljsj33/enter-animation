@@ -1,254 +1,156 @@
 'use strict';
-import React, {Component} from 'react';
+import React, {Component, createElement} from 'react';
+//import assign from 'object-assign';
+import EnterAnimationChild from './EnterAnimationChild';
+import {toArrayChildren} from './EnterUtils';
 let startAnimation = require('./StartAnimation');
-const {findDOMNode, createElement} = React;
 
 
 class EnterAnimation extends Component {
   constructor(props) {
     super(...arguments);
-    this.state = {};
-    this.direction = null;
+
+    this.keysToEnter = [];
+    this.keysToLeave = [];
+    this.keysStatic = [];
+
+    //第一次进入，默认进场；
+    var elementArr = toArrayChildren(this.props.children);
+
+    elementArr.map((m)=> {
+      if (!m) {
+        return;
+      }
+      this.keysToEnter.push(m.key);
+    });
+
+    this.state = {
+      childWapArr: elementArr
+    };
   }
 
-  setData(props, wap) {
-    this.dataArr = [];
 
+  setData(props, wap) {
     this.setState({
-      type: props.type,
-      style: props.eStyle,
-      duration: props.duration,
-      delay: props.delay,
-      direction: props.direction,
-      ease: props.ease,
-      interval: props.interval,
-      upend: props.upend,
-      onComplete: props.callback,
+      enter: props.enter,
       leave: props.leave,
-      close: props.close,
       childWapArr: wap
     });
 
   }
 
-  extend(des, src) {
-    var i, len;
-    if (src instanceof Array) {
-      for (i = 0, len = src.length; i < len; i++) {
-        this.extend(des, src[i]);
-      }
-      return des;
-    }
-    for (i in src) {
-      des[i] = src[i];
-    }
-    return des;
-  }
-
-  /*遍历children里的dataEnter*/
-  callChildrenDataEnter(props, data, arr, i) {
-    var self = this;
-    if (data) {
-      if (!data.type && !data.style) {
-        if (typeof data === 'boolean') {
-          data = {};
-        }
-        data.type = self.state.type || 'right';
-      }
-
-      arr.push(data);
-      if (data.style || data.type) {
-        self.dataArr.cBool = true;
-      }
-    } else {
-      arr[i] = {};
-    }
-    if (props && typeof props.children === 'object') {
-      arr[i].children = [];
-      self.componentChildrenDataEnter(props.children, arr[i].children);
-    }
-  }
-
-  componentChildrenDataEnter(children, arr) {
-    var self = this, props, _enter_data;
-    if (typeof children === 'object' && children.length) {
-      children.map(function (re, i) {
-        props = re.props;
-        if (props) {
-          _enter_data = props['enter-data'];
-          self.callChildrenDataEnter(props, _enter_data, arr, i);
-        } else {
-          arr[i] = {};
-        }
-      });
-    } else if (children) {
-      props = children.props;
-      _enter_data = props['enter-data'];
-      self.callChildrenDataEnter(props, _enter_data, arr, 0);
-    }
-  }
-
-  callEnterAnimation(dom, direction, wap) {
-    if (typeof this.props.children === 'string') {
-      return console.warn('Warning: Not perform EnterAnimation, Elements is String(' + this.props.children + ').');
-    }
-    var state = this.state,
-      children = this.props.children instanceof Array ? this.props.children : this.props.children.props.children;
-    if (typeof children === 'string') {
-      return console.warn('Warning: Not perform EnterAnimation, Elements is String(' + children + ').');
-    }
-    this.componentChildrenDataEnter(children, this.dataArr);
-    var transition = this.dataArr;
-    if (!this.dataArr.cBool) {
-      transition = state.type || state.eStyle || 'right';
-      if (direction === 'leave' && state.leave) {
-        transition = state.leave.type || state.leave.eStyle || transition;
-      }
-    }
-    var callFunc = ()=> {
-      state.onComplete.call(this, {ReactElement: wap, target: dom, direction: direction});
-    };
-    var callBack = typeof state.onComplete === 'function' ? callFunc : null,
-      upend = state.upend,
-      duration = state.duration,
-      delay = state.delay,
-      interval = state.interval,
-      ease = state.ease;
-    if (direction === 'leave') {
-      callBack = ()=> {
-        //动画后;
-        if (!this.direction) {
-          this.prevChildDom = null;
-          this.prevChildWap = null;
-          this.setState({
-            childWapArr: [this.nextChildWap]//state.childWapArr.splice(0, 1)
-          });
-        }
-
-
-        if (state.leave && typeof state.leave.callback === 'function') {
-          state.leave.callback.call(this, {ReactElement: wap, target: dom, direction: direction});
-        } else if (typeof state.onComplete === 'function') {
-          state.onComplete.call(this, {ReactElement: wap, target: dom, direction: direction});
-        }
-      };
-      if (state.leave) {
-        upend = state.leave.upend || state.upend;
-        duration = state.leave.duration || state.duration;
-        delay = state.leave.delay || state.delay;
-        interval = state.leave.interval || state.interval;
-        ease = state.leave.ease || state.ease;
-      }
-    }
-
-
-    EnterAnimation.to(dom, {
-      duration: duration,
-      data: transition,
-      delay: delay,
-      direction: direction,
-      interval: interval,
-      upend: upend,
-      ease: ease,
-      onComplete: callBack,
-      kill:true
-    });
-  }
-
-  componentWillMount() {
-    this.nextChildDom = null;
-    this.prevChildDom = null;
-    this.nextChildWap = this.props.children;
-    this.prevChildWap = null;
-    this.setData(this.props, this.nextChildWap);
-  }
-
   componentDidMount() {
-    var domBox = findDOMNode(this);
-    this.nextChildDom = domBox.children[0];
-    domBox.style.height = this.nextChildDom.offsetHeight + 'px';
-    //刚进入时执行进场动画
-    this.callEnterAnimation(this.nextChildDom, 'enter');
+    ////获取child下的高度；
+    //let domBox = findDOMNode(this);
+    //let h = 0;
+    //for (var i = 0; i < domBox.children.length; i++) {
+    //  var m = domBox.children[i];
+    //  if (m.offsetHeight > h) {
+    //    h = m.offsetHeight
+    //  }
+    //}
+    //domBox.style.height = h + 'px';
+
+    //把进场后的key放里static里；
+    this.keysStatic = this.keysToEnter;
+    this.keysToEnter = [];
 
   }
 
   componentDidUpdate() {
-
-    if (!this.props.close) {
-      //获取当然的dom
-      var dom = findDOMNode(this),
-        len = dom.children.length;
-
-      if (len > 1) {
-        this.nextChildDom = dom.children[1];
-        this.prevChildDom = dom.children[0];
-        //给dom高；
-        dom.style.height = this.nextChildDom.offsetHeight + 'px';
-
-        //给position:absolute;
-        this.prevChildDom.style.position = 'absolute';
-        //this.nextChildDom.style.proition = 'absolute';
-      } else {
-        this.nextChildDom = dom.children[0];
-      }
-
-      //处理遍历数理;
-      if (this.prevChildDom) {
-        this.callEnterAnimation(this.prevChildDom, 'leave', this.prevChildWap);
-      }
-
-      if (this.nextChildDom && (len > 1 || this.direction)) {
-        this.callEnterAnimation(this.nextChildDom, this.direction || 'enter', this.nextChildWap);
-      }
-    }
+    //更新后删除出场，把进场放入停止；
+    this.keysToLeave = [];
+    this.keysToEnter.map((m)=> {
+      this.keysStatic.push(m);
+    });
+    this.keysToEnter = [];
   }
 
+
   componentWillReceiveProps(nextProps) {
-    //if (!nextProps.children.key) {
-    //  throw new Error('key not null');
-    //}
-    var childWapArr = this.nextChildWap;
-    if (!nextProps.close) {
-      if (nextProps.children.key && this.nextChildWap.key) {
-        if (this.nextChildWap.key !== nextProps.children.key) {
-          //取出刚才已经进场的child变为要出场；
-          this.prevChildWap = this.nextChildWap;
-
-          //获取当前要进场的child;
-          this.nextChildWap = nextProps.children;
-
-          //插入两个child，进出场切换
-          childWapArr = [this.prevChildWap, this.nextChildWap];
-        }
-        this.direction = null;
-      } else {
-        //没有key，单个dom处理：
-        this.nextChildWap = nextProps.children;
-        childWapArr = this.nextChildWap;
-        this.direction = this.direction === 'leave' ? 'enter' : 'leave';
-      }
+    let childrenArr = nextProps.children;
+    let childWapArr = this.state.childWapArr;
+    if (!(childrenArr instanceof Array)) {
+      childrenArr = [childrenArr];
     }
-
+    childrenArr.map((m)=> {
+      if (!m || !m.key) {
+        return; //console.warn('Warning: key is null');
+        //throw new Error('key is null');
+      }
+      //把key放进进场;
+      if (this.keysStatic.indexOf(m.key) === -1) {
+        this.keysToEnter.push(m.key);
+        childWapArr.push(m);
+      }
+      //把当前没有放入出场;
+      this.keysStatic.map((cm)=> {
+        //console.log(m.key, cm);
+        if (m.key === cm) {
+          this.keysToLeave.push(cm);
+          this.keysStatic.splice(this.keysStatic.indexOf(cm), 1);
+        }
+      });
+    });
+    var tArr = this.keysToLeave;
+    this.keysToLeave = this.keysStatic;
+    this.keysStatic = tArr;
 
     this.setData(nextProps, childWapArr);
     return false;
   }
 
+  kill(wap) {
+    //删除出场wap;
+    let childWapArr = this.state.childWapArr;
+    childWapArr.map((m)=> {
+      if (!m || !m.key) {
+        return;
+      }
+      if (m.key === wap.key) {
+        childWapArr.splice(childWapArr.indexOf(wap), 1);
+      }
+    });
+    this.setData(this.props, childWapArr);
+  }
+
+  start(h) {
+    //findDOMNode(this).style.height = h + 'px';
+    //获取Enter的元素里的高。。
+  }
+
   render() {
     var props = this.props;
-    var childArr = this.state.childWapArr;
+
+    var childrenToRender = this.state.childWapArr.map((m)=> {
+      if (!m || !m.key) {
+        return null;
+        //throw new Error('key is null');
+      }
+      let direction = this.keysToEnter.indexOf(m.key) >= 0 ? 'enter' : this.keysToLeave.indexOf(m.key) >= 0 ? 'leave' : 'static';
+      return <EnterAnimationChild
+        key={m.key}
+        ref={m.key}
+        direction={direction}
+        enter={props.enter}
+        leave={props.leave}
+        callback={this.kill.bind(this)}
+        onStart={this.start.bind(this)}
+      >
+      {m}
+      </EnterAnimationChild>;
+    });
     return createElement(
       props.component,
       props,
-      childArr
+      childrenToRender
     );
   }
 }
 
 EnterAnimation.to = startAnimation;
 EnterAnimation.propTypes = {
-  component: React.PropTypes.string,
-  style: React.PropTypes.object
+  component: React.PropTypes.string
 };
 EnterAnimation.defaultProps = {
   component: 'div'

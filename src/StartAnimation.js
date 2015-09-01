@@ -89,7 +89,6 @@ a.init = function () {
       }
       self.removeStyle(mc, 'transition;' + s, true);
     }
-
     if (data) {
       if (self.upend) {
         //判断分支；
@@ -107,7 +106,7 @@ a.init = function () {
 
       if (_style) {
         if (direction !== 'leave') {
-          mc.style.opacity = '0';
+          //console.log(_style)
           self.addStyle(mc, self.animNameGroup(_style));
         } else {
           self.removeStyle(mc, self.animNameGroup(_style));
@@ -126,7 +125,9 @@ a.init = function () {
       } else {
         self.removeStyle(mc, self.animNameGroup(self.str));
       }
+
     }
+
     self.enterLength = self.enterLength ? self.enterLength + 1 : 1;
   });
   setTimeout(function () {
@@ -173,7 +174,6 @@ a.forTweenData = function (mc, data, callFunc, animBool) {
       self.error('data(' + data + ') is error');
     }
   } else {
-
     for (var i = 0; i < tm.length; i++) {
       callFunc(tm[i], null);
     }
