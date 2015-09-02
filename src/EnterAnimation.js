@@ -83,9 +83,6 @@ class EnterAnimation extends Component {
         return m;
       }
       let direction = this.keysToEnter.indexOf(m.key) >= 0 ? 'enter' : this.keysToLeave.indexOf(m.key) >= 0 ? 'leave' : null;
-      if (!direction) {
-        return m;
-      }
       return <EnterAnimationChild
         key={m.key}
         ref={m.key}
@@ -93,8 +90,7 @@ class EnterAnimation extends Component {
         enter={props.enter}
         leave={props.leave}
         callback={this.kill.bind(this)}
-        onStart={this.start.bind(this)}
-      >
+        onStart={this.start.bind(this)}>
       {m}
       </EnterAnimationChild>;
     });

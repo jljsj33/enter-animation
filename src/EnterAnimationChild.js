@@ -212,7 +212,7 @@ class EnterAnimationChild extends Component {
   }
 
   render() {
-    return this.state.children;
+    return this.props.children;
   }
 }
 export default EnterAnimationChild;
