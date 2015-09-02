@@ -34,6 +34,8 @@ var startAnim = function (node, vars) {
   setTimeout(function () {
     cssStr = '';
   }, 1000);//1秒后清掉样式
+
+
   this.init();
 };
 var a = startAnim.prototype = [];

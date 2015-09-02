@@ -189,7 +189,7 @@ class EnterAnimationChild extends Component {
   componentDidUpdate() {
     var dom = findDOMNode(this);
     var wap = this.props.children;
-    if (this.props.direction !== 'static') {
+    if (this.props.direction) {
       this.props.onStart();
       this.direction = this.props.direction;
       this.callEnterAnimation(dom, wap);
@@ -200,18 +200,18 @@ class EnterAnimationChild extends Component {
     //要对新插入元素做动画;
     //let wap = nextProps.children;
     //let dom = findDOMNode(this);
-    if (nextProps.direction !== 'static') {
+    if (nextProps.direction) {
       this.setDomKey();
       this.setState({
         enter: nextProps.enter,
         leave: nextProps.leave
       });
+      this.direction = nextProps.direction;
     }
-    this.direction = nextProps.direction;
+
   }
 
   render() {
-    //console.log(this.props.children)
     return this.state.children;
   }
 }

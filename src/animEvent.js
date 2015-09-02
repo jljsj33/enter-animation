@@ -89,9 +89,10 @@ module.exports = {
       mc.attachEvent(animationEvent, _event);
     }
   },
-  setTrnsitionEnd(mc, callback) {
+  setTrnsitionEnd(mc, callback, rem) {
     var transitionEvent = this.whichTransitionEvent();
     var self = this;
+
 
     function _event(e) {
       if (document.addEventListener) {
@@ -136,4 +137,5 @@ module.exports = {
       mc.attachEvent(transitionEvent, _event);
     }
   }
+
 };

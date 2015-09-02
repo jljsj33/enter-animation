@@ -2,7 +2,7 @@
 import React, {Component, createElement} from 'react';
 //import assign from 'object-assign';
 import EnterAnimationChild from './EnterAnimationChild';
-import {toArrayChildren} from './EnterUtils';
+import {toArrayChildren, deleteRepeatKeyArr, contrastArr} from './EnterUtils';
 let startAnimation = require('./StartAnimation');
 
 
@@ -12,23 +12,22 @@ class EnterAnimation extends Component {
 
     this.keysToEnter = [];
     this.keysToLeave = [];
-    this.keysStatic = [];
+
 
     //第一次进入，默认进场；
     var elementArr = toArrayChildren(this.props.children);
 
     elementArr.map((m)=> {
-      if (!m) {
+      if (!m || !m.key) {
         return;
       }
       this.keysToEnter.push(m.key);
     });
-
+    this.childWapArr = deleteRepeatKeyArr(elementArr);
     this.state = {
-      childWapArr: elementArr
+      childWapArr: this.childWapArr
     };
   }
-
 
   setData(props, wap) {
     this.setState({
@@ -39,79 +38,37 @@ class EnterAnimation extends Component {
 
   }
 
-  componentDidMount() {
-    ////获取child下的高度；
-    //let domBox = findDOMNode(this);
-    //let h = 0;
-    //for (var i = 0; i < domBox.children.length; i++) {
-    //  var m = domBox.children[i];
-    //  if (m.offsetHeight > h) {
-    //    h = m.offsetHeight
-    //  }
-    //}
-    //domBox.style.height = h + 'px';
-
-    //把进场后的key放里static里；
-    this.keysStatic = this.keysToEnter;
-    this.keysToEnter = [];
-
-  }
-
   componentDidUpdate() {
-    //更新后删除出场，把进场放入停止；
+    this.childWapArr = deleteRepeatKeyArr(toArrayChildren(this.props.children));
     this.keysToLeave = [];
-    this.keysToEnter.map((m)=> {
-      this.keysStatic.push(m);
-    });
     this.keysToEnter = [];
   }
 
 
   componentWillReceiveProps(nextProps) {
-    let childrenArr = nextProps.children;
-    let childWapArr = this.state.childWapArr;
-    if (!(childrenArr instanceof Array)) {
-      childrenArr = [childrenArr];
-    }
-    childrenArr.map((m)=> {
-      if (!m || !m.key) {
-        return; //console.warn('Warning: key is null');
-        //throw new Error('key is null');
-      }
-      //把key放进进场;
-      if (this.keysStatic.indexOf(m.key) === -1) {
-        this.keysToEnter.push(m.key);
-        childWapArr.push(m);
-      }
-      //把当前没有放入出场;
-      this.keysStatic.map((cm)=> {
-        //console.log(m.key, cm);
-        if (m.key === cm) {
-          this.keysToLeave.push(cm);
-          this.keysStatic.splice(this.keysStatic.indexOf(cm), 1);
-        }
-      });
-    });
-    var tArr = this.keysToLeave;
-    this.keysToLeave = this.keysStatic;
-    this.keysStatic = tArr;
+    let newChildrenArr = deleteRepeatKeyArr(toArrayChildren(nextProps.children));
+    let currentChildWapArr = this.childWapArr;
 
-    this.setData(nextProps, childWapArr);
+    let leaveChildArr = [];
+
+    this.keysToLeave = [];
+    this.keysToEnter = [];
+    //判断两Arr里的不同；
+    contrastArr(currentChildWapArr, newChildrenArr, (cm)=> {
+      this.keysToEnter.push(cm.key);
+    });
+
+    contrastArr(newChildrenArr, currentChildWapArr, (cm)=> {
+      leaveChildArr.push(cm);
+      this.keysToLeave.push(cm.key);
+    });
+    newChildrenArr = newChildrenArr.concat(leaveChildArr);
+    this.setData(nextProps, newChildrenArr);
     return false;
   }
 
-  kill(wap) {
-    //删除出场wap;
-    let childWapArr = this.state.childWapArr;
-    childWapArr.map((m)=> {
-      if (!m || !m.key) {
-        return;
-      }
-      if (m.key === wap.key) {
-        childWapArr.splice(childWapArr.indexOf(wap), 1);
-      }
-    });
-    this.setData(this.props, childWapArr);
+  kill() {
+    this.setData(this.props, this.childWapArr);
   }
 
   start(h) {
@@ -121,13 +78,14 @@ class EnterAnimation extends Component {
 
   render() {
     var props = this.props;
-
     var childrenToRender = this.state.childWapArr.map((m)=> {
       if (!m || !m.key) {
-        return null;
-        //throw new Error('key is null');
+        return m;
       }
-      let direction = this.keysToEnter.indexOf(m.key) >= 0 ? 'enter' : this.keysToLeave.indexOf(m.key) >= 0 ? 'leave' : 'static';
+      let direction = this.keysToEnter.indexOf(m.key) >= 0 ? 'enter' : this.keysToLeave.indexOf(m.key) >= 0 ? 'leave' : null;
+      if (!direction) {
+        return m;
+      }
       return <EnterAnimationChild
         key={m.key}
         ref={m.key}
@@ -140,6 +98,8 @@ class EnterAnimation extends Component {
       {m}
       </EnterAnimationChild>;
     });
+    //去重复和null
+    childrenToRender = deleteRepeatKeyArr(childrenToRender);
     return createElement(
       props.component,
       props,

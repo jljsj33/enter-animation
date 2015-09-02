@@ -15,7 +15,7 @@ var App = React.createClass({
         interval: 0.1,
         delay: 0,
         callback: function (e) {
-          console.log('我进场了', e.ReactElement.key)
+          //console.log('我进场了', e.ReactElement.key)
         },
         ease: null
       },
@@ -34,7 +34,7 @@ var App = React.createClass({
         type: 'margin-top:10px;opacity:0',
         ease: 'cubic-bezier(0.075, 0.82, 0.165, 1)',
         callback: function (e) {
-          console.log('你点了page1,进场用的是你自定的效果', e.direction);
+          //console.log('你点了page1,进场用的是你自定的效果', e.direction);
         }
       },
       leave: {
@@ -43,8 +43,8 @@ var App = React.createClass({
         interval:0.05,
         ease: 'cubic-bezier(0.6, 0.04, 0.98, 0.335)',
         callback: function (e) {
-          console.log('你点了page1,出场用的是你自定的效果', e.direction);
-          console.log('如果你在用了的参数，在出场没有设定，那么出场没设的将用回进场那设定的参数，如upend，从最后个开始')
+          //console.log('你点了page1,出场用的是你自定的效果', e.direction);
+          //console.log('如果你在用了的参数，在出场没有设定，那么出场没设的将用回进场那设定的参数，如upend，从最后个开始')
         }
       },
       addElement: null,
@@ -58,7 +58,7 @@ var App = React.createClass({
         type: 'top',
         ease: null,
         callback: function (e) {
-          console.log('你点了page2,leave为null,出场进场同效果', e.direction)
+          //console.log('你点了page2,leave为null,出场进场同效果', e.direction)
         }
       },
       leave: null,
