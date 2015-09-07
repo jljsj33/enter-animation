@@ -106,7 +106,6 @@ var App = React.createClass({
           </div>
           {cloneElement(this.props.children || <div/>, {key: key})}
           {this.state.addElement}
-
         </EnterAnimation>
       </div>
     );

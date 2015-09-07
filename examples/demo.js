@@ -108,6 +108,41 @@ var Demo = React.createClass({
           <div enter-data>示例1示例1</div>
         </div> : null}
         </EnterAnimation>
+
+
+        <h3 style={{"textAlign": "center"}} >示例6（无key，无动画）</h3>
+        <EnterAnimation  type={"left"} >
+          <div style={{margin: "auto", width: 200}}>
+            <div>示例2示例2</div>
+            <div enter-data>示例2示例2</div>
+            <div >
+              <div>
+                <div enter-data>示例2示例2</div>
+              </div>
+            </div>
+            <div>示例2示例2</div>
+          </div>
+          <div style={{margin: "auto", width: 200}}>
+            <div>示例2示例2</div>
+            <div enter-data>示例2示例2</div>
+            <div >
+              <div>
+                <div enter-data>示例2示例2</div>
+              </div>
+            </div>
+            <div>示例2示例2</div>
+          </div>
+          <div  style={{margin: "auto", width: 200}}>
+            <div>示例2示例2</div>
+            <div enter-data>示例2示例2</div>
+            <div >
+              <div>
+                <div enter-data>示例2示例2</div>
+              </div>
+            </div>
+            <div>示例2示例2</div>
+          </div>
+        </EnterAnimation>
       </div>
 
     )

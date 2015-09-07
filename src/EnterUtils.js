@@ -43,9 +43,15 @@ const utils = {
     var result = [], hash = {};
     for (var i = 0; i < arr.length; i++) {
       var elem = arr[i];
-      if (elem && !hash[elem.key]) {
-        result.push(elem);
-        hash[elem.key] = true;
+      if (elem) {
+        if (elem.key) {
+          if (elem && !hash[elem.key]) {
+            result.push(elem);
+            hash[elem.key] = true;
+          }
+        } else {
+          result.push(elem);
+        }
       }
     }
     return result;
