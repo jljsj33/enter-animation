@@ -119,17 +119,17 @@ const utils = {
     if (leave.style || enter.style) {
       leave.style = leave.style || enter.style;
     }
-    if (leave.duration || enter.duration) {
-      leave.duration = leave.duration || enter.duration;
+    if (typeof leave.duration === 'number' || enter.duration) {
+      leave.duration = typeof leave.duration === 'number' ? leave.duration : enter.duration;
     }
     if (leave.ease || enter.ease) {
       leave.ease = leave.ease || enter.ease;
     }
-    if (leave.delay || enter.delay) {
-      leave.delay = leave.delay || enter.delay;
+    if (typeof leave.delay === 'number' || enter.delay) {
+      leave.delay = typeof leave.delay === 'number' ? leave.delay : enter.delay;
     }
-    if (leave.queueId || enter.queueId) {
-      leave.queueId = leave.queueId || enter.queueId;
+    if (typeof leave.queueId === 'number' || enter.queueId) {
+      leave.queueId = typeof leave.queueId === 'number' ? leave.queueId : enter.queueId;
     }
     return leave;
   }

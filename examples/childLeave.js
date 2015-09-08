@@ -31,7 +31,7 @@ var Demo = React.createClass({
         <EnterAnimation  enter={this.state.enter} style={{margin: "auto", width: 200}}>
           {this.state.cbool ? <div key='a'>
             <div>示例1示例1</div>
-            <div enter-data={{delay:.5}} leave-data={{type:'left'}}>示例1示例1</div>
+            <div enter-data={{delay:1.5}} leave-data={{type:'left'}} leave-data={{delay:0}}>示例1示例1</div>
             <div style={{'backgroundColor': 'red'}} enter-data>
               <div>
                 <div>

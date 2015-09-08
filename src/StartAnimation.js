@@ -104,7 +104,7 @@ a.init = function () {
       } else {
         data = data.enter;
       }
-      if (data.type || data.style || data.duration || data.ease || data.delay || data.queueId) {
+      if (data.type || data.style || typeof data.duration === 'number' || data.ease || typeof data.delay === 'number' || typeof data.queueId === 'number') {
         if (self.upend) {
           //判断分支；
           self.__qId = data.queueId || 0;
@@ -158,8 +158,8 @@ a.leaveHideNull = function (mc, data) {
     for (var i = 0; i < data.length; i++) {
       var _d = data[i], _m = tm[i];
       var e_d = _d.enter, l_d = _d.leave,
-        e_data = e_d.type || e_d.style || e_d.duration || e_d.ease || e_d.delay || e_d.queueId,
-        l_data = l_d.type || l_d.style || l_d.duration || l_d.ease || l_d.delay || l_d.queueId;
+        e_data = e_d.type || e_d.style || typeof e_d.duration === 'number' || e_d.ease || typeof e_d.delay === 'number' || typeof e_d.queueId === 'number',
+        l_data = l_d.type || l_d.style || typeof l_d.duration === 'number' || l_d.ease || typeof l_d.delay === 'number' || typeof l_d.queueId === 'number';
       var direction = l_d.direction || self.direction;
       if (!e_data && !l_data && !_d.children && direction === 'leave') {
         self.addStyle(mc[i], 'opacity:0');
@@ -237,7 +237,7 @@ a.addTween = function () {
       } else {
         data = data.enter;
       }
-      if (data.type || data.style || data.duration || data.ease || data.delay || data.queueId) {
+      if (data.type || data.style || typeof data.duration === 'number' || data.ease || typeof data.delay === 'number' || typeof data.queueId === 'number') {
         //判断分支；
         self.__qId = data.queueId || 0;
         //判断延时；
@@ -250,7 +250,7 @@ a.addTween = function () {
         }
 
         var _ease = data.ease || self.__ease,
-          _timer = data.duration || self.__timer;
+          _timer = typeof data.duration === 'number' ? data.duration : self.__timer;
         tweenStr = ' ' + _timer + 's ' + _ease + ' ' + self.__delay + 's';
         _style = data.type || data.style;
         if (_style) {

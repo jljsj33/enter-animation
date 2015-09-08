@@ -117,9 +117,9 @@ class EnterAnimationChild extends Component {
       //大标签上的继承
       if (leave) {
         upend = leave.upend || enter.upend;
-        duration = leave.duration || enter.duration;
-        delay = leave.delay || enter.delay;
-        interval = leave.interval || enter.interval;
+        duration = typeof leave.duration === 'number' ? leave.duration : enter.duration;
+        delay = typeof leave.delay === 'number' ? leave.delay : enter.delay;
+        interval = typeof leave.interval === 'number' ? leave.interval : enter.interval;
         ease = leave.ease || enter.ease;
       }
     }
