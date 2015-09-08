@@ -81,7 +81,7 @@ var Demo = React.createClass({
         </EnterAnimation>
 
 
-        <h3 style={{"textAlign": "center"}}  onClick={this.onClick}>示例5（点我切换进不知出场）</h3>
+        <h3 style={{"textAlign": "center"}}  onClick={this.onClick}>示例5（点我切换进出场）</h3>
 
         <EnterAnimation style={{
           margin: "auto",
@@ -143,7 +143,7 @@ var Demo = React.createClass({
         </EnterAnimation>
 
 
-        <h3 style={{"textAlign": "center"}}  onClick={this.onClick}>示例5（点我切换进不知出场）</h3>
+        <h3 style={{"textAlign": "center"}}  onClick={this.onClick}>示例5（点我切换进出场）</h3>
 
         <EnterAnimation style={{
           margin: "auto",

@@ -119,9 +119,6 @@ const utils = {
     if (leave.style || enter.style) {
       leave.style = leave.style || enter.style;
     }
-    if (leave.direction || enter.direction) {
-      leave.direction = leave.direction || enter.direction;
-    }
     if (leave.duration || enter.duration) {
       leave.duration = leave.duration || enter.duration;
     }
@@ -131,8 +128,8 @@ const utils = {
     if (leave.delay || enter.delay) {
       leave.delay = leave.delay || enter.delay;
     }
-    if (leave.queueld || enter.queueld) {
-      leave.queueld = leave.queueld || enter.queueld;
+    if (leave.queueId || enter.queueId) {
+      leave.queueId = leave.queueId || enter.queueId;
     }
     return leave;
   }

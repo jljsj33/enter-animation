@@ -155,6 +155,7 @@ class EnterAnimationChild extends Component {
     }
     //dom的data-enter或reactElement的props的enter-data;
     this.componentChildrenDataEnter(children, domChildren, this.dataArr);
+    //console.log(this.dataArr)
   }
 
   componentDidMount() {

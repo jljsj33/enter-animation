@@ -82,6 +82,8 @@ enter={} or leave={}
 |-----------------|-------|----------------------------------------------------|
 |enter-data       |object            |如下data值;|
 |data-enter       |JSON.string            |因router下enter-data无效，所以新增dom标签，router时可用，如下data值;|
+|leave-data       |object |如上,如果为null，则继承enter-data和data-enter的所有参数|
+|data-leave       |JSON String|如上|
 
 注：如子节点有`enter-data`值，则只执行有`enter-data`的节点的动画;
 如果标签上的`enter-data`没`type`||`style`，则执行`EnterAnimation`标签上的`type`||`style`;
@@ -101,32 +103,42 @@ EnterAnimation.to(node,vars);</code></pre>
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
 |node             |string|要执行动画的dom（class,id）;必要;  |
-|vars|object|更改0.1.*系列，把参数移至 vars |
+|vars|object|动画参数 |
 
 #### vars参数
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
-|duration    |0.5             |动画的时间；|
+|direction        |"enter"         |动画进场或出场样式,以`enter``leave`两值;默认为"enter"|
 |data             |string / object|执行动画的参数，有object和string两种类型，下面详解；默认为null|
-|delay|number|整个区块的延时，默认为0；</br>同startAnimation的delay|
-|direction   |"enter"         |动画进场或出场样式,以`enter``leave`两值;默认为"enter"|
+|duration         |0.5             |动画的时间；|
+|delay            |number     |整个区块的延时，默认为0；</br>同startAnimation的delay|
 |ease             |cubic-bezier(0.165, 0.84, 0.44, 1);|样式缓动;|
 |interval         |递增延时值。默认0.1|
 |hideen           |boolean|在开始动画前隐藏掉html,默认为true;                     |
-|upend       |boolean|是否倒放,从最后一个dom开始往上播放,默认false|
-|onComplete    |function |动画完成后回调|
+|upend            |boolean|是否倒放,从最后一个dom开始往上播放,默认false|
+|onComplete       |function |动画完成后回调|
 
 ####data参数（string|object）;
 ##### data={}
-|参数             |默认值           |详细                                                 |
+|参数             |类型           |详细                                                 |
 |-----------------|----------------|----------------------------------------------------|
+|enter|object|进场的样式|
+|leave|object|出场样式|
+|direction        |string |动画进场或出场样式,以`enter``leave`两值;默认为"enter",有值覆盖vars参数的direction|
+
+
+#### enter={} or leave={}
+
+|参数             |类型    |详细                                                 |
+|-----------------|-------|----------------------------------------------------|
 |type            |null            |内置动画样式：<br/>`left` `right` `top` `bottom` `scale` `scaleFrom` `scaleX` `scaleY`;|
 |style            |null           |style样式，如transform: translateX(100px),每个样式必须以;结束；`type`有值此项无效|
-|direction        |vars参数的"enter" |动画进场或出场样式,以`enter``leave`两值;默认为"enter",有值覆盖vars参数的direction|
 |duration         |vars参数的duration             |动画的时间；有值覆盖vars参数的duration|
 |ease             |vars参数的ease|样式缓动;有值覆盖vars参数的ease|
 |delay            |0               |动画的延时;默认0,依照结构递增以上的`interval`|
 |queueId          |0               |动画的线程，可为多线程|
+
+
 
 支持style直接添加动画；
 
