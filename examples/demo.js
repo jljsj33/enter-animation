@@ -20,7 +20,7 @@ var Demo = React.createClass({
 
       <div>
         <h3 style={{"textAlign": "center"}}>示例1（子节点enter-data数据控制进场）</h3>
-        <EnterAnimation  duration={2} ease='cubic-bezier(0.68, -0.55, 0.265, 1.55)'>
+        <EnterAnimation>
           <div key='1' style={{margin: "auto", width: 200}}>
             <div enter-data={{
               direction: 'leave',
@@ -39,7 +39,7 @@ var Demo = React.createClass({
         </EnterAnimation>
 
         <h3 style={{"textAlign": "center"}} >示例2（EnterAnimation里的参数控制默认，只需加enter-data就可执行默认动画）</h3>
-        <EnterAnimation  type={"left"} >
+        <EnterAnimation >
           <div key='2' style={{margin: "auto", width: 200}}>
             <div>示例2示例2</div>
             <div enter-data>示例2示例2</div>
@@ -54,7 +54,7 @@ var Demo = React.createClass({
 
 
         <h3 style={{"textAlign": "center"}} >示例3（没有标签或只有一个时而且子级为string的警告,没有动画）</h3>
-        <EnterAnimation  type={"bottom"} delay={2}  className={'abc'} >
+        <EnterAnimation  className={'abc'} >
           <div key='3' style={{margin: "auto", width: 200}} className={'bbb'}>示例3示例3</div>
         </EnterAnimation>
 
@@ -63,8 +63,6 @@ var Demo = React.createClass({
         <EnterAnimation style={{
           margin: "auto",
           width: 200
-        }} duration={0.5} upend={this.state.bool} callback={function () {
-          console.log(this)
         }}>
           <div key='4'>
             <div enter-data={{delay: 1}}>示例1示例1</div>
@@ -111,7 +109,7 @@ var Demo = React.createClass({
 
 
         <h3 style={{"textAlign": "center"}} >示例6（无key，无动画）</h3>
-        <EnterAnimation  type={"left"} >
+        <EnterAnimation >
           <div style={{margin: "auto", width: 200}}>
             <div>示例2示例2</div>
             <div enter-data>示例2示例2</div>
@@ -143,7 +141,36 @@ var Demo = React.createClass({
             <div>示例2示例2</div>
           </div>
         </EnterAnimation>
+
+
+        <h3 style={{"textAlign": "center"}}  onClick={this.onClick}>示例5（点我切换进不知出场）</h3>
+
+        <EnterAnimation style={{
+          margin: "auto",
+          width: 200
+        }} enter={{
+          duration: .5, interval: 0.1, callback: ()=> {
+            console.log(this)
+          }
+        }} leave={{type:'top',callback:()=>{console.log('leave')}}}>
+        {this.state.cbool ? <div key='a'>
+          <div>示例1示例1</div>
+          <div>示例1示例1</div>
+          <div style={{'backgroundColor': 'red'}}>
+            <div>
+              <div>
+                <div>
+                  <div >示例1示例1</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>示例1示例1</div>
+        </div> : null}
+        </EnterAnimation>
       </div>
+
+
 
     )
   }

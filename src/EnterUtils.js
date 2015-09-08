@@ -78,7 +78,63 @@ const utils = {
         }
       });
     }
+  },
+  isPropsPushData: function (data, tagData, enterDataType) {
+    let _data = {};
+    if (data || tagData) {
+      data = data || {};
+      if (typeof data === 'boolean') {
+        data = {};
+      }
+      if (typeof tagData === 'string') {
+        tagData = JSON.parse(tagData);
+      }
+      tagData = tagData || {};
+      _data = utils.extend({}, [data, tagData]);
 
+      if (!_data.type && !_data.style) {
+        _data.type = enterDataType;
+      }
+    }
+    return _data;
+  },
+  noPropsPushData: function (tagData, enterDataType) {
+    if (typeof tagData === 'string') {
+      tagData = JSON.parse(tagData);
+    }
+    if (tagData) {
+      if (typeof tagData === 'boolean') {
+        tagData = {};
+      }
+      if (!tagData.type && !tagData.style) {
+        tagData.type = enterDataType;
+      }
+    }
+    return tagData || {};
+  },
+  leaveInherit: function (leave, enter) {
+    if (leave.type || enter.type) {
+      leave.type = leave.type || enter.type;
+    }
+    if (leave.style || enter.style) {
+      leave.style = leave.style || enter.style;
+    }
+    if (leave.direction || enter.direction) {
+      leave.direction = leave.direction || enter.direction;
+    }
+    if (leave.duration || enter.duration) {
+      leave.duration = leave.duration || enter.duration;
+    }
+    if (leave.ease || enter.ease) {
+      leave.ease = leave.ease || enter.ease;
+    }
+    if (leave.delay || enter.delay) {
+      leave.delay = leave.delay || enter.delay;
+    }
+    if (leave.queueld || enter.queueld) {
+      leave.queueld = leave.queueld || enter.queueld;
+    }
+    return leave;
   }
 };
 export default utils;

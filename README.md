@@ -60,7 +60,7 @@ enter={} or leave={}
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
 |type|string|执行动画的内置参数，默认；`right`  |
-|eStyle|string|同上，style的样式动画,`type`有值，此项无效， 默认null|
+|style|string|同上，style的样式动画,`type`有值，此项无效， 默认null|
 |duration    |number             |每个动画的时间；默认0.5|
 |delay       |number|整个区块的延时，默认为0；</br>同startAnimation的delay|
 |upend       |boolean|是否倒放,从最后一个dom开始往上播放,默认false|

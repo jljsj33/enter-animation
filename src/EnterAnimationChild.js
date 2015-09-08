@@ -1,5 +1,5 @@
 import {Component, findDOMNode} from 'react';
-import {extend} from './EnterUtils';
+import {isPropsPushData, noPropsPushData, leaveInherit} from './EnterUtils';
 let startAnimation = require('./StartAnimation');
 //const defaultKey = 'enter_' + Date.now();
 
@@ -20,30 +20,17 @@ class EnterAnimationChild extends Component {
 
   /*遍历children里的dataEnter*/
   callChildrenDataEnter(props, mc, arr, i) {
-    var self = this;
-    let tagData = null;
-    if (props) {
-      arr[i] = {};
-      if (props['enter-data'] || props['data-enter']) {
-        let data = props['enter-data'] || {};
-        if (typeof data === 'boolean') {
-          data = {};
-        }
-        tagData = props['data-enter'];
-        if (typeof tagData === 'string') {
-          tagData = JSON.parse(tagData);
-        }
-        tagData = tagData || {};
-        let _data = extend({}, [data, tagData]);
+    var self = this, enter, leave;
 
-        if (!_data.type && !_data.style) {
-          _data.type = this.defaultType;
-        }
-        arr[i] = _data;
-        if (_data.style || _data.type) {
-          self.dataArr.cBool = true;
-        }
-      }
+    arr[i] = {enter: {}, leave: {}};
+
+    if (props) {
+      enter = isPropsPushData(props['enter-data'], props['data-enter'], self.defaultType);
+      leave = isPropsPushData(props['leave-data'], props['data-leave'], enter.type || enter.style || self.defaultType);
+
+      arr[i].enter = enter;
+      //出场如果没有效果，继承进场效果；
+      arr[i].leave = leaveInherit(leave, enter);
 
       if (typeof props.children === 'object') {
         arr[i].children = [];
@@ -51,32 +38,22 @@ class EnterAnimationChild extends Component {
       }
 
     } else {
-      tagData = mc.getAttribute('data-enter');
-      if (typeof tagData === 'string') {
-        tagData = JSON.parse(tagData);
-      }
+      let _enter = mc.getAttribute('data-enter'),
+        _leave = mc.getAttribute('data-leave');
+      enter = noPropsPushData(_enter, self.defaultType);
+      leave = noPropsPushData(_leave, enter.type || enter.style || self.defaultType);
 
-      arr[i] = {};
-      if (tagData) {
-        if (typeof tagData === 'boolean') {
-          tagData = {};
-        }
-        if (!tagData.type && !tagData.style) {
-          tagData.type = this.defaultType;
-        }
-        arr[i] = tagData;
-        if (tagData.style || tagData.type) {
-          self.dataArr.cBool = true;
-        }
-      }
+      arr[i].enter = enter;
+      arr[i].leave = leaveInherit(leave, enter);
       if (mc.children.length > 0) {
         arr[i].children = [];
         self.componentChildrenDataEnter(null, mc.children, arr[i].children);
       }
     }
-
+    if (arr[i].enter.type || arr[i].enter.style || arr[i].leave.type || arr[i].leave.style) {
+      self.dataArr.cBool = true;
+    }
   }
-
 
   componentChildrenDataEnter(children, dom, arr) {
     let self = this, props, mc;
@@ -92,12 +69,14 @@ class EnterAnimationChild extends Component {
     } else if (children) {
       props = children ? children.props : null;
       self.callChildrenDataEnter(props, dom[0], arr, 0);
-    } else {
+    } else if (dom) {
       //router时；
-      for (let i = 0; i < dom.length; i++) {
+      for (let i = 0; i < dom.length || 0; i++) {
         mc = dom[i];
         self.callChildrenDataEnter(null, mc, arr, i);
       }
+    } else {
+      return console.warn('Warning: Not perform EnterAnimation, Children is null.');
     }
   }
 
@@ -110,9 +89,9 @@ class EnterAnimationChild extends Component {
     var transition = this.dataArr;
     let direction = this.direction;
     if (!this.dataArr.cBool) {
-      transition = enter.type || enter.eStyle || 'right';
+      transition = enter.type || enter.style || 'right';
       if (direction === 'leave' && leave) {
-        transition = leave.type || leave.eStyle || transition;
+        transition = leave.type || leave.style || transition;
       }
     }
     var callFunc = ()=> {
@@ -135,6 +114,7 @@ class EnterAnimationChild extends Component {
         //出场周期结束；
         this.props.callback.call(this, wap, direction);
       };
+      //大标签上的继承
       if (leave) {
         upend = leave.upend || enter.upend;
         duration = leave.duration || enter.duration;
@@ -151,8 +131,7 @@ class EnterAnimationChild extends Component {
       interval: interval,
       upend: upend,
       ease: ease,
-      onComplete: callBack,
-      kill: true
+      onComplete: callBack
     });
   }
 
@@ -176,8 +155,6 @@ class EnterAnimationChild extends Component {
     }
     //dom的data-enter或reactElement的props的enter-data;
     this.componentChildrenDataEnter(children, domChildren, this.dataArr);
-
-
   }
 
   componentDidMount() {
@@ -198,8 +175,6 @@ class EnterAnimationChild extends Component {
 
   componentWillReceiveProps(nextProps) {
     //要对新插入元素做动画;
-    //let wap = nextProps.children;
-    //let dom = findDOMNode(this);
     if (nextProps.direction) {
       this.setDomKey();
       this.setState({
