@@ -177,6 +177,12 @@ class EnterAnimationChild extends Component {
   componentWillReceiveProps(nextProps) {
     //要对新插入元素做动画;
     if (nextProps.direction) {
+      let dom = findDOMNode(this);
+      if (nextProps.position) {
+        dom.style.position = 'absolute';
+      } else {
+        dom.style.position = '';
+      }
       this.setDomKey();
       this.setState({
         enter: nextProps.enter,

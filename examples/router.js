@@ -15,7 +15,7 @@ var App = React.createClass({
         interval: 0.1,
         delay: 0,
         callback: function (e) {
-          //console.log('我进场了', e.ReactElement.key)
+          console.log('我进场了', e.ReactElement.key)
         },
         ease: null
       },
@@ -33,6 +33,7 @@ var App = React.createClass({
         interval: 0.1,
         type: 'margin-top:10px;opacity:0',
         ease: 'cubic-bezier(0.075, 0.82, 0.165, 1)',
+        delay:0.5,
         callback: function (e) {
           console.log('你点了page1,进场用的是你自定的效果', e.direction);
         }
@@ -41,7 +42,8 @@ var App = React.createClass({
         type: 'left',
         upend: true,
         interval:0.05,
-        ease: 'cubic-bezier(0.6, 0.04, 0.98, 0.335)',
+        ease: 'cubic-bezier(0.55, 0.085, 0.68, 0.53)',
+        delay:0,
         callback: function (e) {
           console.log('你点了page1,出场用的是你自定的效果', e.direction);
           console.log('如果你在用了的参数，在出场没有设定，那么出场没设的将用回进场那设定的参数，如upend，从最后个开始')
@@ -55,18 +57,19 @@ var App = React.createClass({
     this.setState({
       enter: {
         interval: 0.03,
-        type: 'top',
+        type: 'bottom',
         ease: null,
+        delay:0.5,
         callback: function (e) {
           console.log('你点了page2,leave为null,出场进场同效果', e.direction)
         }
       },
-      leave: null,
+      leave: {delay:0},
       addElement: null,
     })
   },
   addElement() {
-    console.log('点这不会改变进出场');
+    console.log('点这不会改变进出场,');
     this.setState({
       addElement: React.createElement('div', {
         key: Date.now(),
@@ -76,7 +79,7 @@ var App = React.createClass({
   },
   render() {
     var key = this.props.location.pathname;
-    var height = 0;
+    /*var height = 0;
     switch (key) {
       case '/page1':
         height = 210;
@@ -86,7 +89,7 @@ var App = React.createClass({
         break;
       default :
         height = 100;
-    }
+    }*/
     return (
       <div>
         <ul  className='demo-router-nav'>
@@ -100,7 +103,7 @@ var App = React.createClass({
             <Link to="/page2" onClick={this.clickPage2}>Page 2</Link>
           </li>
         </ul>
-        <EnterAnimation className='demo-router-wap' enter={this.state.enter} leave={this.state.leave}  ref='myChild' style={{height: height}}>
+        <EnterAnimation className='demo-router-wap' enter={this.state.enter} leave={this.state.leave}  ref='myChild' >
           <div key='bb' onClick={this.addElement} className='demo-router-add'>
             <div>点我变换元素</div>
           </div>
@@ -115,21 +118,21 @@ var App = React.createClass({
 var Page1 = React.createClass({
   render() {
     return (
-      <div className="demo-router-child" ref='page1'>
-        <h1 data-enter='{"type":"right"}'>Page 1</h1>
-        <p data-enter='{"type":"top"}'>
+      <div className="demo-router-child" ref='page1' style={{width:'100%'}}>
+        <h1 data-enter='{"type":"right"}' style={{background:"#ff0000"}}>Page 1</h1>
+        <p data-enter='{"type":"top"}' style={{background:"#ff0000"}}>
           <Link to="/page2">A link to page 1 should be active</Link>
           我是页面1</p>
-        <p data-enter='{"type":"top"}'>
+        <p data-enter='{"type":"top"}' style={{background:"#ff0000"}}>
           <Link to="/page2" data-enter='{"type":"bottom"}'>A link to page 1 should be active</Link>
           我是页面1</p>
-        <p data-enter='{"type":"right"}'>
+        <p data-enter='{"type":"right"}' style={{background:"#ff0000"}}>
           <Link to="/page2">A link to page 1 should be active</Link>
           我是页面1</p>
-        <p data-enter='{"type":"left"}' data-leave='{"type":"top","duration":1}'>
+        <p data-enter='{"type":"left"}' data-leave='{"type":"top","duration":1}' style={{background:"#ff0000"}}>
           <Link to="/page2">A link to page 1 should be active</Link>
           我是页面1</p>
-        <p >
+        <p data-enter style={{background:"#ff0000"}}>
           <Link to="/page2">A link to page 1 should be active</Link>
           我是页面1</p>
       </div>
@@ -140,18 +143,18 @@ var Page1 = React.createClass({
 var Page2 = React.createClass({
   render() {
     return (
-      <div className="demo-router-child" ref='page2'>
-        <h1>Page 2</h1>
-        <p>
+      <div className="demo-router-child" ref='page2' style={{width:'100%'}}>
+        <h1 style={{background:"#fff000"}}>Page 2</h1>
+        <p style={{background:"#fff000"}}>
           <Link to="/page1">a link to page 2 </Link>
           我是页面2.</p>
-        <p>
+        <p style={{background:"#fff000"}}>
           <Link to="/page1">a link to page 2 </Link>
           我是页面2.</p>
-        <p>
+        <p style={{background:"#fff000"}}>
           <Link to="/page1">a link to page 2 </Link>
           我是页面2.</p>
-        <p>
+        <p style={{background:"#fff000"}}>
           <Link to="/page1">a link to page 2 </Link>
           我是页面2.</p>
       </div>

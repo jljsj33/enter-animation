@@ -56,7 +56,8 @@ const utils = {
     }
     return result;
   },
-  contrastArr: function (a, b, callback) {
+  contrastArr: function (_a, _b, callback) {
+    var a = _a, b = _b.concat();
     if (a.length === 0) {
       b.map((m)=> {
         callback.call(this, m);
@@ -68,14 +69,13 @@ const utils = {
         }
         for (var i = 0; i < b.length; i++) {
           var cm = b[i];
-
           if (!cm || !cm.key || cm.key === m.key) {
-            break;
-          }
-          if (i >= b.length - 1) {
-            callback.call(this, cm);
+            b.splice(i, 1);
           }
         }
+      });
+      b.map((m)=> {
+        callback.call(this, m);
       });
     }
   },

@@ -39,6 +39,18 @@ class EnterAnimation extends Component {
   }
 
   componentDidUpdate() {
+    //添加出场时的position: absolute;
+    //if (this.keysToEnter.length) {
+    //  this.keysToLeave.map((key)=> {
+    //    this.state.childWapArr.map((m)=> {
+    //      if (key == m.key) {
+    //        m.props.style = {position: "absolute"};
+    //        console.log(m)
+    //      }
+    //    })
+    //  })
+    //}
+
     this.childWapArr = deleteRepeatKeyArr(toArrayChildren(this.props.children));
     this.keysToLeave = [];
     this.keysToEnter = [];
@@ -50,19 +62,36 @@ class EnterAnimation extends Component {
     let currentChildWapArr = this.childWapArr;
 
     let leaveChildArr = [];
+    //增加absolute,所以把进场的也放数组里。。
+    let enterChildArr = [];
+
 
     this.keysToLeave = [];
     this.keysToEnter = [];
     //判断两Arr里的不同；
     contrastArr(currentChildWapArr, newChildrenArr, (cm)=> {
       this.keysToEnter.push(cm.key);
+      enterChildArr.push(cm);
+      //newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);//清掉进场的；
     });
-
     contrastArr(newChildrenArr, currentChildWapArr, (cm)=> {
       leaveChildArr.push(cm);
       this.keysToLeave.push(cm.key);
+      //newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);//清掉出场的；
     });
-    newChildrenArr = newChildrenArr.concat(leaveChildArr);
+
+    //newChildrenArr = leaveChildArr.concat(newChildrenArr);
+    //清掉进场；
+    enterChildArr.map((cm)=> {
+      newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);
+    });
+    ////清掉出场;
+    //leaveChildArr.map((cm)=>{
+    //  newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);
+    //});
+
+    newChildrenArr = newChildrenArr.concat(leaveChildArr, enterChildArr);
+
     this.setData(nextProps, newChildrenArr);
     return false;
   }
@@ -83,12 +112,21 @@ class EnterAnimation extends Component {
         return m;
       }
       let direction = this.keysToEnter.indexOf(m.key) >= 0 ? 'enter' : this.keysToLeave.indexOf(m.key) >= 0 ? 'leave' : null;
+      var posBool = false;
+      if (this.keysToEnter.length) {
+        this.keysToLeave.map((key)=> {
+          if (key === m.key) {
+            posBool = true;
+          }
+        });
+      }
       return <EnterAnimationChild
         key={m.key}
         ref={m.key}
         direction={direction}
         enter={props.enter}
         leave={props.leave}
+        position={posBool}
         callback={this.kill.bind(this)}
         onStart={this.start.bind(this)}>
       {m}
