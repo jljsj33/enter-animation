@@ -16,6 +16,7 @@ class EnterAnimationChild extends Component {
     this.key = [];
     this.direction = '';
     this.defaultType = !this.state.enter && !this.state.leave ? 'right' : this.direction === 'leave' ? this.state.leave.type || this.state.leave.style || this.state.enter.type || this.state.enter.style || 'right' : this.state.enter.type || this.state.enter.style || 'right';
+
   }
 
   /*遍历children里的dataEnter*/
@@ -177,23 +178,27 @@ class EnterAnimationChild extends Component {
   componentWillReceiveProps(nextProps) {
     //要对新插入元素做动画;
     if (nextProps.direction) {
+
       let dom = findDOMNode(this);
       if (nextProps.position) {
         dom.style.position = 'absolute';
       } else {
         dom.style.position = '';
       }
+      this.direction = nextProps.direction;
+      this.defaultType = !nextProps.enter && !nextProps.leave ? 'right' : this.direction === 'leave' ? nextProps.leave.type || nextProps.leave.style || nextProps.enter.type || nextProps.enter.style || 'right' : nextProps.enter.type || nextProps.style || 'right';
       this.setDomKey();
       this.setState({
         enter: nextProps.enter,
         leave: nextProps.leave
       });
-      this.direction = nextProps.direction;
+
     }
 
   }
 
   render() {
+
     return this.props.children;
   }
 }
