@@ -27,7 +27,7 @@ var Demo = React.createClass({
   render() {
     return (
       <div>
-        <h3 style={{"textAlign": "center"}} onClick={this.onClick}>示例1（子节点enter-data数据控制进场）</h3>
+        <h3 style={{"textAlign": "center"}} onClick={this.onClick}>示例1（出场动画配置）</h3>
         <EnterAnimation  enter={this.state.enter} style={{margin: "auto", width: 200}}>
           {this.state.cbool ? <div key='a'>
             <div>示例1示例1</div>

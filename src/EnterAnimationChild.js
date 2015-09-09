@@ -186,7 +186,7 @@ class EnterAnimationChild extends Component {
         dom.style.position = '';
       }
       this.direction = nextProps.direction;
-      this.defaultType = !nextProps.enter && !nextProps.leave ? 'right' : this.direction === 'leave' ? nextProps.leave.type || nextProps.leave.style || nextProps.enter.type || nextProps.enter.style || 'right' : nextProps.enter.type || nextProps.style || 'right';
+      this.defaultType = !nextProps.enter && !nextProps.leave ? 'right' : this.direction === 'leave' && nextProps.leave ? nextProps.leave.type || nextProps.leave.style || nextProps.enter.type || nextProps.enter.style || 'right' : nextProps.enter.type || nextProps.enter.style || 'right';
       this.setDomKey();
       this.setState({
         enter: nextProps.enter,

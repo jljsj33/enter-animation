@@ -70,21 +70,28 @@ class EnterAnimation extends Component {
     this.keysToEnter = [];
     //判断两Arr里的不同；
     contrastArr(currentChildWapArr, newChildrenArr, (cm)=> {
-      this.keysToEnter.push(cm.key);
-      enterChildArr.push(cm);
-      //newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);//清掉进场的；
+      if (cm.key) {
+        this.keysToEnter.push(cm.key);
+        enterChildArr.push(cm);
+        //newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);//清掉进场的；
+      }
     });
-    contrastArr(newChildrenArr, currentChildWapArr, (cm)=> {
-      leaveChildArr.push(cm);
-      this.keysToLeave.push(cm.key);
-      //newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);//清掉出场的；
-    });
-
-    //newChildrenArr = leaveChildArr.concat(newChildrenArr);
     //清掉进场；
     enterChildArr.map((cm)=> {
       newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);
     });
+
+    contrastArr(newChildrenArr, currentChildWapArr, (cm)=> {
+      if (cm.key) {
+        leaveChildArr.push(cm);
+        this.keysToLeave.push(cm.key);
+        //newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);//清掉出场的；
+      }
+
+    });
+
+    //newChildrenArr = leaveChildArr.concat(newChildrenArr);
+
     ////清掉出场;
     //leaveChildArr.map((cm)=>{
     //  newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);
@@ -92,7 +99,7 @@ class EnterAnimation extends Component {
 
     newChildrenArr = newChildrenArr.concat(leaveChildArr, enterChildArr);
 
-    this.setData(nextProps, newChildrenArr);
+    this.setData(nextProps, deleteRepeatKeyArr(newChildrenArr));
     return false;
   }
 

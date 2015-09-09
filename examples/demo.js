@@ -16,8 +16,6 @@ var Demo = React.createClass({
     })
   },
   render() {
-
-    console.log(typeof undefined)
     return (
 
       <div>
