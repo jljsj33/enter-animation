@@ -8,7 +8,9 @@ var cssStr = '';
 var startAnim = function (node, vars) {
   //判断浏览，ie10以下不支持；
   if (!(this.getTransition() in document.documentElement.style)) {
-
+    if (vars && typeof vars.onComplete === 'function') {
+      vars.onComplete();
+    }
     return false;
   }
   if (!vars) {
