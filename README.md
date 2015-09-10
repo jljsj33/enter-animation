@@ -60,7 +60,7 @@ enter={} or leave={}
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
 |type|string|执行动画的内置参数，默认；`right`  |
-|style|string|同上，style的样式动画,`type`有值，此项无效， 默认null|
+|style|object/string|同上，style的样式动画,`type`有值，此项无效， 默认null|
 |duration    |number             |每个动画的时间；默认0.5|
 |delay       |number|整个区块的延时，默认为0；</br>同startAnimation的delay|
 |upend       |boolean|是否倒放,从最后一个dom开始往上播放,默认false|
@@ -131,8 +131,8 @@ EnterAnimation.to(node,vars);</code></pre>
 
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
-|type            |null            |内置动画样式：<br/>`left` `right` `top` `bottom` `scale` `scaleFrom` `scaleX` `scaleY`;|
-|style            |null           |style样式，如transform: translateX(100px),每个样式必须以;结束；`type`有值此项无效|
+|type             |string            |内置动画样式：<br/>`left` `right` `top` `bottom` `scale` `scaleFrom` `scaleX` `scaleY`;|
+|style            |object / string           |style样式，如transform: translateX(100px),每个样式必须以;结束；`type`有值此项无效|
 |duration         |vars参数的duration             |动画的时间；有值覆盖vars参数的duration|
 |ease             |vars参数的ease|样式缓动;有值覆盖vars参数的ease|
 |delay            |0               |动画的延时;默认0,依照结构递增以上的`interval`|

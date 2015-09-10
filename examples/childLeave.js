@@ -7,7 +7,7 @@ var Demo = React.createClass({
       addElement: null,
       cbool:true,
       enter: {
-        type: 'bottom',
+        style: {transform:"translateY(-50px)",opacity:0},
         interval: 0.1,
         delay: 0,
         callback: function (e) {

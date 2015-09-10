@@ -32,33 +32,47 @@ module.exports = {
     if (!m) {
       return false;
     }
-    var _style = m.getAttribute('style') || '';
-    _style += style;
-    m.setAttribute('style', _style);
+    if (typeof style === 'object') {
+      for (var _s in style) {
+        m.style[_s] = style[_s];
+      }
+    } else {
+      var _style = m.getAttribute('style') || '';
+      _style += style;
+      m.setAttribute('style', _style);
+    }
+
   },
   removeStyle(m, style, oneBool) {
     //删除style;
     if (!m) {
       return false;
     }
-    var cArr = style.trim().split(';');
-    cArr.map(function (arr) {
-      if (arr && arr !== '') {
-        var carr = m.style.cssText.split(';'),
-          cOne = arr.split(':')[0].replace(/\s/g, ''),
-          cTow = arr.split(':')[1] ? arr.split(':')[1].replace(/\s/g, '') : '';
-        carr.map(function (_arr) {
-          if (_arr && _arr !== '') {
-            var tcOne = _arr.split(':')[0].replace(/\s/g, ''),
-              tcTow = _arr.split(':')[1].replace(/\s/g, '');
-            if (oneBool && tcOne.indexOf(cOne) >= 0) {
-              m.style[arr.split(':')[0]] = '';
-            } else if (tcOne.indexOf(cOne) >= 0 && tcTow === cTow) {
-              m.style[arr.split(':')[0]] = '';
-            }
-          }
-        });
+    if (typeof style === 'object') {
+      for (var _s in style) {
+        m.style[_s] = '';
       }
-    });
+    } else {
+      var cArr = style.trim().split(';');
+      cArr.map(function (arr) {
+        if (arr && arr !== '') {
+          var carr = m.style.cssText.split(';'),
+            cOne = arr.split(':')[0].replace(/\s/g, ''),
+            cTow = arr.split(':')[1] ? arr.split(':')[1].replace(/\s/g, '') : '';
+          carr.map(function (_arr) {
+            if (_arr && _arr !== '') {
+              var tcOne = _arr.split(':')[0].replace(/\s/g, ''),
+                tcTow = _arr.split(':')[1].replace(/\s/g, '');
+              if (oneBool && tcOne.indexOf(cOne) >= 0) {
+                m.style[arr.split(':')[0]] = '';
+              } else if (tcOne.indexOf(cOne) >= 0 && tcTow === cTow) {
+                m.style[arr.split(':')[0]] = '';
+              }
+            }
+          });
+        }
+      });
+    }
+
   }
 };

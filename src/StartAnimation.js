@@ -8,6 +8,7 @@ var cssStr = '';
 var startAnim = function (node, vars) {
   //判断浏览，ie10以下不支持；
   if (!(this.getTransition() in document.documentElement.style)) {
+
     return false;
   }
   if (!vars) {
@@ -15,7 +16,7 @@ var startAnim = function (node, vars) {
   }
   this.nodeStr = node;
   this.doc = document;
-  this.tweenData = typeof vars.data === 'object' ? vars.data : null;
+  this.tweenData = typeof vars.data === 'object' && vars.data.cBool ? vars.data : null;
   this.str = typeof vars.data === 'string' ? vars.data : 'right';
   this.delay = Number(vars.delay) ? vars.delay * 1000 : 30;
   this.interval = vars.interval || 0.1;
@@ -213,14 +214,27 @@ a.forTweenData = function (mc, data, callFunc, animBool) {
 };
 
 a.fjStyle = function (node, style, tweenStr) {
-  var cArr = style.trim().split(';'), self = this;
-  for (var i = 0; i < cArr.length; i++) {
-    if (cArr[i] && cArr[i] !== '') {
-      var sArr = cArr[i].split(':');
-      node.style[self.getTransition()] = node.style[self.getTransition()] ? node.style[self.getTransition()] + ',' + sArr[0] + tweenStr : sArr[0] + tweenStr;
+  var self = this;
+  if (typeof style === 'object') {
+    for (var _s in style) {
+      _s = _s.indexOf('margin') >= 0 ? 'margin' :
+        _s.indexOf('padding') >= 0 ? 'padding' :
+          _s.indexOf('background') >= 0 ? 'background' :
+            _s.indexOf('border') >= 0 ? 'border' :
+              _s.indexOf('stroke') >= 0 ? 'stroke' :
+                _s === 'textShadow' ? 'text-shadow' :
+                  _s === 'textTransform' ? 'text-transform' : _s;
+      node.style[self.getTransition()] = node.style[self.getTransition()] ? node.style[self.getTransition()] + ',' + _s + tweenStr : _s + tweenStr;
+    }
+  } else {
+    var cArr = style.trim().split(';');
+    for (var i = 0; i < cArr.length; i++) {
+      if (cArr[i] && cArr[i] !== '') {
+        var sArr = cArr[i].split(':');
+        node.style[self.getTransition()] = node.style[self.getTransition()] ? node.style[self.getTransition()] + ',' + sArr[0] + tweenStr : sArr[0] + tweenStr;
+      }
     }
   }
-
 };
 a.addTween = function () {
   //查找tweenDataArr与dom下子级的匹配；

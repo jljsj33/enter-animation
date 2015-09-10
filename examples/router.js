@@ -11,7 +11,7 @@ var App = React.createClass({
       title: '改变state',
       addElement: null,
       enter: {
-        type: 'margin-top:10px;opacity:0',
+        style: {marginTop:'10px',opacity:0},
         interval: 0.1,
         delay: 0,
         callback: function (e) {
@@ -31,7 +31,8 @@ var App = React.createClass({
     this.setState({
       enter: {
         interval: 0.1,
-        type: 'margin-top:10px;opacity:0',
+        type:null,
+        style: {marginTop:'10px',opacity:0},//'margin-top:10px;opacity:0',
         ease: 'cubic-bezier(0.075, 0.82, 0.165, 1)',
         delay:0.5,
         callback: function (e) {
@@ -129,7 +130,7 @@ var Page1 = React.createClass({
         <p data-enter='{"type":"right"}' style={{background:"#ff0000"}}>
           <Link to="/page2">A link to page 1 should be active</Link>
           我是页面1</p>
-        <p data-enter='{"type":"left"}' data-leave='{"type":"top","duration":1}' style={{background:"#ff0000"}}>
+        <p data-enter='{"style":{"marginTop":"50px","opacity":0}}' data-leave='{"type":"top","duration":1}' style={{background:"#ff0000"}}>
           <Link to="/page2">A link to page 1 should be active</Link>
           我是页面1</p>
         <p data-enter style={{background:"#ff0000"}}>

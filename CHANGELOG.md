@@ -1,3 +1,7 @@
+## 0.4.7 (2015-9-10)
+
+* 增加style可为object对象;
+
 ## 0.4.4 (2015-9-9)
 
 * router时自动添加 position:'absolute';
