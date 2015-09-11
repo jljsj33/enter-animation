@@ -63,7 +63,7 @@ enter={} or leave={}
 |style|object/string|同上，style的样式动画,`type`有值，此项无效， 默认null|
 |duration    |number             |每个动画的时间；默认0.5|
 |delay       |number|整个区块的延时，默认为0；</br>同startAnimation的delay|
-|upend       |boolean|是否倒放,从最后一个dom开始往上播放,默认false|
+|reverse       |boolean|是否倒放,从最后一个dom开始往上播放,默认false|
 |ease             |string|样式缓动;默认 `cubic-bezier(0.165, 0.84, 0.44, 1);`|
 |interval|number|递增延时值，默认0.1|
 |callback|function|动画完成后回调|
@@ -115,7 +115,7 @@ EnterAnimation.to(node,vars);</code></pre>
 |ease             |cubic-bezier(0.165, 0.84, 0.44, 1);|样式缓动;|
 |interval         |递增延时值。默认0.1|
 |hideen           |boolean|在开始动画前隐藏掉html,默认为true;                     |
-|upend            |boolean|是否倒放,从最后一个dom开始往上播放,默认false|
+|reverse            |boolean|是否倒放,从最后一个dom开始往上播放,默认false|
 |onComplete       |function |动画完成后回调|
 
 ####data参数（string|object）;

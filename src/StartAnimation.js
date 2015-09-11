@@ -25,7 +25,7 @@ var startAnim = function (node, vars) {
   this.direction = vars.direction || 'enter';
   this.__ease = vars.ease || 'cubic-bezier(0.165, 0.84, 0.44, 1)';
   this.__timer = vars.duration || 0.5;
-  this.upend = vars.upend || false;
+  this.reverse = vars.reverse || false;
   var hidden = typeof vars.hidden === 'undefined' ? true : vars.hidden;
   this.callback = vars.onComplete;
   this.kill = true;
@@ -108,7 +108,7 @@ a.init = function () {
         data = data.enter;
       }
       if (data.type || data.style || typeof data.duration === 'number' || data.ease || typeof data.delay === 'number' || typeof data.queueId === 'number') {
-        if (self.upend) {
+        if (self.reverse) {
           //判断分支；
           self.__qId = data.queueId || 0;
           //判断延时；
@@ -129,7 +129,7 @@ a.init = function () {
         }
       }
     } else {
-      if (self.upend) {
+      if (self.reverse) {
         if (!self.queueIdArr[self.__qId] && self.queueIdArr[self.__qId] !== 0) {
           self.queueIdArr[self.__qId] = 0;
         } else {
@@ -257,7 +257,7 @@ a.addTween = function () {
         //判断分支；
         self.__qId = data.queueId || 0;
         //判断延时；
-        if (self.upend) {
+        if (self.reverse) {
           self.queueIdArr[self.__qId] = Number(Number((self.queueIdArr[self.__qId] || 0) - (data.delay || 0)).toFixed(3));
           self.__delay = Number(Number((self.queueIdArr[self.__qId]) + (data.delay || 0)).toFixed(3));
         } else {
@@ -293,7 +293,7 @@ a.addTween = function () {
 
     if (!data || (data && (data.type || data.style))) {
       mc.setAttribute('delay', self.__delay);
-      if (self.upend) {
+      if (self.reverse) {
         if (self.queueIdArr[self.__qId] > 0) {
           self.queueIdArr[self.__qId] -= self.interval;
         }

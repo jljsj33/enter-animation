@@ -99,7 +99,7 @@ class EnterAnimationChild extends Component {
       enter.callback.call(this, {ReactElement: wap, target: dom, direction: direction});
     };
     var callBack = typeof enter.callback === 'function' ? callFunc : null,
-      upend = enter.upend,
+      reverse = enter.reverse,
       duration = enter.duration,
       delay = enter.delay,
       interval = enter.interval,
@@ -117,7 +117,7 @@ class EnterAnimationChild extends Component {
       };
       //大标签上的继承
       if (leave) {
-        upend = leave.upend || enter.upend;
+        reverse = leave.reverse || enter.reverse;
         duration = typeof leave.duration === 'number' ? leave.duration : enter.duration;
         delay = typeof leave.delay === 'number' ? leave.delay : enter.delay;
         interval = typeof leave.interval === 'number' ? leave.interval : enter.interval;
@@ -130,7 +130,7 @@ class EnterAnimationChild extends Component {
       delay: delay,
       direction: direction,
       interval: interval,
-      upend: upend,
+      reverse: reverse,
       ease: ease,
       onComplete: callBack
     });

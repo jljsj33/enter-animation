@@ -41,13 +41,13 @@ var App = React.createClass({
       },
       leave: {
         type: 'left',
-        upend: true,
+        reverse: true,
         interval:0.05,
         ease: 'cubic-bezier(0.55, 0.085, 0.68, 0.53)',
         delay:0,
         callback: function (e) {
           console.log('你点了page1,出场用的是你自定的效果', e.direction);
-          console.log('如果你在用了的参数，在出场没有设定，那么出场没设的将用回进场那设定的参数，如upend，从最后个开始')
+          console.log('如果你在用了的参数，在出场没有设定，那么出场没设的将用回进场那设定的参数，如reverse，从最后个开始')
         }
       },
       addElement: null,
