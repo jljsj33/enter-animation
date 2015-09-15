@@ -20,11 +20,11 @@ var startAnim = function (node, vars) {
   this.doc = document;
   this.tweenData = typeof vars.data === 'object' && vars.data.cBool ? vars.data : null;
   this.str = typeof vars.data === 'string' ? vars.data : 'right';
-  this.delay = Number(vars.delay) ? vars.delay * 1000 : 30;
-  this.interval = vars.interval || 0.1;
+  this.delay = typeof vars.delay === 'number' ? vars.delay * 1000 : 30;
+  this.interval = typeof vars.interval === 'number' ? vars.interval : 0.1;
   this.direction = vars.direction || 'enter';
   this.__ease = vars.ease || 'cubic-bezier(0.165, 0.84, 0.44, 1)';
-  this.__timer = vars.duration || 0.5;
+  this.__timer = typeof vars.duration === 'number' ? vars.duration : 0.5;
   this.reverse = vars.reverse || false;
   var hidden = typeof vars.hidden === 'undefined' ? true : vars.hidden;
   this.callback = vars.onComplete;
