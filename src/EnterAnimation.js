@@ -13,7 +13,6 @@ class EnterAnimation extends Component {
     this.keysToEnter = [];
     this.keysToLeave = [];
 
-
     //第一次进入，默认进场；
     var elementArr = toArrayChildren(this.props.children);
 
@@ -38,6 +37,7 @@ class EnterAnimation extends Component {
 
   }
 
+
   componentDidUpdate() {
     //添加出场时的position: absolute;
     //if (this.keysToEnter.length) {
@@ -54,6 +54,7 @@ class EnterAnimation extends Component {
     this.childWapArr = deleteRepeatKeyArr(toArrayChildren(this.props.children));
     this.keysToLeave = [];
     this.keysToEnter = [];
+    //console.log(this.props.children[1],React.cloneElement(this.props.children[1].props.route.component))
   }
 
 
@@ -65,6 +66,7 @@ class EnterAnimation extends Component {
     //增加absolute,所以把进场的也放数组里。。
     let enterChildArr = [];
 
+    //console.log(nextProps.children[1].props.route.component.prototype.render())
 
     this.keysToLeave = [];
     this.keysToEnter = [];
@@ -114,6 +116,7 @@ class EnterAnimation extends Component {
 
   render() {
     var props = this.props;
+    this.childrenArr = [];
     var childrenToRender = this.state.childWapArr.map((m)=> {
       if (!m || !m.key) {
         return m;
@@ -136,7 +139,7 @@ class EnterAnimation extends Component {
         position={posBool}
         callback={this.kill.bind(this)}
         onStart={this.start.bind(this)}>
-      {m}
+        {m}
       </EnterAnimationChild>;
     });
     //去重复和null

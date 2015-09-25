@@ -80,10 +80,9 @@ enter={} or leave={}
 
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
+|key              |string|子节新增与去除必须，单进场可不用                         |
 |enter-data       |object            |如下data值;|
-|data-enter       |JSON.string            |因router下enter-data无效，所以新增dom标签，router时可用，如下data值;|
 |leave-data       |object |如上,如果为null，则继承enter-data和data-enter的所有参数|
-|data-leave       |JSON String|如上|
 
 注：如子节点有`enter-data`值，则只执行有`enter-data`的节点的动画;
 如果标签上的`enter-data`没`type`||`style`，则执行`EnterAnimation`标签上的`type`||`style`;

@@ -19,7 +19,7 @@ var startAnim = function (node, vars) {
   this.nodeStr = node;
   this.doc = document;
   this.tweenData = typeof vars.data === 'object' && vars.data.cBool ? vars.data : null;
-  this.str = typeof vars.data === 'string' ? vars.data : 'right';
+  this.str = (typeof vars.data === 'string' || !this.tweenData) && vars.data ? vars.data : 'right';
   this.delay = typeof vars.delay === 'number' ? vars.delay * 1000 : 30;
   this.interval = typeof vars.interval === 'number' ? vars.interval : 0.1;
   this.direction = vars.direction || 'enter';
@@ -85,7 +85,6 @@ a.init = function () {
   self.__ease = self.__ease || 'cubic-bezier(0.165, 0.84, 0.44, 1)';
   self.__timer = self.__timer || 0.5;
   self.__qId = 0;
-
 
   self.forTweenData(_mc, self.tweenData, function (mc, data) {
     if (self.kill) {
@@ -182,12 +181,14 @@ a.forTweenData = function (mc, data, callFunc, animBool) {
     return;
   }
   var tm = mc.children || mc, self = this;
+
   if (data) {
+
     if (data.length) {
       data.map(function (m, ii) {
         if (m.length) {
           self.forTweenData(tm[ii], m, callFunc, animBool);
-        } else if (m.children) {
+        } else if (m.children && m.children.length) {
           callFunc(tm[ii], m);
           self.forTweenData(tm[ii], m, callFunc, animBool);
         } else {
@@ -206,7 +207,7 @@ a.forTweenData = function (mc, data, callFunc, animBool) {
         }
       });
     } else {
-      self.error('data(' + data + ') is error');
+      self.error('data(' + JSON.stringify(data) + ') is error');
     }
   } else {
     for (var i = 0; i < tm.length; i++) {
@@ -242,7 +243,6 @@ a.addTween = function () {
   //查找tweenDataArr与dom下子级的匹配；
   var self = this, eNum = 0;
   var m = self.length === 1 ? self[0].children : self;
-
   self.forTweenData(m, self.tweenData, function (mc, data) {
     var tweenStr = ' ' + self.__timer + 's ' + self.__ease + ' ' + self.__delay + 's';
     var _style = null;
