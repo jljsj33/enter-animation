@@ -30,18 +30,17 @@
 [![enter-animation](https://nodei.co/npm/enter-animation.png)](https://npmjs.org/package/enter-animation)
 
 ### 用法
-<pre><code>
-var EnterAnimation = require('enter-animation');
-var React = require('react');
-React.render(&lt;EnterAnimation type={"left"}&gt
-&lt;div&gtanim1&lt;/div&gt
-&lt;div&gtanim2&lt;/div&gt
-&lt;div&gtanim3&lt;/div&gt
-&lt;/EnterAnimation&gt, container);
+```html
+<EnterAnimation>
+  <div key='demo'>
+    <div>依次进场</div>
+    <div>依次进场</div>
+    <div>依次进场</div>
+    <div>依次进场</div>
+  </div>
+</EnterAnimation>
+```
 
-</code></pre>
-
-注：`<EnterAnimation></EnterAnimation>`自动转换为div，所以你有什么样式都可以在上面添加；
 
 ### api
 动画默认`right`
@@ -84,8 +83,33 @@ enter={} or leave={}
 |enter-data       |object            |如下data值;|
 |leave-data       |object |如上,如果为null，则继承enter-data和data-enter的所有参数|
 
+
 注：如子节点有`enter-data`值，则只执行有`enter-data`的节点的动画;
 如果标签上的`enter-data`没`type`||`style`，则执行`EnterAnimation`标签上的`type`||`style`;
+
+
+## EnterChild
+
+控制route或component的进出场，不在EnterAnimation标签下的；
+
+如:
+```html
+var Page1 = React.createClass({
+  render() {
+    return
+      <EnterChild >
+      <h1>添加或删除时EnterChild才起效，进出场仍然是EnterAnimation的参数</h1>
+      <p style={{background: "#fff000"}} enter-data={{type: 'left'}} key='1'><Link to="/page1">a link to page 2 </Link>我是页面2.</p>
+      <p style={{background: "#fff000"}} enter-data={{type: 'left'}} key='2'><Link to="/page1">a link to page 2 </Link>我是页面2.</p>
+      <p style={{background: "#fff000"}} enter-data={{type: 'left'}} key='3'><Link to="/page1">a link to page 2 </Link>我是页面2.</p>
+      </EnterChild>
+  }
+});
+<EnterAnimation>
+   <Page1 key='demo'/>
+</EnterAnimation>
+```
+具体看demo,routerAdd.html;
 
 ##startAnimation的动画参数(EnterAnimation.to)；
 
@@ -145,48 +169,4 @@ EnterAnimation.to(node,vars);</code></pre>
 
 
 为object时，树状形dom结构，以({})为一档标签；
-如：
 
-<pre><code>&lt;div class="a"&gt;
-&lt;div class="b"&gt;&lt;/div&gt;
-&lt;div class="c"&gt;&lt;/div&gt;
-&lt;/div&gt;</code></pre>
-
-node用的是".a",做b,c的动画，那data为：{}为最外层div;
-<pre><code>{////外层div
-children:[//子下的两div
-{type:"left"},
-{type:"left"}
-]
-}</code></pre>
-
-如果元素为多个时：
-
-<pre><code>&lt;div class="a"&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span&gt;&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span&gt;&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span&gt;&lt;/span&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;</code></pre>
-
-处理每个li里的span的动画时，data为:
-
-<pre><code>
-[
-{type:'left'},
-{type:'left'},
-{type:'left'}
-]
-</code></pre>
-
-
-
-#### router使用方法
-
-<pre><code>
-var key = this.props.location.pathname;
-&lt;EnterAnimation&gt
-{cloneElement(this.props.children || &lt;div/&gt, {key: key})}//
-&lt;/EnterAnimation&gt
-</code></pre>
