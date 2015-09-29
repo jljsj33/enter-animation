@@ -2,6 +2,7 @@
 import React, {Component, createElement} from 'react';
 //import assign from 'object-assign';
 import EnterAnimationChild from './EnterAnimationChild';
+import EnterAnimationRouteChild from './EnterAnimationRouteChild';
 import {toArrayChildren, deleteRepeatKeyArr, contrastArr} from './EnterUtils';
 let startAnimation = require('./StartAnimation');
 
@@ -22,6 +23,7 @@ class EnterAnimation extends Component {
       }
       this.keysToEnter.push(m.key);
     });
+
     this.childWapArr = deleteRepeatKeyArr(elementArr);
     this.state = {
       childWapArr: this.childWapArr
@@ -40,16 +42,6 @@ class EnterAnimation extends Component {
 
   componentDidUpdate() {
     //添加出场时的position: absolute;
-    //if (this.keysToEnter.length) {
-    //  this.keysToLeave.map((key)=> {
-    //    this.state.childWapArr.map((m)=> {
-    //      if (key == m.key) {
-    //        m.props.style = {position: "absolute"};
-    //        console.log(m)
-    //      }
-    //    })
-    //  })
-    //}
 
     this.childWapArr = deleteRepeatKeyArr(toArrayChildren(this.props.children));
     this.keysToLeave = [];
@@ -70,6 +62,8 @@ class EnterAnimation extends Component {
 
     this.keysToLeave = [];
     this.keysToEnter = [];
+
+
     //判断两Arr里的不同；
     contrastArr(currentChildWapArr, newChildrenArr, (cm)=> {
       if (cm.key) {
@@ -92,12 +86,6 @@ class EnterAnimation extends Component {
 
     });
 
-    //newChildrenArr = leaveChildArr.concat(newChildrenArr);
-
-    ////清掉出场;
-    //leaveChildArr.map((cm)=>{
-    //  newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);
-    //});
 
     newChildrenArr = newChildrenArr.concat(leaveChildArr, enterChildArr);
 
@@ -153,6 +141,7 @@ class EnterAnimation extends Component {
 }
 
 EnterAnimation.to = startAnimation;
+EnterAnimation.EnterChild = EnterAnimationRouteChild;
 EnterAnimation.propTypes = {
   component: React.PropTypes.string
 };

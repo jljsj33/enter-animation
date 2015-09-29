@@ -89,13 +89,8 @@ var App = React.createClass({
   render() {
     at = this;
     var key = this.props.location.pathname;
-    //let child = React.createElement('div', {key: key}, this.props.children || <div/>);
-    let child = cloneElement(this.props.children || <div/>, {
-      key: key,
-      enter: this.state.enter,
-      leave: this.state.enter
-    });
-    console.log(child)
+    let child = cloneElement(this.props.children || <div/>, {key: key});
+
     return (
       <div>
         <ul  className='demo-router-nav'>
@@ -147,12 +142,12 @@ var Page1 = React.createClass({
 
 var Page3 = React.createClass({
   render() {
-    return <p style={{background: "#fff000"}} enter-data={{type: 'left'}}>
+    return <p style={{background: "#fff000"}}>
       <Link to="/page1">a link to page 2 </Link>
       我是页面2.</p>
   }
-});
-var t = [0, 1, 2];
+})
+var t = [0, 1, 2]
 var Page2 = React.createClass({
   getInitialState() {
     return {
@@ -160,25 +155,22 @@ var Page2 = React.createClass({
     }
   },
   onAddElement() {
-    t.push(t.length);
+    t.push(1);
     this.setState({})
   },
   render() {
-    let a = t.map((m)=> {
-      return <Page3 key={m}/>
+    let a = t.map(()=> {
+      return <Page3 enter-data key={Math.random()}/>
     });
-    //console.log(this.props)
     return (
-      <EnterAnimation.EnterChild style={{width: '100%'}} ref='page2' className="demo-router-child" enter={this.props ? this.props.enter : null} leave={this.props ? this.props.leave : null}>
+    <EnterAnimation.RouteChild style={{width: '100%'}} ref='page2' className="demo-router-child" key='ddd'>
         <h1 enter-data style={{background: "#fff000"}} >
           <span>Page 2</span>
           <button style={{'fontSize': 16, display: 'inline-block'}} onClick={this.onAddElement}>点击添加</button>
         </h1>
-      {a}
-        <div enter-data={{type: 'top'}}>sfdfsdfdsf
-          <Page3/>
-        </div>
-      </EnterAnimation.EnterChild>
+          {a}
+        <div enter-data={{type: 'top'}}>sfdfsdfdsf</div>
+      </EnterAnimation.RouteChild>
     );
   }
 });
