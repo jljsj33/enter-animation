@@ -26,13 +26,13 @@ var startAnim = function (node, vars) {
   this.__ease = vars.ease || 'cubic-bezier(0.165, 0.84, 0.44, 1)';
   this.__timer = typeof vars.duration === 'number' ? vars.duration : 0.5;
   this.reverse = vars.reverse || false;
-  var hidden = typeof vars.hidden === 'undefined' ? true : vars.hidden;
+  //var hidden = typeof vars.hidden === 'undefined' ? true : vars.hidden;
   this.callback = vars.onComplete;
   this.kill = true;
-  if (hidden) {
-    this.doc.documentElement.style.opacity = 0;
-    this.doc.documentElement.style.visibility = 'hidden';
-  }
+  //if (hidden) {
+  //this.doc.documentElement.style.opacity = 0;
+  //this.doc.documentElement.style.visibility = 'hidden';
+  //}
   cssStr += cssStr !== this.str + ';' ? this.str + ';' : '';
   setTimeout(function () {
     cssStr = '';
@@ -56,11 +56,11 @@ a.init = function () {
   var self = this,
     regTag = (/^<(\w+)\s*\/?>(?:<\/\1>|)$/);
   //rquickExpr = /^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/;
-  var htmlStyle = self.doc.documentElement;
-  self.removeStyle(htmlStyle, 'visibility:hidden;opacity:0');
-  if (htmlStyle.style.length <= 0) {
-    self.doc.documentElement.removeAttribute('style');
-  }
+  //var htmlStyle = self.doc.documentElement;
+  //self.removeStyle(htmlStyle, 'visibility:hidden;opacity:0');
+  //if (htmlStyle.style.length <= 0) {
+  //  self.doc.documentElement.removeAttribute('style');
+  //}
   if (!self.nodeStr || regTag.test(self.nodeStr)) {
     return self.error('node error;');
   }
@@ -119,6 +119,7 @@ a.init = function () {
         }
         var _style = data.type || data.style || self.str;
 
+        //console.log(_style)
         if (_style) {
           if (direction === 'leave') {
             self.removeStyle(mc, self.animNameGroup(_style));
@@ -234,6 +235,7 @@ a.fjStyle = function (node, style, tweenStr) {
     for (var i = 0; i < cArr.length; i++) {
       if (cArr[i] && cArr[i] !== '') {
         var sArr = cArr[i].split(':');
+
         node.style[self.getTransition()] = node.style[self.getTransition()] ? node.style[self.getTransition()] + ',' + sArr[0] + tweenStr : sArr[0] + tweenStr;
       }
     }
@@ -268,7 +270,7 @@ a.addTween = function () {
         var _ease = data.ease || self.__ease,
           _timer = typeof data.duration === 'number' ? data.duration : self.__timer;
         tweenStr = ' ' + _timer + 's ' + _ease + ' ' + self.__delay + 's';
-        _style = data.type || data.style;
+        _style = data.type || data.style || self.str;
         if (_style) {
           var _name = self.animNameGroup(_style);
           self.fjStyle(mc, _name, tweenStr);
@@ -292,6 +294,7 @@ a.addTween = function () {
     }
 
     if (!data || (data && (data.type || data.style))) {
+
       mc.setAttribute('delay', self.__delay);
       if (self.reverse) {
         if (self.queueIdArr[self.__qId] > 0) {
@@ -300,16 +303,24 @@ a.addTween = function () {
       } else {
         self.queueIdArr[self.__qId] += self.interval;
       }
+      //setTimeout(function () {
+      //  Event.setTrnsitionEnd(mc, function () {
+      //    eNum++;
+      //    if (eNum >= self.enterLength) {
+      //      if (typeof self.callback === 'function') {
+      //        self.callback();
+      //      }
+      //    }
+      //  });
+      //}, self.__delay * 1000);
       setTimeout(function () {
-        Event.setTrnsitionEnd(mc, function () {
-          eNum++;
-          if (eNum >= self.enterLength) {
-            if (typeof self.callback === 'function') {
-              self.callback();
-            }
+        eNum++;
+        if (eNum >= self.enterLength) {
+          if (typeof self.callback === 'function') {
+            self.callback();
           }
-        });
-      }, self.__delay * 1000);
+        }
+      }, (self.__delay + self.__timer) * 1000);
     }
   }, true);
 };

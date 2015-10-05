@@ -6,14 +6,15 @@ let startAnimation = require('./StartAnimation');
 class EnterAnimationChild extends Component {
   constructor(props) {
     super(...arguments);
-    this.childrenWap = this.props.children;
+    this.childrenWap = this.returnChildren(this.props.children);
     this.state = {
       enter: props.enter || {},
-      leave: props.leave || {},
+      leave: props.leave || props.enter || {},
       children: this.childrenWap
     };
     this.childrenKey = [];
-
+    this.enterQueueId = Math.round(Math.random() * 9999) + 10000;
+    this.leaveQueueId = Math.round(Math.random() * 9999) + 10000;
     this.keysToEnter = [];
     this.keysToLeave = [];
     this.wapToEnter = [];
@@ -42,17 +43,23 @@ class EnterAnimationChild extends Component {
         if (this.keysToEnter.indexOf(key) >= 0) {
           arr[i].direction = 'enter';
           arr[i].enter = leaveInherit(enter, self.state.enter, {});
-          let qId = Math.round(Math.random() * 9999) + 10000;
-          arr[i].enter.queueId = qId;//出场进场分支，跟默认的分开，因为这是新添加的。
+          if (arr[i].enter.type || arr[i].enter.style) {
+            arr[i].enter.queueId = this.enterQueueId;//出场进场分支，跟默认的分开，因为这是新添加的。
+          }
           arr[i].leave = leaveInherit(leave, self.state.leave, enter);
-          arr[i].leave.queueId = qId;
+          if (arr[i].leave.type || arr[i].leave.style) {
+            arr[i].leave.queueId = this.enterQueueId;
+          }
         } else if (this.keysToLeave.indexOf(key) >= 0) {
           arr[i].direction = 'leave';
           arr[i].enter = leaveInherit(enter, self.state.enter, {});
           arr[i].leave = leaveInherit(leave, self.state.leave, enter);
-          let qId = Math.round(Math.random() * 9999) + 10000;
-          arr[i].enter.queueId = qId;
-          arr[i].leave.queueId = qId;
+          if (arr[i].enter.type || arr[i].enter.style) {
+            arr[i].enter.queueId = this.leaveQueueId;//出场进场分支，跟默认的分开，因为这是新添加的。
+          }
+          if (arr[i].leave.type || arr[i].leave.style) {
+            arr[i].leave.queueId = this.leaveQueueId;
+          }
         }
       }
 
@@ -100,7 +107,6 @@ class EnterAnimationChild extends Component {
   callEnterAnimation(dom) {
 
     var state = this.state;
-
     var enter = state.enter || {}, leave = state.leave || null;
     var transition = this.dataArr;
     let direction = this.direction;
@@ -156,10 +162,11 @@ class EnterAnimationChild extends Component {
     this.wapToLeave = [];
     this.keysToEnter = [];
     this.keysToLeave = [];
-    //this.childrenWap = this.props.children;
+    this.childrenWap = this.returnChildren(this.props.children);
     this.setState({
-      children: this.props.children
+      children: this.childrenWap
     });
+    //console.log('end:', this.wapToEnter, this.wapToLeave, this.direction)
   }
 
   callEnterAnimationOne(dom) {
@@ -169,8 +176,6 @@ class EnterAnimationChild extends Component {
     var callBack = ()=> {
       this.oneAddEnd();
     };
-
-
     //这里data肯定有值，所以不需要继承；
     startAnimation(dom, {
       data: transition,
@@ -232,11 +237,13 @@ class EnterAnimationChild extends Component {
       return console.warn('Warning: Not perform EnterAnimation, Elements is String(' + children + ').');
     }
     this.dataArr = [];
-
+    this.enterQueueId = Math.round(Math.random() * 9999) + 10000;
+    this.leaveQueueId = Math.round(Math.random() * 9999) + 10000;
 
     this.componentChildrenDataEnter(toArrayChildren(children), this.dataArr);
 
 
+    //console.log(this.wapToEnter.length, this.wapToLeave.length)
     if (this.wapToEnter.length || this.wapToLeave.length) {
       if (!this.dataArr.cBool) {
         //这里是判断子节点没有enter-data时；
@@ -247,22 +254,26 @@ class EnterAnimationChild extends Component {
           if (this.keysToEnter.indexOf(m.key) >= 0 || this.keysToLeave.indexOf(m.key) >= 0) {
             m.enter = leaveInherit({}, {}, this.state.enter);
             m.leave = this.state.leave ? leaveInherit({}, {}, this.state.leave) : m.enter;
-            let qId = Math.round(Math.random() * 9999) + 10000;
-            m.enter.queueId = qId;
-            m.leave.queueId = qId;
+
             if (this.keysToEnter.indexOf(m.key) >= 0) {
               m.direction = 'enter';
+              m.enter.queueId = this.enterQueueId;
+              m.leave.queueId = this.enterQueueId;
             } else if (this.keysToLeave.indexOf(m.key) >= 0) {
               m.direction = 'leave';
+              m.enter.queueId = this.leaveQueueId;
+              m.leave.queueId = this.leaveQueueId;
             }
           }
         });
       }
+      //console.log('单增加')
       this.callEnterAnimationOne(dom);
     } else {
+      //console.log('转转场')
       this.callEnterAnimation(dom, _children);
     }
-    //console.log(this.dataArr);
+    //console.log(this.dataArr, this.direction)
   }
 
   wapMapKeys(wap) {
@@ -312,6 +323,7 @@ class EnterAnimationChild extends Component {
   }
 
   MergeWap(currentArray, newArray) {
+    //组数合并，检索两数组的不同
     let result = [];
     if (!currentArray || !currentArray.length) {
       result = newArray;
@@ -320,9 +332,11 @@ class EnterAnimationChild extends Component {
       //new里的与current里的对比，
       React.Children.forEach(currentArray, (item) => {
         let existItem = this.filter(newArray, item);//返回new里是否有current里的；
+
         if (!existItem && typeof item === 'object' && item.key) {
+          result.push(item);
           //如果没有，放入新增数组；
-          this.wapToLeave = result;
+          this.wapToLeave.push(item);
         }
       });
       React.Children.forEach(newArray, (item)=> {
@@ -331,14 +345,46 @@ class EnterAnimationChild extends Component {
           this.wapToEnter.push(item);
         }
       });
-      let _arr = toArrayChildren(newArray).concat(result);
-      return _arr;
+      let leavaItem = [];
+      result.map((item)=> {
+        //算出item在newArray里的位置；
+        //item在currentArrray的位轩;
+        let index = currentArray.indexOf(item);
+        let nextIndex = 0;
+        for (let i = index + 1; i < currentArray.length; i++) {
+          //判断index后面的item在newArr里是否存在；
+          let _item = currentArray[i];
+          //if (newArray.indexOf(_item) >= 0) {
+          //
+          //  nextIndex = i;
+          //  return
+          //}
+          for (let ii = 0; ii < newArray.length; ii++) {
+            let new_item = newArray[ii];
+            if (new_item.key === _item.key) {
+              nextIndex = ii;
+              break;
+            }
+          }
+          if (nextIndex) {
+            break;
+          }
+        }
+        //如果存在，newArray的指定位置插入，如果没有，放在leavaItem,然后再合并的最前面；
+        if (nextIndex) {
+          newArray.splice(nextIndex, 0, item);
+        } else {
+          leavaItem.push(item);
+        }
+      });
+      newArray = leavaItem.concat(newArray);
+      return newArray;
     }
 
   }
 
   componentDidMount() {
-    this.childrenWap = this.returnChildren(this.childrenWap);
+    this.childrenWap = this.returnChildren(this.props.children);
     this.componentDidUpdate();
   }
 
@@ -346,15 +392,13 @@ class EnterAnimationChild extends Component {
     var dom = findDOMNode(this);
     //
     var wap = this.childrenWap;
-    if (this.props.direction) {
+    if (this.props.direction === 'enter' || this.props.direction === 'leave') {
       this.props.onStart();
       this.direction = this.props.direction;
       this.setChildrenData(wap, dom);
 
     } else if (this.wapToEnter.length || this.wapToLeave.length) {
       this.direction = this.props.direction;
-      this.keysToEnter = this.wapMapKeys(this.wapToEnter);
-      this.keysToLeave = this.wapMapKeys(this.wapToLeave);
       this.setChildrenData(wap, dom);
 
     }
@@ -362,10 +406,9 @@ class EnterAnimationChild extends Component {
 
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.direction) {
-
+    if (nextProps.direction === 'enter' || nextProps.direction === 'leave') {
       let dom = findDOMNode(this);
-      this.childrenWap = this.returnChildren(this.props.children);
+      //this.childrenWap = this.state.children;
       if (nextProps.position) {
         dom.style.position = 'absolute';
       } else {
@@ -389,20 +432,28 @@ class EnterAnimationChild extends Component {
       let newChildrenWap = toArrayChildren(newChildren.props.children);
       let currentChildWap = toArrayChildren(currentChild.props.children);
 
-
       //console.log(newChildrenWap.length, currentChild.props.children.length);
       //合并两wap和计算进出场的wap；
       let allChildrenArr = this.MergeWap(currentChildWap, newChildrenWap);
-      //console.log(this.wapToEnter.length, this.wapToLeave.length)
-      this.childrenWap = cloneElement(this.childrenWap, {children: allChildrenArr});
 
+      this.keysToEnter = this.wapMapKeys(this.wapToEnter);
+      this.keysToLeave = this.wapMapKeys(this.wapToLeave);
+      //allChildrenArr = this.ArrrSort(allChildrenArr);
+
+
+      //console.log(allChildrenArr, this.wapToEnter, this.wapToLeave)
+      this.childrenWap = cloneElement(this.childrenWap, {children: allChildrenArr});
+      this.setState({
+        enter: nextProps.enter || {},
+        leave: nextProps.leave || nextProps.enter || {},
+        children: this.childrenWap
+      });
     }
 
   }
 
   render() {
-
-    return cloneElement(this.props.children);
+    return this.state.children;
   }
 }
 export default EnterAnimationChild;

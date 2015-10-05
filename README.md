@@ -53,6 +53,8 @@ EnterAnimation标签下：
 |enter|object|管理进场数据|
 |leave|object|管理当前元素出场的数据,默认null,null继承上面所有标签的值 |
 |component|string|EnterAnimation替换的标签名|
+|routeDirection|string|route时需要|
+|routeCallBack|function|route时需要|
 
 enter={} or leave={}
 
@@ -88,26 +90,26 @@ enter={} or leave={}
 如果标签上的`enter-data`没`type`||`style`，则执行`EnterAnimation`标签上的`type`||`style`;
 
 
-## EnterChild
+## EnterRouteGroup
 
-控制route或component的进出场，不在EnterAnimation标签下的；
+控制route的进出场；
 
 如:
 ```html
 var Page1 = React.createClass({
   render() {
     return
-      <EnterChild >
+      <EnterAnimation >
       <h1>添加或删除时EnterChild才起效，进出场仍然是EnterAnimation的参数</h1>
       <p style={{background: "#fff000"}} enter-data={{type: 'left'}} key='1'><Link to="/page1">a link to page 2 </Link>我是页面2.</p>
       <p style={{background: "#fff000"}} enter-data={{type: 'left'}} key='2'><Link to="/page1">a link to page 2 </Link>我是页面2.</p>
       <p style={{background: "#fff000"}} enter-data={{type: 'left'}} key='3'><Link to="/page1">a link to page 2 </Link>我是页面2.</p>
-      </EnterChild>
+      </EnterAnimation>
   }
 });
-<EnterAnimation>
+<EnterAnimation.EnterRouteGroup>
    <Page1 key='demo'/>
-</EnterAnimation>
+</EnterAnimation.EnterRouteGroup>
 ```
 具体看demo,routerAdd.html;
 

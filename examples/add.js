@@ -1,13 +1,16 @@
 var React = require('react');
 var EnterAnimation = require("enter-animation");
 
-var div = [<div key='21'>
-    <div>示例1示例2676671</div>
-  </div>, <div >sdfsdf</div>],
+var div = [<div key='21'><div>示例1示例2676671</div></div>, <div key='22'>sdfsdf</div>],
   adiv = div.concat(),
   cdiv = [<div>
     <div>示例1示例2221</div>
   </div>];
+var Page=React.createClass({
+  render() {
+    return <div>new Children</div>
+  }
+})
 var Demo = React.createClass({
   getInitialState: function () {
     return {
@@ -37,11 +40,13 @@ var Demo = React.createClass({
     })
   },
   onAddElement() {
-    cdiv.push(<div key={Date.now()}>示例1示例1{cdiv.length}</div>);
+    cdiv.push(<Page key={Date.now()}/>);
+    cdiv.push(<Page key={Date.now()+'1221'}/>);
     //let newDiv = this.state.addElement.slice();
     adiv.unshift(<div key={Date.now()}>示例1示例1{adiv.length}</div>);
 
     this.setState({
+      enter:{type:'left',duration:1},leave:null,
       addElement: cdiv
     })
   },
@@ -53,9 +58,7 @@ var Demo = React.createClass({
           <button onClick={this.onAddElement}>点击添加</button>
         </div>
         <EnterAnimation  enter={this.state.enter} leave={this.state.leave} style={{margin: "auto", width: 200}}>
-
           {this.state.cbool ? <div key='acc'>{this.state.addElement}</div>: null}
-
         </EnterAnimation>
       </div>
     )

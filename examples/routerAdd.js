@@ -42,7 +42,7 @@ var App = React.createClass({
         type: null,
         style: {marginTop: '10px', opacity: 0},//'margin-top:10px;opacity:0',
         ease: 'cubic-bezier(0.075, 0.82, 0.165, 1)',
-        delay: 0.5,
+        delay: .5,
         callback: function (e) {
           console.log('你点了page1,进场用的是你自定的效果', e.direction);
         }
@@ -87,15 +87,9 @@ var App = React.createClass({
   },
 
   render() {
-    at = this;
     var key = this.props.location.pathname;
     //let child = React.createElement('div', {key: key}, this.props.children || <div/>);
-    let child = cloneElement(this.props.children || <div/>, {
-      key: key,
-      enter: this.state.enter,
-      leave: this.state.enter
-    });
-    console.log(child)
+    let child = cloneElement(this.props.children || <div/>, {key: key});
     return (
       <div>
         <ul  className='demo-router-nav'>
@@ -109,9 +103,9 @@ var App = React.createClass({
             <Link to="/page2" onClick={this.clickPage2}>Page 2</Link>
           </li>
         </ul>
-        <EnterAnimation className='demo-router-wap' enter={this.state.enter} leave={this.state.leave}  ref='myChild' >
+        <EnterAnimation.EnterRouteGroup enter={this.state.enter} leave={this.state.leave}>
         {child}
-        </EnterAnimation>
+        </EnterAnimation.EnterRouteGroup>
       </div>
     );
   }
@@ -120,27 +114,29 @@ var App = React.createClass({
 var Page1 = React.createClass({
   render() {
     return (
-      <div className="demo-router-child" ref='page1' style={{width: '100%'}}>
-        <h1 enter-data={{"type": "right"}} style={{background: "#ff0000"}}>Page 1</h1>
-        <p enter-data={{"type": "top"}} style={{background: "#ff0000"}}>
-          <Link to="/page2">A link to page 1 should be active</Link>
-          我是页面1</p>
-        <p enter-data={{"type": "top"}} style={{background: "#ff0000"}}>
-          <Link to="/page2" enter-data={{"type": "bottom"}}>A link to page 1 should be active</Link>
-          我是页面1</p>
-        <p enter-data={{"type": "right"}} style={{background: "#ff0000"}}>
-          <Link to="/page2">A link to page 1 should be active</Link>
-          我是页面1</p>
-        <p enter-data={{"style": {"marginTop": "50px", "opacity": 0}}} data-leave={{
-          "type": "top",
-          "duration": 1
-        }} style={{background: "#ff0000"}}>
-          <Link to="/page2">A link to page 1 should be active</Link>
-          我是页面1</p>
-        <p enter-data style={{background: "#ff0000"}}>
-          <Link to="/page2">A link to page 1 should be active</Link>
-          我是页面1</p>
-      </div>
+      <EnterAnimation className='demo-router-wap' ref='myChild' enter={this.props.enter} leave={this.props.leave} routeCallBack={this.props.routeCallBack} routeDirection={this.props.routeDirection}>
+        <div className="demo-router-child" ref='page1' style={{width: '100%'}} key='page1'>
+          <h1 enter-data={{"type": "right"}} style={{background: "#ff0000"}}>Page 1</h1>
+          <p enter-data={{"type": "top"}} style={{background: "#ff0000"}}>
+            <Link to="/page2">A link to page 1 should be active</Link>
+            我是页面1</p>
+          <p enter-data={{"type": "top"}} style={{background: "#ff0000"}}>
+            <Link to="/page2" enter-data={{"type": "bottom"}}>A link to page 1 should be active</Link>
+            我是页面1</p>
+          <p enter-data={{"type": "right"}} style={{background: "#ff0000"}}>
+            <Link to="/page2">A link to page 1 should be active</Link>
+            我是页面1</p>
+          <p enter-data={{"style": {"marginTop": "50px", "opacity": 0}}} data-leave={{
+            "type": "top",
+            "duration": 1
+          }} style={{background: "#ff0000"}}>
+            <Link to="/page2">A link to page 1 should be active</Link>
+            我是页面1</p>
+          <p enter-data style={{background: "#ff0000"}}>
+            <Link to="/page2">A link to page 1 should be active</Link>
+            我是页面1</p>
+        </div>
+      </EnterAnimation>
     );
   }
 });
@@ -149,7 +145,7 @@ var Page3 = React.createClass({
   render() {
     return <p style={{background: "#fff000"}} enter-data={{type: 'left'}}>
       <Link to="/page1">a link to page 2 </Link>
-      我是页面2.</p>
+      我是页面2.{this.props ? this.props.i : 1222}</p>
   }
 });
 var t = [0, 1, 2];
@@ -161,24 +157,32 @@ var Page2 = React.createClass({
   },
   onAddElement() {
     t.push(t.length);
-    this.setState({})
+    t.push(t.length);
+    this.setState({});
+  },
+  onRemoveElement() {
+    t.splice(1, 1);
+    t.push(Date.now());
+    this.setState({});
   },
   render() {
     let a = t.map((m)=> {
-      return <Page3 key={m}/>
+      return <Page3 key={m} i={m}/>
     });
-    //console.log(this.props)
     return (
-      <EnterAnimation.EnterChild style={{width: '100%'}} ref='page2' className="demo-router-child" enter={this.props ? this.props.enter : null} leave={this.props ? this.props.leave : null}>
-        <h1 enter-data style={{background: "#fff000"}} >
-          <span>Page 2</span>
-          <button style={{'fontSize': 16, display: 'inline-block'}} onClick={this.onAddElement}>点击添加</button>
-        </h1>
+      <EnterAnimation className='demo-router-wap'  ref='myChild' {...this.props}>
+        <div style={{width: '100%'}} ref='page2' className="demo-router-child" key='page2'>
+          <h1 enter-data style={{background: "#fff000"}} >
+            <span>Page 2</span>
+            <button style={{'fontSize': 16, display: 'inline-block'}} onClick={this.onAddElement}>点击添加</button>
+            <button style={{'fontSize': 16, display: 'inline-block'}} onClick={this.onRemoveElement}>点击删除</button>
+          </h1>
       {a}
-        <div enter-data={{type: 'top'}}>sfdfsdfdsf
-          <Page3/>
+          <div enter-data={{type: 'top'}}>sfdfsdfdsf
+            <Page3/>
+          </div>
         </div>
-      </EnterAnimation.EnterChild>
+      </EnterAnimation>
     );
   }
 });
@@ -187,7 +191,7 @@ var Page2 = React.createClass({
 React.render((
   <Router history={history}>
     <Route path="/" component={App}>
-      <Route path="page1" component={Page1} />
+      <Route path="page1" component={Page1} get/>
       <Route path="page2" component={Page2} />
     </Route>
   </Router>
