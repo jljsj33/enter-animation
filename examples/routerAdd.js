@@ -114,7 +114,7 @@ var App = React.createClass({
 var Page1 = React.createClass({
   render() {
     return (
-      <EnterAnimation className='demo-router-wap' ref='myChild' enter={this.props.enter} leave={this.props.leave} routeCallBack={this.props.routeCallBack} routeDirection={this.props.routeDirection}>
+      <EnterAnimation className='demo-router-wap' ref='myChild' {...this.props}>
         <div className="demo-router-child" ref='page1' style={{width: '100%'}} key='page1'>
           <h1 enter-data={{"type": "right"}} style={{background: "#ff0000"}}>Page 1</h1>
           <p enter-data={{"type": "top"}} style={{background: "#ff0000"}}>

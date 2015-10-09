@@ -99,7 +99,7 @@ enter={} or leave={}
 var Page1 = React.createClass({
   render() {
     return
-      <EnterAnimation >
+      <EnterAnimation {...this.props}>
       <h1>添加或删除时EnterChild才起效，进出场仍然是EnterAnimation的参数</h1>
       <p style={{background: "#fff000"}} enter-data={{type: 'left'}} key='1'><Link to="/page1">a link to page 2 </Link>我是页面2.</p>
       <p style={{background: "#fff000"}} enter-data={{type: 'left'}} key='2'><Link to="/page1">a link to page 2 </Link>我是页面2.</p>
