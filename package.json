@@ -1,6 +1,6 @@
 {
   "name": "enter-animation",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "进场动画js",
   "keywords": [
     "react",
@@ -38,7 +38,7 @@
     "precommit-hook": "^1.0.7",
     "rc-server": "3.x",
     "rc-tools": "3.x",
-    "react-router": "~1.0.0-beta3",
+    "react-router": "1.0.0-beta3",
     "react": "^0.13.x",
     "object-assign": "~4.0.1"
   },

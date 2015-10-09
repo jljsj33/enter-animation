@@ -119,21 +119,22 @@ var App = React.createClass({
 var Page1 = React.createClass({
   render() {
     return (
-      <div className="demo-router-child" ref='page1' style={{width:'100%'}}>
-        <h1 data-enter='{"type":"right"}' style={{background:"#ff0000"}}>Page 1</h1>
-        <p data-enter='{"type":"top"}' style={{background:"#ff0000"}}>
+
+      <div className="demo-router-child" ref='page1' style={{width: '100%'}}>
+        <h1 enter-data={{"type":"right"}} style={{background: "#ff0000"}}>Page 1</h1>
+        <p enter-data={{"type":"top"}} style={{background: "#ff0000"}}>
           <Link to="/page2">A link to page 1 should be active</Link>
           我是页面1</p>
-        <p data-enter='{"type":"top"}' style={{background:"#ff0000"}}>
-          <Link to="/page2" data-enter='{"type":"bottom"}'>A link to page 1 should be active</Link>
+        <p enter-data={{"type":"top"}} style={{background: "#ff0000"}}>
+          <Link to="/page2" enter-data={{"type":"bottom"}}>A link to page 1 should be active</Link>
           我是页面1</p>
-        <p data-enter='{"type":"right"}' style={{background:"#ff0000"}}>
+        <p enter-data={{"type":"right"}} style={{background: "#ff0000"}}>
           <Link to="/page2">A link to page 1 should be active</Link>
           我是页面1</p>
-        <p data-enter='{"style":{"marginTop":"50px","opacity":0}}' data-leave='{"type":"top","duration":1}' style={{background:"#ff0000"}}>
+        <p enter-data={{"style":{"marginTop":"50px","opacity":0}}} data-leave={{"type":"top","duration":1}} style={{background: "#ff0000"}}>
           <Link to="/page2">A link to page 1 should be active</Link>
           我是页面1</p>
-        <p data-enter style={{background:"#ff0000"}}>
+        <p enter-data style={{background: "#ff0000"}}>
           <Link to="/page2">A link to page 1 should be active</Link>
           我是页面1</p>
       </div>
