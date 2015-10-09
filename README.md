@@ -31,19 +31,26 @@
 
 ### 用法
 ```html
+<<<<<<< HEAD
 var EnterAnimation = require('enter-animation');
 var React = require('react');
 React.render(<EnterAnimation>
+=======
+<EnterAnimation>
+>>>>>>> cb42e18b66b5110e16319cd8b507b1c46dffcf8b
   <div key='demo'>
     <div>依次进场</div>
     <div>依次进场</div>
     <div>依次进场</div>
     <div>依次进场</div>
+<<<<<<< HEAD
   </div>,container)
+=======
+  </div>
+>>>>>>> cb42e18b66b5110e16319cd8b507b1c46dffcf8b
 </EnterAnimation>
 ```
 
-注：`<EnterAnimation></EnterAnimation>`自动转换为div，所以你有什么样式都可以在上面添加；
 
 ### api
 动画默认`right`
@@ -56,6 +63,8 @@ EnterAnimation标签下：
 |enter|object|管理进场数据|
 |leave|object|管理当前元素出场的数据,默认null,null继承上面所有标签的值 |
 |component|string|EnterAnimation替换的标签名|
+|routeDirection|string|route时需要|
+|routeCallBack|function|route时需要|
 
 enter={} or leave={}
 
@@ -82,13 +91,37 @@ enter={} or leave={}
 
 |参数             |类型    |详细                                                 |
 |-----------------|-------|----------------------------------------------------|
+|key              |string|子节新增与去除必须，单进场可不用                         |
 |enter-data       |object            |如下data值;|
-|data-enter       |JSON.string            |因router下enter-data无效，所以新增dom标签，router时可用，如下data值;|
 |leave-data       |object |如上,如果为null，则继承enter-data和data-enter的所有参数|
-|data-leave       |JSON String|如上|
+
 
 注：如子节点有`enter-data`值，则只执行有`enter-data`的节点的动画;
 如果标签上的`enter-data`没`type`||`style`，则执行`EnterAnimation`标签上的`type`||`style`;
+
+
+## EnterRouteGroup
+
+控制route的进出场；
+
+如:
+```html
+var Page1 = React.createClass({
+  render() {
+    return
+      <EnterAnimation {...this.props}>
+      <h1>添加或删除时EnterChild才起效，进出场仍然是EnterAnimation的参数</h1>
+      <p style={{background: "#fff000"}} enter-data={{type: 'left'}} key='1'><Link to="/page1">a link to page 2 </Link>我是页面2.</p>
+      <p style={{background: "#fff000"}} enter-data={{type: 'left'}} key='2'><Link to="/page1">a link to page 2 </Link>我是页面2.</p>
+      <p style={{background: "#fff000"}} enter-data={{type: 'left'}} key='3'><Link to="/page1">a link to page 2 </Link>我是页面2.</p>
+      </EnterAnimation>
+  }
+});
+<EnterAnimation.EnterRouteGroup>
+   <Page1 key='demo'/>
+</EnterAnimation.EnterRouteGroup>
+```
+具体看demo,routerAdd.html;
 
 ##startAnimation的动画参数(EnterAnimation.to)；
 
@@ -148,6 +181,7 @@ EnterAnimation.to(node,vars);</code></pre>
 
 
 为object时，树状形dom结构，以({})为一档标签；
+<<<<<<< HEAD
 如：
 
 ```html
@@ -186,4 +220,6 @@ children:[//子下的两div
 ]
 </code></pre>
 
+=======
+>>>>>>> cb42e18b66b5110e16319cd8b507b1c46dffcf8b
 

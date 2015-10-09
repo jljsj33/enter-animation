@@ -1,3 +1,9 @@
+## 0.6.0 (2015-9-25)
+
+* 增加EnterChild，管理router或component下的新增和去除的动画;
+* 增加子节下面新增或去除的进出场动画；
+* 修改router或Component下可以用enter-data或leave-data;
+
 ## 0.5.0 (2015-9-10)
 
 * 修改大标签参数为0时的bug;
