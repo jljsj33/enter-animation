@@ -30,16 +30,18 @@
 [![enter-animation](https://nodei.co/npm/enter-animation.png)](https://npmjs.org/package/enter-animation)
 
 ### 用法
-<pre><code>
+```html
 var EnterAnimation = require('enter-animation');
 var React = require('react');
-React.render(&lt;EnterAnimation type={"left"}&gt
-&lt;div&gtanim1&lt;/div&gt
-&lt;div&gtanim2&lt;/div&gt
-&lt;div&gtanim3&lt;/div&gt
-&lt;/EnterAnimation&gt, container);
-
-</code></pre>
+React.render(<EnterAnimation>
+  <div key='demo'>
+    <div>依次进场</div>
+    <div>依次进场</div>
+    <div>依次进场</div>
+    <div>依次进场</div>
+  </div>,container)
+</EnterAnimation>
+```
 
 注：`<EnterAnimation></EnterAnimation>`自动转换为div，所以你有什么样式都可以在上面添加；
 
@@ -148,10 +150,12 @@ EnterAnimation.to(node,vars);</code></pre>
 为object时，树状形dom结构，以({})为一档标签；
 如：
 
-<pre><code>&lt;div class="a"&gt;
-&lt;div class="b"&gt;&lt;/div&gt;
-&lt;div class="c"&gt;&lt;/div&gt;
-&lt;/div&gt;</code></pre>
+```html
+<div class='a'>
+  <div class='b'></div>
+  <div class='c'></div>
+</div>
+```
 
 node用的是".a",做b,c的动画，那data为：{}为最外层div;
 <pre><code>{////外层div
@@ -162,14 +166,15 @@ children:[//子下的两div
 }</code></pre>
 
 如果元素为多个时：
-
-<pre><code>&lt;div class="a"&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span&gt;&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span&gt;&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span&gt;&lt;/span&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;</code></pre>
+```html
+<div class='a'>
+ <ul>
+   <li></li>
+   <li></li>
+   <li></li>
+ </ul>
+</div>
+```
 
 处理每个li里的span的动画时，data为:
 
@@ -182,12 +187,3 @@ children:[//子下的两div
 </code></pre>
 
 
-
-#### router使用方法
-
-<pre><code>
-var key = this.props.location.pathname;
-&lt;EnterAnimation&gt
-{cloneElement(this.props.children || &lt;div/&gt, {key: key})}//
-&lt;/EnterAnimation&gt
-</code></pre>
