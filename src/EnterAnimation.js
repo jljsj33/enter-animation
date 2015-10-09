@@ -110,8 +110,7 @@ class EnterAnimation extends Component {
 
   render() {
     var props = this.props;
-
-    if (props.children && props.children.props && props.children.props.route) {
+    if (props && props.children && props.children.props && props.children.props.route) {
       throw new Error('Please use "EnterAnimation.EnterRouteGroup"');
     }
     var childrenToRender = this.state.childWapArr.map((m)=> {

@@ -185,6 +185,9 @@ class EnterAnimationChild extends Component {
 
   childMap(child) {
     let _arr = [];
+    if (!child) {
+      return null;
+    }
     child = toArrayChildren(toArrayChildren(child).reduce(function (a, b) {
       if (!(a instanceof Array)) {
         return [a].concat(b);
@@ -193,11 +196,21 @@ class EnterAnimationChild extends Component {
       }
     }));
     React.Children.map(child, (item)=> {
+
+      if (!item) {
+        return null;
+      }
       if ((typeof item.type === 'string' || (item.props && item.props['enter-comp'])) && item.props.children) {
         item = cloneElement(item, {children: this.childMap(item.props.children)});
       } else if (typeof item.type === 'function' && item.props && typeof item.props.children !== 'string') {
+        //let _c = <item.type {...item.props} enter-comp={true}/>;
+
+        //item.type.prototype.constructor(item.props)
+        item.type.prototype.props = item.props;
+        item.type.prototype.state = item.type.prototype.getInitialState ? item.type.prototype.getInitialState() : null;
         let _child = item.type.prototype.render();
         _child.props['enter-comp'] = true;
+        //console.log(_child,item,<item.type {...item.props} enter-comp={true}/>)
         item = cloneElement(item, {
           'enter-data': _child.props['enter-data'] || item.props['enter-data'],
           children: this.childMap(_child.props.children)
@@ -213,13 +226,17 @@ class EnterAnimationChild extends Component {
 
   returnChildren(children) {
     let child = children;
-    if (typeof child.type === 'function') {
-      let _child = child.type.prototype.render();
-      _child.props['enter-comp'] = true;
-      child = this.childMap(_child);
-    } else {
-      child = this.childMap(child);
-    }
+    //if (typeof child.type === 'function') {
+    //
+    //  child.type.prototype.props = child.props;
+    //  child.type.prototype.state = child.type.prototype.getInitialState ? item.type.prototype.getInitialState() : null;
+    //  let _child = child.type.prototype.render();
+    //  _child.props['enter-comp'] = true;
+    //  child = this.childMap(_child);
+    //} else {
+    //  child = this.childMap(child);
+    //}
+    child = this.childMap(child);
     return child;
   }
 

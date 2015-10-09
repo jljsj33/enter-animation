@@ -55,7 +55,6 @@ class EnterAnimationRouteGroup extends Component {
     //增加absolute,所以把进场的也放数组里。。
     let enterChildArr = [];
 
-    //console.log(nextProps.children[1].props.route.component.prototype.render())
 
     this.keysToLeave = [];
     this.keysToEnter = [];
