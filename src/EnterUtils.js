@@ -183,6 +183,15 @@ const utils = {
         }
       });
       return wapToEnter;
+    } else if (!newArray || !newArray.length) {
+      wapToLeave = currentArray;
+      React.Children.forEach(currentArray, (item)=> {
+        if (item.key) {
+          keysToLeave.push(item.key);
+        }
+      });
+
+      return wapToLeave;
     } else {
       //new里的与current里的对比，
       //如果current里的元素没key，那在new里肯定存在。
@@ -210,6 +219,9 @@ const utils = {
         //item在currentArrray的位轩;
         let index = currentArray.indexOf(item);
         let nextIndex = 0;
+        //if (index >= currentArray.length - 1) {
+        //  nextIndex = index;
+        //}
         for (let i = index + 1; i < currentArray.length; i++) {
           //判断index后面的item在newArr里是否存在；
           let _item = currentArray[i];
@@ -224,9 +236,24 @@ const utils = {
             break;
           }
         }
+        //判断index前面
+        for (let j = index - 1; j >= 0; j--) {
+          let __item = currentArray[j];
+          for (let jj = 0; jj < newArray.length; jj++) {
+            let _new_item = newArray[jj];
+            if (__item.key === _new_item.key) {
+              nextIndex = jj + 1;
+              break;
+            }
+          }
+          if (nextIndex) {
+            break;
+          }
+        }
         //如果存在，newArray的指定位置插入，如果没有，放在leavaItem,然后再合并的最前面；
         if (nextIndex) {
           newArray.splice(nextIndex, 0, item);
+
         } else {
           leavaItem.push(item);
         }

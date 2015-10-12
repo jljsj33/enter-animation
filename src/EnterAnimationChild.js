@@ -58,7 +58,7 @@ class EnterAnimationChild extends Component {
           }
         }
 
-        if (props.children && typeof props.children === 'object') {
+        if (props.children && typeof props.children === 'object' && props.children.length) {
           arr[i].children = [];
           self.componentChildrenDataEnter(toArrayChildren(props.children), arr[i].children);
         }
@@ -267,7 +267,7 @@ class EnterAnimationChild extends Component {
     this.componentChildrenDataEnter(toArrayChildren(children), this.dataArr);
 
 
-    if (this.keysToEnter.length || this.keysToEnter.length) {
+    if (this.keysToEnter.length || this.keysToLeave.length) {
       if (!this.dataArr.cBool) {
         //这里是判断子节点没有enter-data时；
         this.dataArr.cBool = true;//开启cBool;
@@ -311,7 +311,7 @@ class EnterAnimationChild extends Component {
     for (let i = 0; i < newArray.length; i++) {
       let item = newArray[i];
       if (item.key === _item.key) {
-        newArray[i] = cloneElement(item, {children: MergeWap(_item.props.children, item.props.children, this.keysToEnter, this.keysToLeave)});
+        newArray[i] = cloneElement(item, {children: MergeWap(toArrayChildren(_item.props.children), toArrayChildren(item.props.children), this.keysToEnter, this.keysToLeave)});
         break;
       } else if (item.props && typeof item.props.children === 'object') {
         child = this.childChangeNewArrayMap(toArrayChildren(item.props.children), _item);
@@ -378,10 +378,8 @@ class EnterAnimationChild extends Component {
       let currentChild = this.childrenWap;//=this.returnChildren(this.props.children);
       let newChildrenWap = toArrayChildren(newChildren.props.children);
       let currentChildWap = toArrayChildren(currentChild.props.children);
-
       //在这里遍历子级的enter-data和key；
       this.childChangeMap(currentChildWap, newChildrenWap);
-
 
       //合并两wap和计算进出场的wap；
       let allChildrenArr = MergeWap(currentChildWap, newChildrenWap, this.keysToEnter, this.keysToLeave);

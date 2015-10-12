@@ -1,16 +1,12 @@
 var React = require('react');
 var EnterAnimation = require("enter-animation");
 
-var div = [<div key='21' enter-data>
-    <div>示例1示例2676671</div>
-  </div>, <div key='22'>sdfsdf</div>],
+var div = [<div key='21'>示例1示例2676671</div>, <div key='22'>sdfsdf</div>,<div key='24'>ffffdfdfs</div>],
   adiv = div.concat(),
-  cdiv = [<div>
-    <div>示例1示例2221</div>
-  </div>];
+  cdiv = [<div key='23'>示例1示例2221</div>];
 var Page = React.createClass({
   render() {
-    return <div>new Children</div>
+    return <div>new Children{this.props.i}</div>
   }
 })
 var Demo = React.createClass({
@@ -42,13 +38,19 @@ var Demo = React.createClass({
     })
   },
   onAddElement() {
-    cdiv.push(<Page key={Date.now()} enter-data/>);
-    cdiv.push(<Page key={Date.now() + '1221'} enter-data/>);
+    cdiv.push(<Page key={Date.now()} i={Date.now()} />);
+    cdiv.push(<Page key={Date.now() + '1221'} i={Date.now()+'221'} />);
     //let newDiv = this.state.addElement.slice();
     adiv.unshift(<div key={Date.now()}>示例1示例1{adiv.length}</div>);
 
     this.setState({
       enter: {type: 'left'}, leave: null,
+      addElement: cdiv
+    })
+  },
+  onAddRemove(){
+    cdiv.pop();
+    this.setState({
       addElement: cdiv
     })
   },
@@ -58,9 +60,10 @@ var Demo = React.createClass({
         <h3 style={{"textAlign": "center"}} onClick={this.onClick}>添加子节点</h3>
         <div style={{"textAlign": "center", margin: '10px 0'}}>
           <button onClick={this.onAddElement}>点击添加</button>
+          <button onClick={this.onAddRemove}>点击删除</button>
         </div>
         <EnterAnimation  enter={this.state.enter} leave={this.state.leave} style={{margin: "auto", width: 200}}>
-          {this.state.cbool ? <div key='acc'><div key='bdfd'>{this.state.addElement}</div></div> : null}
+          {this.state.cbool ? <div key='acc'>{this.state.addElement.length?this.state.addElement:null}</div> : null}
 
         </EnterAnimation>
       </div>
