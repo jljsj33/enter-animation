@@ -89,7 +89,6 @@ a.init = function () {
   self.__ease = self.__ease || 'cubic-bezier(0.165, 0.84, 0.44, 1)';
   self.__timer = self.__timer || 0.5;
   self.__qId = 0;
-
   self.forTweenData(_mc, self.tweenData, function (mc, data) {
     if (self.kill) {
       var s = '';
@@ -105,6 +104,7 @@ a.init = function () {
       if (!data.children && !sBool && direction === 'leave') {
         //self.addStyle(mc, 'opacity:0');
       }
+
       if (direction === 'leave') {
         data = data.leave;
       } else {
@@ -239,7 +239,6 @@ a.fjStyle = function (node, style, tweenStr) {
     for (var i = 0; i < cArr.length; i++) {
       if (cArr[i] && cArr[i] !== '') {
         var sArr = cArr[i].split(':');
-
         node.style[self.getTransition()] = node.style[self.getTransition()] ? node.style[self.getTransition()] + ',' + sArr[0] + tweenStr : sArr[0] + tweenStr;
       }
     }
@@ -251,7 +250,7 @@ a.addTween = function () {
   var m = self.length === 1 ? self[0].children : self;
   self.forTweenData(m, self.tweenData, function (mc, data) {
     var tweenStr = ' ' + self.__timer + 's ' + self.__ease + ' ' + self.__delay + 's';
-    var _style = null;
+    var _style = null, _timer = self.__timer;
     if (data) {
       var direction = data.direction || self.direction;
       if (direction === 'leave') {
@@ -270,9 +269,8 @@ a.addTween = function () {
           self.queueIdArr[self.__qId] = Number(Number((self.queueIdArr[self.__qId] || 0) + (data.delay || 0)).toFixed(3));
           self.__delay = self.queueIdArr[self.__qId];
         }
-
-        var _ease = data.ease || self.__ease,
-          _timer = typeof data.duration === 'number' ? data.duration : self.__timer;
+        var _ease = data.ease || self.__ease;
+        _timer = typeof data.duration === 'number' ? data.duration : self.__timer;
         tweenStr = ' ' + _timer + 's ' + _ease + ' ' + self.__delay + 's';
         _style = data.type || data.style || self.str;
         if (_style) {
@@ -288,7 +286,7 @@ a.addTween = function () {
     } else {
       self.queueIdArr[self.__qId] = self.queueIdArr[self.__qId] || 0;
       self.__delay = self.queueIdArr[self.__qId] || self.queueIdArr[self.__qId] === 0 ? self.queueIdArr[self.__qId] : self.__delay;
-      tweenStr = ' ' + self.__timer + 's ' + self.__ease + ' ' + self.__delay + 's';
+      tweenStr = ' ' + _timer + 's ' + self.__ease + ' ' + self.__delay + 's';
       self.fjStyle(mc, self.animNameGroup(self.str), tweenStr);
       if (self.direction === 'leave') {
         self.addStyle(mc, self.animNameGroup(self.str));
@@ -307,16 +305,6 @@ a.addTween = function () {
       } else {
         self.queueIdArr[self.__qId] += self.interval;
       }
-      //setTimeout(function () {
-      //  Event.setTrnsitionEnd(mc, function () {
-      //    eNum++;
-      //    if (eNum >= self.enterLength) {
-      //      if (typeof self.callback === 'function') {
-      //        self.callback();
-      //      }
-      //    }
-      //  });
-      //}, self.__delay * 1000);
       timeOut.push(setTimeout(function () {
         eNum++;
         Event.setTrnsitionEnd(mc);
@@ -325,7 +313,7 @@ a.addTween = function () {
             self.callback();
           }
         }
-      }, (self.__delay + self.__timer) * 1000));
+      }, (self.__delay + _timer) * 1000));
     }
   }, true);
 };

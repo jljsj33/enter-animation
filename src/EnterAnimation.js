@@ -1,9 +1,8 @@
 'use strict';
-import React, {Component, createElement} from 'react';
+import React, {Component, findDOMNode, cloneElement, createElement} from 'react';
 //import assign from 'object-assign';
-import EnterAnimationChild from './EnterAnimationChild';
 import EnterAnimationRouteGroup from './EnterAnimationRouteGroup';
-import {toArrayChildren, deleteRepeatKeyArr, MergeWap} from './EnterUtils';
+import {toArrayChildren, deleteRepeatKeyArr, isPropsPushData, MergeWap} from './EnterUtils';
 let startAnimation = require('./StartAnimation');
 
 
@@ -13,6 +12,7 @@ class EnterAnimation extends Component {
 
     this.keysToEnter = [];
     this.keysToLeave = [];
+    this.index = 0;
 
     //第一次进入，默认进场；
     var elementArr = toArrayChildren(this.props.children);
@@ -24,34 +24,115 @@ class EnterAnimation extends Component {
       this.keysToEnter.push(m.key);
     });
 
+
     this.childWapArr = deleteRepeatKeyArr(elementArr);
     this.state = {
       childWapArr: this.childWapArr,
       keysToEnrer: this.props.keysToEnter,
-      keysToLeave: this.props.keysToLeave
+      keysToLeave: this.props.keysToLeave,
+      enter: this.props.enter || {},
+      leave: this.props.leave || this.props.enter || {}
     };
+    this.defaultType = !this.state.enter && !this.state.leave ? 'right' : this.direction === 'leave' ? this.state.leave.type || this.state.leave.style || this.state.enter.type || this.state.enter.style || 'right' : this.state.enter.type || this.state.enter.style || 'right';
+
   }
 
-  setData(props, wap, dic, bool, callback) {
+  setData(props, wap) {
     this.setState({
-      enter: props.enter,
-      leave: props.leave,
+      enter: props.enter || {},
+      leave: props.leave || props.enter || {},
       childWapArr: wap
     });
   }
 
+  setStartAnimation() {
+    let dataArr = [], dom = findDOMNode(this);
+
+    let delay = this.props.delay;
+    let reverse = this.props.reverse;
+    let interval = this.props.interval;
+
+    React.Children.map(this.state.childWapArr, (item, i)=> {
+      let _data = {enter: {}, leave: {}};
+      let index = item.props.index;
+      if (this.keysToEnter.indexOf(item.key) >= 0 || this.keysToLeave.indexOf(item.key) >= 0) {
+        _data.enter = isPropsPushData(this.state.enter, this.defaultType);
+        _data.leave = isPropsPushData(this.state.leave, this.state.enter.type || this.state.enter.style || this.defaultType);
+      }
+      if (this.keysToEnter.indexOf(item.key) >= 0) {
+        _data.direction = 'enter';
+        _data.delay = (index - i) / 2;
+        //console.log(_data.delay, index, i);
+      } else if (this.keysToLeave.indexOf(item.key) >= 0) {
+        _data.direction = 'leave';
+      }
+      dataArr.push(_data);
+    });
+
+    let callBack = ()=> {
+      if (typeof this.props.callback === 'function') {
+        this.props.callback();
+      }
+      //console.log(1212)
+      this.kill();
+    };
+    if (dataArr.length) {
+      dataArr.cBool = true;
+    }
+    startAnimation({children: dom}, {
+      data: dataArr,
+      delay: delay,
+      interval: interval,
+      reverse: reverse, onComplete: callBack
+    });
+  }
+
+  childMap(child) {
+    /*React.Children.forEach(child, (item)=> {
+
+     });*/
+    child = toArrayChildren(child);
+    for (let i = 0; i < child.length; i++) {
+      let item = child[i];
+      if (item.key) {
+        child[i] = cloneElement(item, {index: this.index});
+        item = child[i];
+        this.index++;
+      }
+      if (item.props && typeof item.props.children === 'object') {
+        let _child = item.props.children;
+        if (_child.type.name === 'EnterAnimation') {
+          let e_child = toArrayChildren(_child.props.children);
+          _child = cloneElement(_child, {children: this.childMap(e_child)});
+          child[i] = cloneElement(item, {children: _child});
+        } else {
+          item.props.children = this.childMap(_child);
+        }
+      }
+    }
+    return child;
+  }
+
+  componentWillMount() {
+    if (this.props.one) {
+      this.state.childWapArr = this.childMap(this.props.children);
+    }
+
+    //console.log(this.state.childWapArr, this.index)
+  }
+
   componentDidMount() {
-    this.keysToLeave = [];
-    this.keysToEnter = [];
+    //console.log(this)
+    this.componentDidUpdate();
   }
 
   componentDidUpdate() {
     //添加出场时的position: absolute;
+    this.setStartAnimation();
     this.childWapArr = deleteRepeatKeyArr(toArrayChildren(this.props.children));
-    //this.keysToLeave = [];
-    //this.keysToEnter = [];
+    this.keysToLeave = [];
+    this.keysToEnter = [];
   }
-
 
   componentWillReceiveProps(nextProps) {
     let newChildrenArr = deleteRepeatKeyArr(toArrayChildren(nextProps.children));
@@ -61,6 +142,11 @@ class EnterAnimation extends Component {
     this.keysToEnter = [];
 
     newChildrenArr = MergeWap(currentChildWapArr, newChildrenArr, this.keysToEnter, this.keysToLeave);
+
+    if (nextProps.one) {
+      this.index = 0;
+      newChildrenArr = this.childMap(newChildrenArr);
+    }
     this.setData(nextProps, newChildrenArr);
     return false;
   }
@@ -75,48 +161,12 @@ class EnterAnimation extends Component {
 
   }
 
-  start(h) {
-    //findDOMNode(this).style.height = h + 'px';
-    //获取Enter的元素里的高。。
-  }
-
   render() {
     var props = this.props;
-    if (props && props.children && props.children.props && props.children.props.route) {
-      throw new Error('Please use "EnterAnimation.EnterRouteGroup"');
-    }
-    var childrenToRender = this.state.childWapArr.map((m)=> {
-      if (!m || !m.key) {
-        return m;
-      }
-      let direction = this.keysToEnter.indexOf(m.key) >= 0 ? 'enter' : this.keysToLeave.indexOf(m.key) >= 0 ? 'leave' : null;
-      let callback = this.kill.bind(this);
-      let posBool = false;//(direction === 'leave');
-      if (props.routeDirection === 'leave' && props.routeCallBack) {
-        direction = 'leave';
-        //callback = this.props.routeCallBack;
-        this.keysToLeave.push(m.key);
-        posBool = true;
-      }
-      return <EnterAnimationChild
-        key={m.key}
-        ref={m.key}
-        direction={direction}
-        enter={props.enter}
-        leave={props.leave}
-        position={posBool}
-        callback={callback}
-        renderTag={props.renderTag}
-        onStart={this.start.bind(this)}>
-        {m}
-      </EnterAnimationChild>;
-    });
-    //去重复和null
-    childrenToRender = deleteRepeatKeyArr(childrenToRender);
     return createElement(
       props.component,
       props,
-      childrenToRender
+      this.state.childWapArr
     );
   }
 }
@@ -125,11 +175,15 @@ EnterAnimation.to = startAnimation;
 EnterAnimation.EnterRouteGroup = EnterAnimationRouteGroup;
 EnterAnimation.propTypes = {
   component: React.PropTypes.string,
-  direction: React.PropTypes.string
+  direction: React.PropTypes.string,
+  index: React.PropTypes.number,
+  one: React.PropTypes.bool
 };
 EnterAnimation.defaultProps = {
   component: 'div',
-  direction: null
+  direction: null,
+  index: 0,
+  one: false
 };
 
 export default EnterAnimation;

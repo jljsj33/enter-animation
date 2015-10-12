@@ -20,10 +20,7 @@ var Demo = React.createClass({
 
         <h3 style={{"textAlign": "center"}}  onClick={this.onClick}>示例5（点我切换进出场）</h3>
 
-        <EnterAnimation style={{
-          margin: "auto",
-          width: 200
-        }}>
+        <EnterAnimation style={{margin: "auto", width: 200}} callback={()=>{console.log('动画结束了')}}>
         {this.state.show ?[
           <div key='a'>示例1示例1</div>,
           <div key='b'>示例1示例1</div>,
@@ -38,7 +35,6 @@ var Demo = React.createClass({
           </div>,
           <div key='d'>示例1示例1</div>]: null}
         </EnterAnimation>
-
       </div>
 
 

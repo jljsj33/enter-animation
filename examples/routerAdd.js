@@ -170,25 +170,18 @@ var Page2 = React.createClass({
     console.log('routeDirection:', this.props.routeDirection)
     return (
       <EnterAnimation className='demo-router-wap'  ref='myChild' {...this.props}>
-        <div style={{width: '100%'}} ref='page2' className="demo-router-child" key='page2'>
-          <h1 key='title' enter-data style={{background: "#fff000"}} >
-            <span>Page 2</span>
-            <button style={{'fontSize': 16, display: 'inline-block'}} onClick={this.onAddElement}>点击添加</button>
-            <button style={{'fontSize': 16, display: 'inline-block'}} onClick={this.onRemoveElement}>点击删除</button>
-          </h1>
-          <div>
-            <div key='change'>
-               {a}
+        <h1 key='title' enter-data style={{background: "#fff000"}} >
+          <span>Page 2</span>
+          <button style={{'fontSize': 16, display: 'inline-block'}} onClick={this.onAddElement}>点击添加</button>
+          <button style={{'fontSize': 16, display: 'inline-block'}} onClick={this.onRemoveElement}>点击删除</button>
+        </h1>
+        {a}
+        <div key='bdd' enter-data>
+          <EnterAnimation {...this.props} child={true}>
+            <div key='ddd'>
+              <span enter-data={{type: 'right', delay: 2}}>不动：</span>
             </div>
-          </div>
-          <div key='bdd' enter-data>
-            <EnterAnimation {...this.props} child={true}>
-              <div key='ddd'>
-                <span enter-data={{type: 'right',delay:2}}>不动：</span>
-                <Page3 key='bbbb' enter-data={{type: 'top'}} i={10000}/>
-              </div>
-            </EnterAnimation>
-          </div>
+          </EnterAnimation>
         </div>
       </EnterAnimation>
     );
