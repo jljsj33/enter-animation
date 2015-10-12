@@ -41,7 +41,6 @@ var startAnim = function (node, vars) {
     timeOut.map(function (time) {
       clearTimeout(time);
     });
-    timeOut = [];
   }
 
   this.init();
@@ -168,10 +167,10 @@ a.leaveHideNull = function (mc, data) {
       var e_d = _d.enter, l_d = _d.leave,
         e_data = e_d.type || e_d.style || typeof e_d.duration === 'number' || e_d.ease || typeof e_d.delay === 'number' || typeof e_d.queueId === 'number',
         l_data = l_d.type || l_d.style || typeof l_d.duration === 'number' || l_d.ease || typeof l_d.delay === 'number' || typeof l_d.queueId === 'number';
-      var direction = l_d.direction || self.direction;
-      if (!e_data && !l_data && !_d.children && direction === 'leave') {
+      var direction = _d.direction || self.direction;
+      if (!e_data && !l_data && !_d.children && direction === 'leave' && !_d.EnterChild) {
         self.addStyle(mc[i], 'opacity:0');
-      } else if (!e_data && !l_data && _m.children && _d.children && direction === 'leave') {
+      } else if (!e_data && !l_data && _m.children && _d.children) {//&& direction === 'leave'
         self.leaveHideNull(_m.children, _d.children);
       }
     }
@@ -182,7 +181,7 @@ a.leaveHideNull = function (mc, data) {
 a.forTweenData = function (mc, data, callFunc, animBool) {
   if (!mc) {
     if (!animBool) {
-      console.log('Data redundancy:' + JSON.stringify(data));
+      console.warn('Data redundancy:' + JSON.stringify(data));
     }
     return;
   }
@@ -320,6 +319,7 @@ a.addTween = function () {
       //}, self.__delay * 1000);
       timeOut.push(setTimeout(function () {
         eNum++;
+        Event.setTrnsitionEnd(mc);
         if (eNum >= self.enterLength) {
           if (typeof self.callback === 'function') {
             self.callback();

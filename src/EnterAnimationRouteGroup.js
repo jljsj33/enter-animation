@@ -2,7 +2,7 @@
  * Created by jljsj on 15/9/30.
  */
 import React, {Component, createElement} from 'react';
-import {toArrayChildren, deleteRepeatKeyArr, contrastArr} from './EnterUtils';
+import {toArrayChildren, deleteRepeatKeyArr, MergeWap} from './EnterUtils';
 
 class EnterAnimationRouteGroup extends Component {
   constructor(props) {
@@ -43,7 +43,6 @@ class EnterAnimationRouteGroup extends Component {
     this.childWapArr = deleteRepeatKeyArr(toArrayChildren(this.props.children));
     this.keysToLeave = [];
     this.keysToEnter = [];
-    //console.log(this.props.children[1],React.cloneElement(this.props.children[1].props.route.component))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -51,45 +50,15 @@ class EnterAnimationRouteGroup extends Component {
     let currentChildWapArr = this.childWapArr;
 
 
-    let leaveChildArr = [];
-    //增加absolute,所以把进场的也放数组里。。
-    let enterChildArr = [];
-
-
     this.keysToLeave = [];
     this.keysToEnter = [];
 
+    newChildrenArr = MergeWap(currentChildWapArr, newChildrenArr, this.keysToEnter, this.keysToLeave);
 
-    //判断两Arr里的不同；
-    contrastArr(currentChildWapArr, newChildrenArr, (cm)=> {
-      if (cm.key) {
-        this.keysToEnter.push(cm.key);
-        enterChildArr.push(cm);
-        //newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);//清掉进场的；
-      }
-    });
-    //清掉进场；
-    enterChildArr.map((cm)=> {
-      newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);
-    });
-
-    contrastArr(newChildrenArr, currentChildWapArr, (cm)=> {
-      if (cm.key) {
-        leaveChildArr.push(cm);
-        this.keysToLeave.push(cm.key);
-        //newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);//清掉出场的；
-      }
-
-    });
-
-
-    newChildrenArr = newChildrenArr.concat(leaveChildArr, enterChildArr);
-
-    this.setData(nextProps, deleteRepeatKeyArr(newChildrenArr));
+    this.setData(nextProps, newChildrenArr);
   }
 
   kill() {
-    //console.log('group kill');
     this.setData(this.props, this.childWapArr);
   }
 

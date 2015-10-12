@@ -3,7 +3,7 @@ import React, {Component, createElement} from 'react';
 //import assign from 'object-assign';
 import EnterAnimationChild from './EnterAnimationChild';
 import EnterAnimationRouteGroup from './EnterAnimationRouteGroup';
-import {toArrayChildren, deleteRepeatKeyArr, contrastArr} from './EnterUtils';
+import {toArrayChildren, deleteRepeatKeyArr, MergeWap} from './EnterUtils';
 let startAnimation = require('./StartAnimation');
 
 
@@ -40,13 +40,16 @@ class EnterAnimation extends Component {
     });
   }
 
+  componentDidMount() {
+    this.keysToLeave = [];
+    this.keysToEnter = [];
+  }
+
   componentDidUpdate() {
     //添加出场时的position: absolute;
-
     this.childWapArr = deleteRepeatKeyArr(toArrayChildren(this.props.children));
     //this.keysToLeave = [];
     //this.keysToEnter = [];
-    //console.log(this.props.children[1],React.cloneElement(this.props.children[1].props.route.component))
   }
 
 
@@ -54,42 +57,11 @@ class EnterAnimation extends Component {
     let newChildrenArr = deleteRepeatKeyArr(toArrayChildren(nextProps.children));
     let currentChildWapArr = this.childWapArr;
 
-    let leaveChildArr = [];
-    //增加absolute,所以把进场的也放数组里。。
-    let enterChildArr = [];
-
-    //console.log(nextProps.children[1].props.route.component.prototype.render())
-
     this.keysToLeave = [];
     this.keysToEnter = [];
 
-
-    //判断两Arr里的不同；
-    contrastArr(currentChildWapArr, newChildrenArr, (cm)=> {
-      if (cm.key) {
-        this.keysToEnter.push(cm.key);
-        enterChildArr.push(cm);
-        //newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);//清掉进场的；
-      }
-    });
-    //清掉进场；
-    enterChildArr.map((cm)=> {
-      newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);
-    });
-
-    contrastArr(newChildrenArr, currentChildWapArr, (cm)=> {
-      if (cm.key) {
-        leaveChildArr.push(cm);
-        this.keysToLeave.push(cm.key);
-        //newChildrenArr.splice(newChildrenArr.indexOf(cm), 1);//清掉出场的；
-      }
-
-    });
-
-
-    newChildrenArr = newChildrenArr.concat(leaveChildArr, enterChildArr);
-
-    this.setData(nextProps, deleteRepeatKeyArr(newChildrenArr));
+    newChildrenArr = MergeWap(currentChildWapArr, newChildrenArr, this.keysToEnter, this.keysToLeave);
+    this.setData(nextProps, newChildrenArr);
     return false;
   }
 
@@ -118,7 +90,6 @@ class EnterAnimation extends Component {
         return m;
       }
       let direction = this.keysToEnter.indexOf(m.key) >= 0 ? 'enter' : this.keysToLeave.indexOf(m.key) >= 0 ? 'leave' : null;
-      //console.log('direction:', props.direction, direction);
       let callback = this.kill.bind(this);
       let posBool = false;//(direction === 'leave');
       if (props.routeDirection === 'leave' && props.routeCallBack) {
@@ -135,6 +106,7 @@ class EnterAnimation extends Component {
         leave={props.leave}
         position={posBool}
         callback={callback}
+        renderTag={props.renderTag}
         onStart={this.start.bind(this)}>
         {m}
       </EnterAnimationChild>;

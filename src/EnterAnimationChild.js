@@ -1,5 +1,5 @@
 import React, {Component, findDOMNode, cloneElement} from 'react';
-import {isPropsPushData, leaveInherit, toArrayChildren} from './EnterUtils';
+import {isPropsPushData, leaveInherit, toArrayChildren, MergeWap} from './EnterUtils';
 let startAnimation = require('./StartAnimation');
 //const defaultKey = 'enter_' + Date.now();
 
@@ -17,8 +17,6 @@ class EnterAnimationChild extends Component {
     this.leaveQueueId = Math.round(Math.random() * 9999) + 10000;
     this.keysToEnter = [];
     this.keysToLeave = [];
-    this.wapToEnter = [];
-    this.wapToLeave = [];
     this.dataArr = [];
     this.direction = '';
     this.defaultType = !this.state.enter && !this.state.leave ? 'right' : this.direction === 'leave' ? this.state.leave.type || this.state.leave.style || this.state.enter.type || this.state.enter.style || 'right' : this.state.enter.type || this.state.enter.style || 'right';
@@ -31,43 +29,43 @@ class EnterAnimationChild extends Component {
     arr[i] = {enter: {}, leave: {}};
     if (props) {
       arr[i].key = re.key;
-      //arr[i].re = re;
-      enter = isPropsPushData(props['enter-data'], self.defaultType);
-      leave = isPropsPushData(props['leave-data'], self.state.leave.type || self.state.leave.style || enter.type || enter.style || self.defaultType);
-      if (!self.keysToLeave.length && !self.keysToEnter.length) {
-        arr[i].enter = leaveInherit(enter, self.state.enter, {});
-        //出场如果没有效果，继承进场效果；
-        arr[i].leave = leaveInherit(leave, self.state.leave, enter);
-      } else {
-        let key = re.key;
-        if (this.keysToEnter.indexOf(key) >= 0) {
-          arr[i].direction = 'enter';
+      if (!props.EnterChild) {
+        if ((props['enter-data'] || props['leave-data']) && !arr[i].key) {
+          console.warn('Warning: EnterAnimation in the enter-data or leave-data need have key,data:' + JSON.stringify(props['enter-data'] || props['leave-data']));
+        }
+        enter = isPropsPushData(props['enter-data'], self.defaultType);
+        leave = isPropsPushData(props['leave-data'], enter.type || enter.style || self.state.leave.type || self.state.leave.style || self.defaultType);
+        if (!self.keysToLeave.length && !self.keysToEnter.length) {
           arr[i].enter = leaveInherit(enter, self.state.enter, {});
-          if (arr[i].enter.type || arr[i].enter.style) {
-            arr[i].enter.queueId = this.enterQueueId;//出场进场分支，跟默认的分开，因为这是新添加的。
+          //出场如果没有效果，继承进场效果；
+          arr[i].leave = leaveInherit(leave, self.state.leave, arr[i].enter);
+        } else {
+          let key = re.key;
+          if (this.keysToEnter.indexOf(key) >= 0) {
+            arr[i].direction = 'enter';
+          } else if (this.keysToLeave.indexOf(key) >= 0) {
+            arr[i].direction = 'leave';
           }
-          arr[i].leave = leaveInherit(leave, self.state.leave, enter);
-          if (arr[i].leave.type || arr[i].leave.style) {
-            arr[i].leave.queueId = this.enterQueueId;
-          }
-        } else if (this.keysToLeave.indexOf(key) >= 0) {
-          arr[i].direction = 'leave';
-          arr[i].enter = leaveInherit(enter, self.state.enter, {});
-          arr[i].leave = leaveInherit(leave, self.state.leave, enter);
-          if (arr[i].enter.type || arr[i].enter.style) {
-            arr[i].enter.queueId = this.leaveQueueId;//出场进场分支，跟默认的分开，因为这是新添加的。
-          }
-          if (arr[i].leave.type || arr[i].leave.style) {
-            arr[i].leave.queueId = this.leaveQueueId;
+          if (this.keysToEnter.indexOf(key) >= 0 || this.keysToLeave.indexOf(key) >= 0) {
+            arr[i].enter = leaveInherit(enter, self.state.enter, {});
+            arr[i].leave = leaveInherit(leave, self.state.leave, arr[i].enter);
+            if (arr[i].enter.type || arr[i].enter.style) {
+              arr[i].enter.queueId = this.leaveQueueId;//出场进场分支，跟默认的分开，因为这是新添加的。
+            }
+            if (arr[i].leave.type || arr[i].leave.style) {
+              arr[i].leave.queueId = this.leaveQueueId;
+            }
           }
         }
+
+        if (props.children && typeof props.children === 'object') {
+          arr[i].children = [];
+          self.componentChildrenDataEnter(toArrayChildren(props.children), arr[i].children);
+        }
+      } else {
+        arr[i].EnterChild = true;
       }
 
-
-      if (typeof props.children === 'object' && props.children && props.children.length) {
-        arr[i].children = [];
-        self.componentChildrenDataEnter(props.children, arr[i].children);
-      }
     } else {
       console.warn('props is null');
     }
@@ -158,15 +156,12 @@ class EnterAnimationChild extends Component {
   }
 
   oneAddEnd() {
-    this.wapToEnter = [];
-    this.wapToLeave = [];
     this.keysToEnter = [];
     this.keysToLeave = [];
     this.childrenWap = this.returnChildren(this.props.children);
     this.setState({
       children: this.childrenWap
     });
-    //console.log('end:', this.wapToEnter, this.wapToLeave, this.direction)
   }
 
   callEnterAnimationOne(dom) {
@@ -206,15 +201,28 @@ class EnterAnimationChild extends Component {
         //let _c = <item.type {...item.props} enter-comp={true}/>;
 
         //item.type.prototype.constructor(item.props)
-        item.type.prototype.props = item.props;
-        item.type.prototype.state = item.type.prototype.getInitialState ? item.type.prototype.getInitialState() : null;
-        let _child = item.type.prototype.render();
-        _child.props['enter-comp'] = true;
-        //console.log(_child,item,<item.type {...item.props} enter-comp={true}/>)
-        item = cloneElement(item, {
-          'enter-data': _child.props['enter-data'] || item.props['enter-data'],
-          children: this.childMap(_child.props.children)
-        });
+        //item.type.prototype.props = item.props;
+        //item.type.prototype.state = item.type.prototype.getInitialState ? item.type.prototype.getInitialState() : null;
+        //拆解指定；
+        if (this.props.renderTag) {
+          this.props.renderTag.map((tag)=> {
+            if (tag === item.type.name || tag === item.type.displayName) {
+              //item.type.prototype.props = item.props;
+              //item.type.prototype.state = item.type.prototype.getInitialState ? item.type.prototype.getInitialState() : null;
+              let _child = item.type.prototype.render();
+              _child.props['enter-comp'] = true;
+              item = cloneElement(item, {
+                'enter-data': _child.props['enter-data'] || item.props['enter-data'],
+                children: this.childMap(_child.props.children)
+              });
+            }
+          });
+        }
+
+        if (item.type.name === 'EnterAnimation') {
+          item = cloneElement(item, {EnterChild: true});
+          //console.warn('Warning:Child level can not have EnterAnimation;')
+        }
       }
       _arr.push(item);
     });
@@ -256,17 +264,13 @@ class EnterAnimationChild extends Component {
     this.dataArr = [];
     this.enterQueueId = Math.round(Math.random() * 9999) + 10000;
     this.leaveQueueId = Math.round(Math.random() * 9999) + 10000;
-
     this.componentChildrenDataEnter(toArrayChildren(children), this.dataArr);
 
 
-    //console.log(this.wapToEnter.length, this.wapToLeave.length)
-    if (this.wapToEnter.length || this.wapToLeave.length) {
+    if (this.keysToEnter.length || this.keysToEnter.length) {
       if (!this.dataArr.cBool) {
         //这里是判断子节点没有enter-data时；
         this.dataArr.cBool = true;//开启cBool;
-        this.keysToEnter = this.wapMapKeysNoEnterData(this.wapToEnter);
-        this.keysToLeave = this.wapMapKeysNoEnterData(this.wapToLeave);
         this.dataArr.map((m)=> {
           if (this.keysToEnter.indexOf(m.key) >= 0 || this.keysToLeave.indexOf(m.key) >= 0) {
             m.enter = leaveInherit({}, {}, this.state.enter);
@@ -284,29 +288,13 @@ class EnterAnimationChild extends Component {
           }
         });
       }
-      //console.log('单增加')
       this.callEnterAnimationOne(dom);
     } else {
-      //console.log('转转场')
       this.callEnterAnimation(dom, _children);
     }
     //console.log(this.dataArr, this.direction)
   }
 
-  wapMapKeys(wap) {
-    let result = [];
-    React.Children.map(wap, (m)=> {
-      if (m.props) {
-        if (m.key) {
-          result.push(m.key);
-        } else if (m.props.children) {
-          let _res = this.wapMapKeys(m.props.children);
-          result = result.concat(_res);
-        }
-      }
-    });
-    return result;
-  }
 
   wapMapKeysNoEnterData(wap) {
     let result = [];
@@ -318,86 +306,28 @@ class EnterAnimationChild extends Component {
     return result;
   }
 
-
-  filter(array, target) {
-    let result;
-    React.Children.forEach(array, (item) => {
-      if (item.props && item.props.children && typeof item.props.children === 'object') {
-        //如果相等，判断子级
-        //item.props.children = this.MergeWap(target.props ? target.props.children : null, item.props.children);
-        item = cloneElement(item, {children: this.MergeWap(target.props ? target.props.children : null, item.props.children)});
+  childChangeNewArrayMap(newArray, _item) {
+    let child;
+    for (let i = 0; i < newArray.length; i++) {
+      let item = newArray[i];
+      if (item.key === _item.key) {
+        newArray[i] = cloneElement(item, {children: MergeWap(_item.props.children, item.props.children, this.keysToEnter, this.keysToLeave)});
+        break;
+      } else if (item.props && typeof item.props.children === 'object') {
+        child = this.childChangeNewArrayMap(toArrayChildren(item.props.children), _item);
       }
-
-      if (typeof item !== 'object') {
-        //只改里面的文字不执行动画；
-        result = true;
-      } else if (item.props && target.props && item.key === target.key) {
-
-        result = item;
-      }
-    });
-    return result;
+    }
+    return child;
   }
 
-  MergeWap(currentArray, newArray) {
-    //组数合并，检索两数组的不同
-    let result = [];
-    if (!currentArray || !currentArray.length) {
-      result = newArray;
-      return result;
-    } else {
-      //new里的与current里的对比，
-      React.Children.forEach(currentArray, (item) => {
-        let existItem = this.filter(newArray, item);//返回new里是否有current里的；
-
-        if (!existItem && typeof item === 'object' && item.key) {
-          result.push(item);
-          //如果没有，放入新增数组；
-          this.wapToLeave.push(item);
-        }
-      });
-      React.Children.forEach(newArray, (item)=> {
-        let existItem = this.filter(currentArray, item);
-        if (!existItem && typeof item === 'object' && item.key) {
-          this.wapToEnter.push(item);
-        }
-      });
-      let leavaItem = [];
-      result.map((item)=> {
-        //算出item在newArray里的位置；
-        //item在currentArrray的位轩;
-        let index = currentArray.indexOf(item);
-        let nextIndex = 0;
-        for (let i = index + 1; i < currentArray.length; i++) {
-          //判断index后面的item在newArr里是否存在；
-          let _item = currentArray[i];
-          //if (newArray.indexOf(_item) >= 0) {
-          //
-          //  nextIndex = i;
-          //  return
-          //}
-          for (let ii = 0; ii < newArray.length; ii++) {
-            let new_item = newArray[ii];
-            if (new_item.key === _item.key) {
-              nextIndex = ii;
-              break;
-            }
-          }
-          if (nextIndex) {
-            break;
-          }
-        }
-        //如果存在，newArray的指定位置插入，如果没有，放在leavaItem,然后再合并的最前面；
-        if (nextIndex) {
-          newArray.splice(nextIndex, 0, item);
-        } else {
-          leavaItem.push(item);
-        }
-      });
-      newArray = leavaItem.concat(newArray);
-      return newArray;
-    }
-
+  childChangeMap(currentArray, newArray) {
+    React.Children.forEach(currentArray, (item)=> {
+      if (item.key) {
+        this.childChangeNewArrayMap(newArray, item);
+      } else if (item.props && typeof item.props.children === 'object') {
+        this.childChangeMap(item.props.children, newArray);
+      }
+    });
   }
 
   componentDidMount() {
@@ -414,7 +344,7 @@ class EnterAnimationChild extends Component {
       this.direction = this.props.direction;
       this.setChildrenData(wap, dom);
 
-    } else if (this.wapToEnter.length || this.wapToLeave.length) {
+    } else if (this.keysToEnter.length || this.keysToLeave.length) {
       this.direction = this.props.direction;
       this.setChildrenData(wap, dom);
 
@@ -423,6 +353,7 @@ class EnterAnimationChild extends Component {
 
 
   componentWillReceiveProps(nextProps) {
+
     if (nextProps.direction === 'enter' || nextProps.direction === 'leave') {
       let dom = findDOMNode(this);
       //this.childrenWap = this.state.children;
@@ -440,25 +371,23 @@ class EnterAnimationChild extends Component {
       });
 
     } else {
-      this.wapToEnter = [];
-      this.wapToLeave = [];
+      this.keysToLeave = [];
+      this.keysToEnter = [];
 
       let newChildren = this.returnChildren(nextProps.children);
-      //console.log(this.props.children,nextProps.children)
       let currentChild = this.childrenWap;//=this.returnChildren(this.props.children);
       let newChildrenWap = toArrayChildren(newChildren.props.children);
       let currentChildWap = toArrayChildren(currentChild.props.children);
 
-      //console.log(newChildrenWap.length, currentChild.props.children.length);
-      //合并两wap和计算进出场的wap；
-      let allChildrenArr = this.MergeWap(currentChildWap, newChildrenWap);
+      //在这里遍历子级的enter-data和key；
+      this.childChangeMap(currentChildWap, newChildrenWap);
 
-      this.keysToEnter = this.wapMapKeys(this.wapToEnter);
-      this.keysToLeave = this.wapMapKeys(this.wapToLeave);
+
+      //合并两wap和计算进出场的wap；
+      let allChildrenArr = MergeWap(currentChildWap, newChildrenWap, this.keysToEnter, this.keysToLeave);
       //allChildrenArr = this.ArrrSort(allChildrenArr);
 
 
-      //console.log(allChildrenArr, this.wapToEnter, this.wapToLeave)
       this.childrenWap = cloneElement(this.childrenWap, {children: allChildrenArr});
       this.setState({
         enter: nextProps.enter || {},

@@ -8,7 +8,6 @@ import { history } from 'react-router/lib/HashHistory';
 import { Router, Route, RouteHandler, Link} from 'react-router';
 var EnterAnimation = require("enter-animation");
 
-var at = null
 var App = React.createClass({
   getInitialState: function () {
     return {
@@ -30,7 +29,6 @@ var App = React.createClass({
     };
   },
   click() {
-    console.log(this)
     this.setState({
       title: '动画不产生'
     })
@@ -116,23 +114,23 @@ var Page1 = React.createClass({
     return (
       <EnterAnimation className='demo-router-wap' ref='myChild' {...this.props}>
         <div className="demo-router-child" ref='page1' style={{width: '100%'}} key='page1'>
-          <h1 enter-data={{"type": "right"}} style={{background: "#ff0000"}}>Page 1</h1>
-          <p enter-data={{"type": "top"}} style={{background: "#ff0000"}}>
+          <h1 key='h1' enter-data={{"type": "right"}} style={{background: "#ff0000"}}>Page 1</h1>
+          <p key='p1' enter-data={{"type": "top"}} style={{background: "#ff0000"}}>
             <Link to="/page2">A link to page 1 should be active</Link>
             我是页面1</p>
-          <p enter-data={{"type": "top"}} style={{background: "#ff0000"}}>
-            <Link to="/page2" enter-data={{"type": "bottom"}}>A link to page 1 should be active</Link>
+          <p key='p2' enter-data={{"type": "top"}} style={{background: "#ff0000"}}>
+            <Link to="/page2" key='l1' enter-data={{"type": "bottom"}}>A link to page 1 should be active</Link>
             我是页面1</p>
-          <p enter-data={{"type": "right"}} style={{background: "#ff0000"}}>
+          <p key='p3' enter-data={{"type": "right"}} style={{background: "#ff0000"}}>
             <Link to="/page2">A link to page 1 should be active</Link>
             我是页面1</p>
-          <p enter-data={{"style": {"marginTop": "50px", "opacity": 0}}} data-leave={{
+          <p key='p4' enter-data={{"style": {"marginTop": "50px", "opacity": 0}}} data-leave={{
             "type": "top",
             "duration": 1
           }} style={{background: "#ff0000"}}>
             <Link to="/page2">A link to page 1 should be active</Link>
             我是页面1</p>
-          <p enter-data style={{background: "#ff0000"}}>
+          <p key='p5' enter-data style={{background: "#ff0000"}}>
             <Link to="/page2">A link to page 1 should be active</Link>
             我是页面1</p>
         </div>
@@ -143,9 +141,9 @@ var Page1 = React.createClass({
 
 var Page3 = React.createClass({
   render() {
-    return <p style={{background: "#fff000"}} enter-data={{type: 'left'}}>
+    return <p style={{background: "#fff000"}} >
       <Link to="/page1">a link to page 2 </Link>
-      我是页面2.{this.props ? this.props.i : 1222}</p>
+      我是页面2.{this.props ? this.props.i : 999}</p>
   }
 });
 var t = [0, 1, 2];
@@ -167,26 +165,37 @@ var Page2 = React.createClass({
   },
   render() {
     let a = t.map((m)=> {
-      return <Page3 key={m} i={m}/>
+      return <Page3 key={m} i={m} enter-data={{type: 'left'}}/>
     });
+    console.log('routeDirection:', this.props.routeDirection)
     return (
       <EnterAnimation className='demo-router-wap'  ref='myChild' {...this.props}>
         <div style={{width: '100%'}} ref='page2' className="demo-router-child" key='page2'>
-          <h1 enter-data style={{background: "#fff000"}} >
+          <h1 key='title' enter-data style={{background: "#fff000"}} >
             <span>Page 2</span>
             <button style={{'fontSize': 16, display: 'inline-block'}} onClick={this.onAddElement}>点击添加</button>
             <button style={{'fontSize': 16, display: 'inline-block'}} onClick={this.onRemoveElement}>点击删除</button>
           </h1>
-      {a}
-          <div enter-data={{type: 'top'}}>sfdfsdfdsf
-            <Page3/>
+          <div>
+            <div key='change'>
+               {a}
+            </div>
+          </div>
+          <div key='bdd' enter-data>
+            <EnterAnimation {...this.props} child={true}>
+              <div key='ddd'>
+                <span enter-data={{type: 'right',delay:2}}>不动：</span>
+                <Page3 key='bbbb' enter-data={{type: 'top'}} i={10000}/>
+              </div>
+            </EnterAnimation>
           </div>
         </div>
       </EnterAnimation>
     );
   }
 });
-
+/*
+ */
 
 React.render((
   <Router history={history}>

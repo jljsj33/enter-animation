@@ -56,30 +56,6 @@ const utils = {
     }
     return result;
   },
-  contrastArr: function (_a, _b, callback) {
-    var a = _a, b = _b.concat();
-    if (a.length === 0) {
-      b.map((m)=> {
-        callback.call(this, m);
-      });
-    } else {
-      a.map((m)=> {
-        if (!m || (!m.key && !m.props)) {
-          return;
-        }
-
-        for (var i = b.length - 1; i >= 0; i--) {
-          var cm = b[i];
-          if (!cm || !cm.key || cm.key === m.key) {
-            b.splice(i, 1);
-          }
-        }
-      });
-      b.map((m)=> {
-        callback.call(this, m);
-      });
-    }
-  },
   contrastEnterKeyArr: function (_a, _b, callback) {
     var a = _a, b = _b.concat();
     if (a.length === 0) {
@@ -175,6 +151,104 @@ const utils = {
       }
     }
     return a;
+  },
+
+  filter: function (array, target) {
+    let result;
+    if (!target.key) {
+      return target;
+    }
+
+    React.Children.forEach(array, (item) => {
+
+      if (typeof item !== 'object') {
+        //只改里面的文字不执行动画；
+        result = true;
+      } else if (item.props && target.props && item.key === target.key) {
+        result = item;
+      }
+    });
+    return result;
+  },
+
+  MergeWap: function (currentArray, newArray, keysToEnter, keysToLeave) {
+    //组数合并，检索两数组的不同
+    let wapToEnter = [];
+    let wapToLeave = [];
+    if (!currentArray || !currentArray.length) {
+      wapToEnter = newArray;
+      React.Children.forEach(newArray, (item)=> {
+        if (item.key) {
+          keysToEnter.push(item.key);
+        }
+      });
+      return wapToEnter;
+    } else {
+      //new里的与current里的对比，
+      //如果current里的元素没key，那在new里肯定存在。
+      //如果没key的情况下还存在，用newArray里的会导至刷新子级;
+      React.Children.forEach(currentArray, (item) => {
+        let existItem = utils.filter(newArray, item);//返回new里是否有item,如果有返回item,如果没key直接返回；
+        if (!existItem && typeof item === 'object' && item.key) {
+          //result.push(item);
+          //如果没有，放入新增数组；
+          wapToLeave.push(item);
+
+          keysToLeave.push(item.key);
+        }
+      });
+      React.Children.forEach(newArray, (item)=> {
+        let existItem = utils.filter(currentArray, item);
+        if (!existItem && typeof item === 'object' && item.key) {
+          wapToEnter.push(item);
+          keysToEnter.push(item.key);
+        }
+      });
+      let leavaItem = [];
+      wapToLeave.map((item)=> {
+        //算出item在newArray里的位置；
+        //item在currentArrray的位轩;
+        let index = currentArray.indexOf(item);
+        let nextIndex = 0;
+        for (let i = index + 1; i < currentArray.length; i++) {
+          //判断index后面的item在newArr里是否存在；
+          let _item = currentArray[i];
+          for (let ii = 0; ii < newArray.length; ii++) {
+            let new_item = newArray[ii];
+            if (new_item.key === _item.key) {
+              nextIndex = ii;
+              break;
+            }
+          }
+          if (nextIndex) {
+            break;
+          }
+        }
+        //如果存在，newArray的指定位置插入，如果没有，放在leavaItem,然后再合并的最前面；
+        if (nextIndex) {
+          newArray.splice(nextIndex, 0, item);
+        } else {
+          leavaItem.push(item);
+        }
+      });
+
+      newArray = leavaItem.concat(newArray);
+      return newArray;
+    }
+  },
+  wapMapKeys: function (wap) {
+    let result = [];
+    React.Children.map(wap, (m)=> {
+      if (m.props) {
+        if (m.key) {
+          result.push(m.key);
+        } else if (m.props.children) {
+          let _res = this.wapMapKeys(m.props.children);
+          result = result.concat(_res);
+        }
+      }
+    });
+    return result;
   }
 };
 export default utils;

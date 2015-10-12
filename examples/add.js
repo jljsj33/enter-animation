@@ -1,12 +1,14 @@
 var React = require('react');
 var EnterAnimation = require("enter-animation");
 
-var div = [<div key='21'><div>示例1示例2676671</div></div>, <div key='22'>sdfsdf</div>],
+var div = [<div key='21' enter-data>
+    <div>示例1示例2676671</div>
+  </div>, <div key='22'>sdfsdf</div>],
   adiv = div.concat(),
   cdiv = [<div>
     <div>示例1示例2221</div>
   </div>];
-var Page=React.createClass({
+var Page = React.createClass({
   render() {
     return <div>new Children</div>
   }
@@ -40,13 +42,13 @@ var Demo = React.createClass({
     })
   },
   onAddElement() {
-    cdiv.push(<Page key={Date.now()}/>);
-    cdiv.push(<Page key={Date.now()+'1221'}/>);
+    cdiv.push(<Page key={Date.now()} enter-data/>);
+    cdiv.push(<Page key={Date.now() + '1221'} enter-data/>);
     //let newDiv = this.state.addElement.slice();
     adiv.unshift(<div key={Date.now()}>示例1示例1{adiv.length}</div>);
 
     this.setState({
-      enter:{type:'left',duration:1},leave:null,
+      enter: {type: 'left'}, leave: null,
       addElement: cdiv
     })
   },
@@ -58,7 +60,8 @@ var Demo = React.createClass({
           <button onClick={this.onAddElement}>点击添加</button>
         </div>
         <EnterAnimation  enter={this.state.enter} leave={this.state.leave} style={{margin: "auto", width: 200}}>
-          {this.state.cbool ? <div key='acc'>{this.state.addElement}</div>: null}
+          {this.state.cbool ? <div key='acc'><div key='bdfd'>{this.state.addElement}</div></div> : null}
+
         </EnterAnimation>
       </div>
     )
@@ -68,3 +71,9 @@ var Demo = React.createClass({
 React.render(
   <Demo />
   , document.getElementById("__react-content"));
+/*<div key='dd'>
+ <EnterAnimation enter={this.state.enter} leave={this.state.leave}>
+ {this.state.cbool ?<div key='bbb'><div>bbbbb</div></div>: null}
+ </EnterAnimation>
+ </div>
+ <div>dddddffff</div>*/
