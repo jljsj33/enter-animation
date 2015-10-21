@@ -31,7 +31,6 @@
 
 ### 用法
 ```html
-<<<<<<< HEAD
 var EnterAnimation = require('enter-animation');
 var React = require('react');
 React.render(<EnterAnimation>
