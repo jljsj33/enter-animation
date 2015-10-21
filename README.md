@@ -39,8 +39,8 @@ React.render(<EnterAnimation>
     <div>依次进场</div>
     <div>依次进场</div>
     <div>依次进场</div>
-  </EnterAnimation>
-  </div>,container)
+  </div>
+  </EnterAnimation>,container)
 
 ```
 
