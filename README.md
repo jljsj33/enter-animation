@@ -35,20 +35,14 @@
 var EnterAnimation = require('enter-animation');
 var React = require('react');
 React.render(<EnterAnimation>
-=======
-<EnterAnimation>
->>>>>>> cb42e18b66b5110e16319cd8b507b1c46dffcf8b
   <div key='demo'>
     <div>依次进场</div>
     <div>依次进场</div>
     <div>依次进场</div>
     <div>依次进场</div>
-<<<<<<< HEAD
+  </EnterAnimation>
   </div>,container)
-=======
-  </div>
->>>>>>> cb42e18b66b5110e16319cd8b507b1c46dffcf8b
-</EnterAnimation>
+
 ```
 
 
@@ -181,45 +175,3 @@ EnterAnimation.to(node,vars);</code></pre>
 
 
 为object时，树状形dom结构，以({})为一档标签；
-<<<<<<< HEAD
-如：
-
-```html
-<div class='a'>
-  <div class='b'></div>
-  <div class='c'></div>
-</div>
-```
-
-node用的是".a",做b,c的动画，那data为：{}为最外层div;
-<pre><code>{////外层div
-children:[//子下的两div
-{type:"left"},
-{type:"left"}
-]
-}</code></pre>
-
-如果元素为多个时：
-```html
-<div class='a'>
- <ul>
-   <li></li>
-   <li></li>
-   <li></li>
- </ul>
-</div>
-```
-
-处理每个li里的span的动画时，data为:
-
-<pre><code>
-[
-{type:'left'},
-{type:'left'},
-{type:'left'}
-]
-</code></pre>
-
-=======
->>>>>>> cb42e18b66b5110e16319cd8b507b1c46dffcf8b
-
