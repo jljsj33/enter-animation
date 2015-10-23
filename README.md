@@ -1,3 +1,5 @@
+组件不再更新，已重构成[queue-anim](https://github.com/react-component/queue-anim);
+
 ##EnterAnimation进场动画
 ---
 
